@@ -1,0 +1,113 @@
+ÖMAR ISTANBUL BY RIMA — FIREBASE GUIDE (the cloud copy)
+=========================================================
+
+WHAT FIREBASE DOES HERE
+- The portal works on its own on every device. Firebase only adds a CLOUD COPY of everything the Backup file holds
+  (prices, saved plans, saved cases, photos, commission sheets, settings), so a second phone or computer can get it.
+- You sign in with ONE email + password (Firebase Authentication). Only you can read or write the cloud copy (Firestore rules).
+- The portal sends its changes to the cloud by itself about a minute after you change something.
+  A copy is NEVER replaced without asking you: if the cloud has a newer copy from another device, the automatic sending stops,
+  the portal tells you, and you decide ("Get from the cloud" or "Send to the cloud now").
+- Without Firebase nothing changes: leave firebase-config.js empty and the portal works only on the device, as before.
+
+IMPORTANT: use a NEW Firebase project for this portal. Do not use the Firebase project of any other portal.
+
+--------------------------------------------------------------------
+STEP 1 — Create the project
+--------------------------------------------------------------------
+1. Open https://console.firebase.google.com and sign in with your Google account.
+2. "Create a project" (or "Add project"). Name it, for example:  omar-istanbul-portal
+3. Google Analytics: you can switch it off. Press "Create project" and wait until it is ready.
+
+--------------------------------------------------------------------
+STEP 2 — Turn on the sign-in (Authentication)
+--------------------------------------------------------------------
+1. Left menu: Build -> Authentication -> "Get started".
+2. Tab "Sign-in method" -> "Email/Password" -> switch on "Email/Password" (not "Email link") -> Save.
+3. Tab "Users" -> "Add user": type YOUR email and a strong password. Keep the password safe.
+   (This is the only account. You will use it inside the portal.)
+
+--------------------------------------------------------------------
+STEP 3 — Create the database (Firestore)
+--------------------------------------------------------------------
+1. Left menu: Build -> Firestore Database -> "Create database".
+2. Location: choose one in Europe (for example "eur3" or "europe-west1"). The location cannot be changed later.
+3. Choose "Start in production mode" -> Create. (Production mode is closed to everybody until you publish the rules in step 4.)
+
+--------------------------------------------------------------------
+STEP 4 — Paste the rules
+--------------------------------------------------------------------
+1. Firestore Database -> tab "Rules".
+2. Delete everything in the box and paste the content of the file  firestore.rules  (it is in this folder):
+
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+
+       // Rima's cloud copy lives in  portal/<her user id>/...
+       // Only the signed-in owner of that folder can read or write it.
+       match /portal/{uid}/{document=**} {
+         allow read, write: if request.auth != null && request.auth.uid == uid;
+       }
+
+       // Everything else is closed.
+       match /{document=**} {
+         allow read, write: if false;
+       }
+     }
+   }
+
+3. Press "Publish".
+
+What these rules mean: a person who is not signed in can read and write nothing. A signed-in person can only touch the folder
+that carries HER OWN user id, so nobody else can see your data even if another account existed.
+
+--------------------------------------------------------------------
+STEP 5 — Copy the web-app settings into the portal
+--------------------------------------------------------------------
+1. Click the gear icon (top left) -> "Project settings" -> tab "General".
+2. Scroll to "Your apps" -> click the web icon  </>  -> give it a nickname (for example "portal") -> "Register app".
+   (Do NOT tick "Firebase Hosting".)
+3. You now see a block called  firebaseConfig  with apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId.
+4. Open the file  firebase-config.js  of the portal and paste YOUR values between the quotes, for example:
+
+   window.OI_FIREBASE = {
+     apiKey: "AIza....",
+     authDomain: "omar-istanbul-portal.firebaseapp.com",
+     projectId: "omar-istanbul-portal",
+     storageBucket: "omar-istanbul-portal.appspot.com",
+     messagingSenderId: "1234567890",
+     appId: "1:1234567890:web:abcdef"
+   };
+
+   These values are not secrets. What protects your data is the password and the rules of step 4.
+5. Upload the changed firebase-config.js together with the other files of the portal (replace the old one).
+
+--------------------------------------------------------------------
+STEP 6 — Use it
+--------------------------------------------------------------------
+1. Open the portal (press refresh once, or close and reopen it) -> button "Backup" (top right).
+2. Under "Cloud copy (Firebase)" type your email and password -> "Sign in".
+3. Press "Send to the cloud now" once. The line "Last cloud copy: <date>" shows that it worked.
+4. On a SECOND device: open the portal, Backup -> sign in -> "Get from the cloud". Its own data is replaced by the cloud copy.
+   From then on both devices send their changes automatically, one at a time (see the rule above).
+5. Keep using the Backup file now and then as well. It is a second safety net that does not depend on Google.
+
+--------------------------------------------------------------------
+IF SOMETHING GOES WRONG
+--------------------------------------------------------------------
+- "Wrong email or password": the user must exist in Authentication -> Users (step 2); check the spelling.
+- "The cloud refused the request. Check the Firestore rules": the rules of step 4 were not published, or they were changed.
+- "Could not reach the cloud": no internet, or a value in firebase-config.js is wrong (compare with Project settings).
+- A message about an "unauthorized domain" when signing in: Authentication -> Settings -> "Authorized domains" -> Add the
+  address where the portal is published (for example yourname.github.io).
+- Nobody else should be able to create accounts: Authentication -> Settings -> "User actions" -> switch off "Enable create (sign-up)"
+  if you see this option. (The rules already keep other accounts out of your folder.)
+- Optional extra lock: Authentication -> Users -> copy YOUR "User UID". In the rules, change the line
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+  to
+      allow read, write: if request.auth != null && request.auth.uid == uid && uid == "PASTE-YOUR-UID-HERE";
+  and press Publish again.
+- Each cloud copy is cut into pieces of 300,000 characters (a Firestore record may hold 1 MB). Photos are inside the copy,
+  so a portal with very many photos makes a big copy: if sending becomes slow, delete photos you do not need.
+- The free Firebase plan ("Spark") should be enough for one person. Check the usage tab of Firestore now and then.
