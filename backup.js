@@ -3,7 +3,7 @@
 const BK=(()=>{
  const KIND='omer-istanbul-backup',pad=n=>(n<10?'0':'')+n,stamp=d=>{d=d||new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
  const t=(k,...a)=>typeof ti=='function'?ti(k,...a):k.replace(/\{(\d+)\}/g,(m,i)=>a[+i]!=null?a[+i]:m);
- const keys=()=>Object.keys(localStorage).filter(k=>/^kc_/.test(k)&&!/^kc_(lasttab|fold|theme|lang|bk_)/.test(k));
+ const keys=()=>Object.keys(localStorage).filter(k=>/^kc_/.test(k)&&!/^kc_(lasttab|fold|theme|lang|font|auth|bk_)/.test(k));
  async function make(){
   await (window.EOP_CLOUD&&EOP_CLOUD.ready?EOP_CLOUD.ready():Promise.resolve());
   const ls={};keys().forEach(k=>{try{ls[k]=JSON.parse(localStorage.getItem(k))}catch(e){ls[k]=localStorage.getItem(k)}});

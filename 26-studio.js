@@ -1,4 +1,4 @@
-/* Ömar Istanbul by Rima — Kristal Plan Studio (module 1) and Saved Cases (module 2), in their own box at the top of the menu.
+/* Ömar Istanbul by Rima — Omer Istanbul Dental Center (module 1) and Saved Cases (module 2), in their own box at the top of the menu.
    The studio is the clinic's own app (kristal-plan-studio.html). It is shown in its own frame so its design stays exactly as it was made.
    It has no database of its own:
    - prices, hotels, exchange rates, deposit, payment split: the Treatment Database of the portal
@@ -226,7 +226,7 @@
     enter();
     if (!host.dataset.built) {
       host.dataset.built = 1;
-      host.innerHTML = '<div class="flex flex-wrap items-end justify-between gap-3 mb-4"><div class="min-w-0"><h2 class="lux font-bold text-lg">Saved Cases</h2><p class="text-xs text-slate-500">The cases saved in Kristal Plan Studio. Open a case and it opens straight in the studio.</p></div>'
+      host.innerHTML = '<div class="flex flex-wrap items-end justify-between gap-3 mb-4"><div class="min-w-0"><h2 class="lux font-bold text-lg">Saved Cases</h2><p class="text-xs text-slate-500">The cases saved in Omer Istanbul Dental Center. Open a case and it opens straight in the studio.</p></div>'
         + '<div class="flex flex-wrap items-end gap-2"><label class="block text-[10px] text-slate-500 font-bold uppercase">Search<input id="kpsq" placeholder="Patient name or kit number" class="block w-64 max-w-full border rounded p-1.5 mt-1 font-bold text-slate-900 normal-case bg-white text-xs"></label>'
         + '<label id="kpscw" class="block text-[10px] text-slate-500 font-bold uppercase hidden">Consultant<select id="kpscs" class="block border rounded p-1.5 mt-1 font-bold text-slate-900 normal-case bg-white text-xs"></select></label></div></div><div id="kpsl"></div>';
       document.getElementById('kpsq').oninput = function (e) { ST.q = e.target.value; rList(); };
@@ -251,7 +251,7 @@
       var k = String(c.kit || '').toLowerCase().replace(/^kit-/, '').replace(/[^a-z0-9]/g, '');
       return String(c.patient || '').toLowerCase().indexOf(q) >= 0 || (qk && k.indexOf(qk) >= 0);
     }).sort(function (a, b) { return (b.ms || 0) - (a.ms || 0); });
-    if (!L2.length) { el.innerHTML = '<p class="text-sm text-slate-500 italic p-4">' + esc(tt(CASES.length ? 'No case matches the search.' : 'No saved case yet. Press “Save case” in Kristal Plan Studio.')) + '</p>'; return; }
+    if (!L2.length) { el.innerHTML = '<p class="text-sm text-slate-500 italic p-4">' + esc(tt(CASES.length ? 'No case matches the search.' : 'No saved case yet. Press “Save case” in Omer Istanbul Dental Center.')) + '</p>'; return; }
     el.innerHTML = '<div class="space-y-2">' + L2.map(function (c) {
       var arm = ST.rm === c.id;
       return '<div class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 flex flex-wrap items-center gap-3"><div class="min-w-0 grow">'

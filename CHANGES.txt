@@ -1,4 +1,21 @@
-Ömar Istanbul by Rima — version 1.2 (2026-11-12)
+Ömar Istanbul by Rima — version 1.3 (2026-11-12)
+
+NEW IN 1.3
+- OPENING PAGE: the team picture of the clinic is the background, with the sign-in of the owner on a glass card (e-mail + password,
+  "Keep me signed in on this device", Show/Hide password). It is translated into all 10 languages (the language list is on the page).
+  Only a scrambled (salted, repeated SHA-256) copy of the password is kept in the files, never the password itself.
+  A "Sign out" button is in the header. The sign-in is not part of Backup or of the cloud copy.
+- THE LOGO is bigger on the main page (and on the welcome screen).
+- NEW FONT: Inter (clean and easy to read in tables). It is inside the portal, so it also works offline. Other fonts can be chosen in the header
+  (Inter, Poppins, Lora, System); the choice stays on that device.
+- The 3 modules are back as the first ones of the menu: Ticket Calendar, Deposit Calendar, Potential Patients Pipeline (empty, one user, no consultants).
+  Then: Commission Structure & Audits, Monthly Performance Statistics, Appointment Planning, Treatment Plan Calculator, Package Plan Calculator,
+  Treatment Database, All Saved Plans. The Studio is the LAST group: "Omer Istanbul Dental Center" and Saved Cases.
+- The Studio is called "Omer Istanbul Dental Center" everywhere (menu, tab title, PDF file name, follow-up messages).
+- PAGE 1 OF THE PDF (the team picture): the French words were part of the picture. The picture is now clean and the words are live text,
+  translated into all 10 languages (they follow the language of the PDF; each line can be edited in the Studio).
+
+VERSION 1.2 (2026-11-12)
 
 NEW IN 1.2
 - The portal is now called "Ömar Istanbul by Rima" (title, phone app name, headers). The clinic logo and the texts of the PDF are unchanged.

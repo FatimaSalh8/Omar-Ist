@@ -15,7 +15,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Montserrat:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="app.css">
@@ -30,12 +30,40 @@
   <div class="text-right"><span id="who" data-notr></span></div>
   <div id="epside" class="np ep-hb"></div>
   <select id="lgh" data-notr title="Language" aria-label="Language" class="border rounded p-1 bg-slate-50 text-xs font-bold"></select>
+  <select id="fnt" data-notr title="Font" aria-label="Font" class="border rounded p-1 bg-slate-50 text-xs font-bold"><option value="inter">Inter</option><option value="poppins">Poppins</option><option value="lora">Lora (serif)</option><option value="system">System</option></select>
   <button id="thm" type="button" class="thmb border rounded p-1 bg-slate-50 text-xs font-bold" title="Dark mode" aria-label="Dark mode" aria-pressed="false"><span data-thi aria-hidden="true">&#127769;</span> <span data-tht>Dark mode</span></button>
   <button id="bkb" type="button" onclick="BK.open()" class="bg-slate-100 rounded px-2 py-1">&#128190; Backup</button>
+  <button id="lgo" type="button" onclick="signOut()" class="bg-slate-100 rounded px-2 py-1">&#128274; Sign out</button>
  </div>
 </div></header>
 
 <div class="max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6"><aside class="eop-aside lg:col-span-2 space-y-3 np"><button type="button" id="mnav" onclick="navPhone()" aria-expanded="false" aria-controls="navwrap" class="lg:hidden w-full flex items-center justify-between gap-2 bg-slate-900 text-[#a08a7c] rounded-xl px-4 py-3 text-sm font-bold"><span class="flex items-center gap-2 min-w-0"><span aria-hidden="true">☰</span><span id="mnavT" data-notr class="truncate"></span></span><span id="mnavC" aria-hidden="true">▾</span></button><div id="navwrap" class="hidden lg:block space-y-3"><div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 pb-1 border-b border-slate-200 flex justify-between items-center"><span>Modules</span></p><div id="nav" class="space-y-1"></div></div><p id="kver" data-notr class="text-center text-[10px] text-slate-400">Version 1.0</p></div></aside><div class="lg:col-span-10 space-y-6">
+<main id="vm" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+ <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-200 pb-3">
+  <div><h2 id="ttl" class="lux font-bold text-lg"></h2><p id="tsub" class="text-xs text-slate-500"></p></div>
+  <div class="flex items-center gap-2 flex-wrap"><span id="mg" class="text-xs font-bold text-red-600"></span>
+  <div id="selbar" class="flex gap-1 bg-slate-900 p-1 rounded-lg"><button onclick="edSel()" class="g rounded px-2.5 py-1 text-xs font-bold uppercase">Edit Selected</button><button onclick="pdfSel()" class="bg-slate-800 text-white rounded px-2.5 py-1 text-xs font-bold uppercase">Download PDF</button><button onclick="delSel(this)" class="bg-red-600 text-white rounded px-2.5 py-1 text-xs font-bold uppercase">Delete Selected</button></div>
+  <div id="mf" class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border text-[10px] font-bold uppercase"><span id="mfi" class="flex items-center gap-1"><label>Filter Month:</label><input type="month" id="mpk" onchange="render()" class="p-1 text-xs bg-white rounded border"><select id="mpb" onchange="render()" aria-label="Month of" class="hidden p-1 text-xs bg-white rounded border normal-case font-semibold"><option value="b">Booking Made On</option><option value="a">Appointment Date</option></select><button onclick="$('mpk').value='';af='ALL';render()" class="bg-slate-200 px-2 py-1 rounded">All Dates</button></span><input type="search" id="tq" oninput="render()" placeholder="Search kit # or patient" aria-label="Search kit number or patient name" class="hidden p-1 text-xs bg-white rounded border normal-case font-semibold" style="min-width:170px"><button id="ub" onclick="undo()" class="bg-amber-200 text-amber-900 px-2 py-1 rounded">↺ Undo</button></div>
+  <button id="cvb" type="button" onclick="cvToggle(1)" class="hidden bg-indigo-600 text-white rounded px-3 py-2 text-xs font-bold uppercase">📅 Calendar View</button><button id="tvb" type="button" onclick="cvToggle(0)" class="hidden bg-indigo-600 text-white rounded px-3 py-2 text-xs font-bold uppercase">📋 Table View</button><button id="add" class="g rounded px-3 py-2 text-xs font-bold uppercase">+ Add Entry</button></div>
+ </div>
+ <div id="leg" class="hidden flex-wrap gap-2 text-[10px] font-bold uppercase p-2 bg-slate-50 border rounded"></div>
+ <div id="cv" class="hidden space-y-3">
+  <div class="np flex flex-wrap items-center justify-between gap-2">
+   <div class="flex items-center gap-1"><button type="button" onclick="cvNav(-1)" aria-label="Previous" class="px-3 py-1 rounded bg-slate-200 font-bold">◀</button><b id="cvt" class="lux text-base px-2 min-w-[11rem] text-center"></b><button type="button" onclick="cvNav(1)" aria-label="Next" class="px-3 py-1 rounded bg-slate-200 font-bold">▶</button><button type="button" onclick="cvGoToday()" class="px-3 py-1 rounded bg-slate-200 text-xs font-bold uppercase">Today</button></div>
+   <div class="flex flex-wrap items-center gap-2 text-xs"><select id="cvm" onchange="cvPick()" class="border rounded p-1 font-bold bg-white"></select><select id="cvy" onchange="cvPick()" class="border rounded p-1 font-bold bg-white"></select><div class="flex rounded-lg overflow-hidden border border-slate-300 font-bold uppercase"><button type="button" id="cvbm" onclick="cvMode('month')" class="px-3 py-1">Month</button><button type="button" id="cvby" onclick="cvMode('year')" class="px-3 py-1">Year</button></div></div>
+  </div>
+  <div id="cvf" class="flex flex-wrap items-center gap-2"></div>
+  <div id="cvg"></div>
+  <div id="cvyr" class="hidden"></div>
+ </div>
+ <div class="overflow-x-auto"><table id="tb"></table></div>
+ <div id="dinfo" class="hidden"></div>
+ <div id="pt" class="hidden space-y-5">
+  <div class="border border-slate-300 rounded-xl overflow-hidden"><div onclick="ptg('p')" class="bg-slate-200 p-3 flex justify-between items-center cursor-pointer select-none hover:bg-slate-300"><div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-600 inline-block"></span><h3 class="font-bold text-xs uppercase tracking-wider text-slate-800">Postponed Patients (Grey)</h3><span id="pcp" class="bg-slate-800 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold">0</span></div><span id="pbp" class="text-xs font-bold bg-white px-2 py-1 rounded border">▼ Minimize</span></div><div id="pxp" class="p-2 overflow-x-auto bg-slate-50"><table id="tp1"></table></div></div>
+  <div class="border border-emerald-300 rounded-xl overflow-hidden"><div onclick="ptg('c')" class="bg-emerald-100 p-3 flex justify-between items-center cursor-pointer select-none hover:bg-emerald-200"><div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span><h3 class="font-bold text-xs uppercase tracking-wider text-emerald-950">Confirmed Patients (Green)</h3><span id="pcc" class="bg-emerald-800 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold">0</span></div><span id="pbc" class="text-xs font-bold text-emerald-900 bg-white px-2 py-1 rounded border border-emerald-300">▼ Minimize</span></div><div id="pxc" class="p-2 overflow-x-auto bg-emerald-50"><table id="tp2"></table></div></div>
+  <div class="space-y-2 pt-2"><h3 class="font-bold text-xs uppercase tracking-wider text-slate-600 border-b pb-1">Active Pipeline Leads</h3><div class="overflow-x-auto border rounded-xl"><table id="tp3"></table></div></div>
+ </div>
+</main>
 <section id="vs" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"></section>
 <section id="vc" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"></section>
 <section id="vp" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -99,7 +127,7 @@
  <div id="trcm" class="grid grid-cols-1 xl:grid-cols-2 gap-4"></div>
  <div id="trcx" class="min-w-0"></div>
 </section>
-<section id="vkps" class="hidden space-y-4"><div id="kpsfb" class="np"><button type="button" onclick="KPS.back()" class="kpsfb-b">&#8592; <span>Back to the portal</span></button><button type="button" onclick="tab='kpsc';render()" class="kpsfb-b">&#128194; <span>Saved Cases</span></button><span class="kpsfb-sp"></span><button type="button" id="kpsfm" onclick="KPS.toMsgs()" class="kpsfb-b hidden">&#8595; <span>Messages and photos</span></button><button type="button" id="kpsfo" onclick="offPanel()" class="kpsfb-b hidden">&#9211; <span>Module status</span></button></div><div id="kpsfw" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><iframe id="kpsf" title="Kristal Plan Studio" style="display:block;width:100%;height:calc(100vh - 150px);min-height:620px;border:0"></iframe></div>
+<section id="vkps" class="hidden space-y-4"><div id="kpsfb" class="np"><button type="button" onclick="KPS.back()" class="kpsfb-b">&#8592; <span>Back to the portal</span></button><button type="button" onclick="tab='kpsc';render()" class="kpsfb-b">&#128194; <span>Saved Cases</span></button><span class="kpsfb-sp"></span><button type="button" id="kpsfm" onclick="KPS.toMsgs()" class="kpsfb-b hidden">&#8595; <span>Messages and photos</span></button><button type="button" id="kpsfo" onclick="offPanel()" class="kpsfb-b hidden">&#9211; <span>Module status</span></button></div><div id="kpsfw" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><iframe id="kpsf" title="Omer Istanbul Dental Center" style="display:block;width:100%;height:calc(100vh - 150px);min-height:620px;border:0"></iframe></div>
  <div id="kpso" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"><div id="kpsm" class="grid grid-cols-1 xl:grid-cols-2 gap-4"></div><div id="kpsx" class="min-w-0"></div></div></section>
 <section id="vkpsc" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm"></section>
 <section id="vpk" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -142,6 +170,7 @@
 <script src="03-statistics.js"></script>
 <script src="04-commission.js"></script>
 <script src="05-navigation.js"></script>
+<script src="06-records.js"></script>
 <script src="10-treatment-database.js"></script>
 <script src="11-plan-calculator.js"></script>
 <script src="12-package-calculator.js"></script>

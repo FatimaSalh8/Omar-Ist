@@ -4,15 +4,17 @@
 HOW TO OPEN IT
 1. Put ALL the files of this folder on a web page (for example a NEW GitHub repository with GitHub Pages), keeping them in one folder.
    For a quick look you can also double-click index.html (Chrome or Edge).
-2. Open the page. Everything you do is saved on that device (one user: Rima, the administrator).
+2. Open the page and sign in with the e-mail of the owner (salhfatima8@gmail.com) and her password. Everything you do is saved on that device.
    Use the "Backup" button now and then: it saves one file with everything, and the same file puts it back (also to move to a new phone/computer).
 
-WHAT IS IN THE MENU
-- Kristal Plan Studio / Saved Cases : build the patient plan and the PDF.
+WHAT IS IN THE MENU (in this order)
+- Ticket Calendar / Deposit Calendar / Potential Patients Pipeline : your records (empty at the start).
 - Commission Structure & Audits     : upload the monthly Excel sheet (sheets LISTE and KURLAR), see the commission in euro.
 - Monthly Performance Statistics    : the consultant view of Rima, month by month.
 - Appointment Planning, Treatment Plan Calculator, Package Plan Calculator, Treatment Database, All Saved Plans.
+- Omer Istanbul Dental Center / Saved Cases (last) : build the patient plan and the PDF.
 - Follow up Messages (button in the header).
+- Header: language, font (Inter, Poppins, Lora, System), dark mode, Backup, Sign out.
 
 COMMISSION (always in euro)
   net total of the month        percentage (on the whole amount)

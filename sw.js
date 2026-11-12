@@ -2,11 +2,11 @@
    It keeps the app files on the phone/computer so the portal opens fast and also without internet,
    and it tells the page when a newer version has been uploaded ("Update available — tap to refresh").
    The version below changes with every new upload. */
-const VERSION = '1.2';
+const VERSION = '1.3';
 const CACHE = 'oi-' + VERSION;          // the app files of this version
 const EXT = 'oi-libs';                  // PDF / Excel libraries and fonts (kept between versions)
 const CORE = [
-  './', 'index.html', 'manifest.webmanifest', 'version.json', 'app.css', 'tailwind.css', 'version.js', 'translations.js', 'treatment-data.js', '01-core.js', 'local-cloud.js', '02-accounts.js', '03-statistics.js', '04-commission.js', '05-navigation.js', '10-treatment-database.js', '11-plan-calculator.js', '12-package-calculator.js', '13-offers.js', '14-planner.js', '15-languages.js', 'explain-data.js', '17-explain.js', '18-plans.js', '21-library.js', '26-studio.js', '16-start.js', 'backup.js', 'firebase-config.js', 'cloud-sync.js', 'pwa.js', 'logo.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'favicon-32.png'
+  './', 'index.html', 'manifest.webmanifest', 'version.json', 'app.css', 'tailwind.css', 'version.js', 'translations.js', 'treatment-data.js', '01-core.js', 'local-cloud.js', '02-accounts.js', '03-statistics.js', '04-commission.js', '05-navigation.js', '06-records.js', '10-treatment-database.js', '11-plan-calculator.js', '12-package-calculator.js', '13-offers.js', '14-planner.js', '15-languages.js', 'explain-data.js', '17-explain.js', '18-plans.js', '21-library.js', '26-studio.js', '16-start.js', 'backup.js', 'firebase-config.js', 'cloud-sync.js', 'pwa.js', 'logo.png', 'logo-white.png', 'login-bg.jpg', 'fonts/inter-400.woff', 'fonts/inter-500.woff', 'fonts/inter-600.woff', 'fonts/inter-700.woff', 'fonts/poppins-400.woff', 'fonts/poppins-500.woff', 'fonts/poppins-700.woff', 'fonts/lora.woff', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'favicon-32.png'
 ];
 const LIBS = /^https:\/\/(cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|www\.gstatic\.com\/firebasejs)\//;
 
