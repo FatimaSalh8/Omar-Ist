@@ -1,0 +1,40 @@
+ÖMAR ISTANBUL BY RIMA — the portal
+===================================
+
+HOW TO OPEN IT
+1. Put ALL the files of this folder on a web page (for example a NEW GitHub repository with GitHub Pages), keeping them in one folder.
+   For a quick look you can also double-click index.html (Chrome or Edge).
+2. Open the page. Everything you do is saved on that device (one user: Rima, the administrator).
+   Use the "Backup" button now and then: it saves one file with everything, and the same file puts it back (also to move to a new phone/computer).
+
+WHAT IS IN THE MENU
+- Kristal Plan Studio / Saved Cases : build the patient plan and the PDF.
+- Commission Structure & Audits     : upload the monthly Excel sheet (sheets LISTE and KURLAR), see the commission in euro.
+- Monthly Performance Statistics    : the consultant view of Rima, month by month.
+- Appointment Planning, Treatment Plan Calculator, Package Plan Calculator, Treatment Database, All Saved Plans.
+- Follow up Messages (button in the header).
+
+COMMISSION (always in euro)
+  net total of the month        percentage (on the whole amount)
+  0 - 19,999                    3 %
+  20,000 - 34,999               3.5 %
+  35,000 - 49,999               4 %
+  50,000 - 64,999               4.5 %
+  65,000 and more               5 %
+- Every amount is changed to euro with the rates of the sheet KURLAR (you can correct them on the screen).
+- Hotel is taken off the treatment; a payment by credit card loses 10 % (as in your sheet).
+- Each deposit paid by Iyzico link gives a bonus of 1,500 TL (shown separately, in Turkish lira).
+- All numbers (tiers, bonus, card %) can be changed under "Structure".
+
+PHOTOS
+There are no pictures in this portal. Add the photos of the Follow up Messages yourself:
+open "Follow up Messages", and press "Add photo" in the empty photo box of a message.
+
+TREATMENTS AND HOTELS
+Treatment Database -> Export Excel, change the prices / treatments / hotels, then Import Excel.
+
+CLOUD COPY (OPTIONAL, FIREBASE)
+By default NOTHING is sent anywhere: the portal works on the device.
+To also keep a cloud copy (for a second phone/computer), follow FIREBASE-GUIDE.txt:
+create a NEW Firebase project, publish the rules of the file firestore.rules, paste your values in firebase-config.js, then
+Backup -> "Cloud copy (Firebase)" -> sign in.

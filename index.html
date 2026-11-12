@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ömar Istanbul by Rima</title>
+<meta name="description" content="Ömar Istanbul by Rima - treatment plans, prices and commission">
+<meta name="theme-color" content="#161a59">
+<script>try{if(localStorage.getItem('kc_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}try{if(localStorage.getItem('kc_wasin')==='1')document.documentElement.classList.add('eop-boot')}catch(e){}</script>
+<meta name="application-name" content="Ömar Istanbul">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ömar Istanbul">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Montserrat:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="tailwind.css">
+</head>
+<body>
+<div id="login" class="hidden"></div>
+
+<header class="eop-hd border-b border-slate-200 py-3 px-6 shadow-sm bg-white"><div class="max-w-[1700px] mx-auto flex flex-wrap items-center gap-3 justify-between">
+ <div class="flex items-center gap-3"><img src="logo.png" alt="Omer Istanbul Dental Clinic" class="oi-logo"><span id="byr" data-notr class="oi-by">by Rima</span></div>
+ <div class="flex items-center gap-2 flex-wrap text-xs font-bold">
+  <div class="text-right"><span id="who" data-notr></span></div>
+  <div id="epside" class="np ep-hb"></div>
+  <select id="lgh" data-notr title="Language" aria-label="Language" class="border rounded p-1 bg-slate-50 text-xs font-bold"></select>
+  <button id="thm" type="button" class="thmb border rounded p-1 bg-slate-50 text-xs font-bold" title="Dark mode" aria-label="Dark mode" aria-pressed="false"><span data-thi aria-hidden="true">&#127769;</span> <span data-tht>Dark mode</span></button>
+  <button id="bkb" type="button" onclick="BK.open()" class="bg-slate-100 rounded px-2 py-1">&#128190; Backup</button>
+ </div>
+</div></header>
+
+<div class="max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6"><aside class="eop-aside lg:col-span-2 space-y-3 np"><button type="button" id="mnav" onclick="navPhone()" aria-expanded="false" aria-controls="navwrap" class="lg:hidden w-full flex items-center justify-between gap-2 bg-slate-900 text-[#a08a7c] rounded-xl px-4 py-3 text-sm font-bold"><span class="flex items-center gap-2 min-w-0"><span aria-hidden="true">☰</span><span id="mnavT" data-notr class="truncate"></span></span><span id="mnavC" aria-hidden="true">▾</span></button><div id="navwrap" class="hidden lg:block space-y-3"><div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 pb-1 border-b border-slate-200 flex justify-between items-center"><span>Modules</span></p><div id="nav" class="space-y-1"></div></div><p id="kver" data-notr class="text-center text-[10px] text-slate-400">Version 1.0</p></div></aside><div class="lg:col-span-10 space-y-6">
+<section id="vs" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"></section>
+<section id="vc" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"></section>
+<section id="vp" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+ <div class="flex flex-wrap justify-between items-center gap-2"><div><h2 class="lux font-bold text-lg">Appointment Planning</h2><p class="text-xs text-slate-500">Set the available appointment slots and the deposit policy, then export the patient-facing planner sheet as a PDF.</p></div>
+  <div class="np flex flex-wrap gap-2 text-xs font-bold uppercase"><button type="button" onclick="plReset(this)" class="bg-red-600 text-white rounded px-3 py-1.5">🗑 Reset Slots</button><button type="button" onclick="printPlan()" class="bg-slate-800 text-white rounded px-3 py-1.5">🖨 Print / PDF Export</button></div></div>
+ <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 items-start">
+  <div class="np xl:col-span-4 space-y-4 min-w-0">
+   <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+    <h3 class="lux font-bold text-sm border-b border-slate-200 pb-2"><span class="text-[#a08a7c]">■</span> 1. Set Available Slots</h3>
+    <div class="grid grid-cols-2 gap-3">
+     <label class="block text-[10px] text-slate-500 font-bold uppercase">Select Month<select id="plm" onchange="plMY()" class="w-full p-2 border rounded text-xs bg-white mt-1 normal-case font-semibold text-slate-900"></select></label>
+     <label class="block text-[10px] text-slate-500 font-bold uppercase">Select Year<select id="ply" onchange="plMY()" class="w-full p-2 border rounded text-xs bg-white mt-1 normal-case font-semibold text-slate-900"></select></label>
+    </div>
+    <label class="block text-[10px] text-slate-500 font-bold uppercase">Day of Month (shows the day name)<select id="pld" class="w-full p-2 border rounded text-xs bg-white mt-1 normal-case font-semibold text-slate-900"></select></label>
+    <label class="block text-[10px] text-slate-500 font-bold uppercase">Available Hour (e.g. 8 AM, 1 PM, 5 PM)<input type="text" id="plt" value="1:00 PM" placeholder="e.g. 8 AM or 1 PM" class="w-full p-2 border rounded text-xs bg-white mt-1 normal-case font-semibold text-slate-900"></label>
+    <button type="button" onclick="plAdd()" class="g rounded py-2 w-full font-bold uppercase text-xs">+ Mark Slot as Available</button>
+    <p id="plmsg" class="text-xs font-bold min-h-[1rem]"></p>
+   </div>
+   <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+    <h3 class="lux font-bold text-sm border-b border-slate-200 pb-2"><span class="text-[#a08a7c]">■</span> 2. Waiting List &amp; Deposit Policy</h3>
+    <label class="block text-[10px] text-slate-500 font-bold uppercase">Deposit Currency<select id="plc" onchange="plCfg()" class="w-full p-2 border rounded text-xs bg-white mt-1 normal-case font-semibold text-slate-900"><option value="EUR">EUR (€)</option><option value="USD">USD ($)</option><option value="GBP">GBP (£)</option><option value="TL">TL (₺)</option></select></label>
+    <label class="block text-[10px] text-slate-500 font-bold uppercase">Required Deposit Amount<input type="number" id="pla" value="200" min="0" step="10" oninput="plCfg()" class="w-full p-2 border rounded text-xs bg-white mt-1 normal-case font-semibold text-slate-900"></label>
+   </div>
+   <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+    <h3 class="lux font-bold text-sm border-b border-slate-200 pb-2"><span class="text-[#a08a7c]">■</span> Active Availabilities List</h3>
+    <div id="pall" class="space-y-2 pr-1"></div>
+   </div>
+  </div>
+  <div class="xl:col-span-8 min-w-0 space-y-2">
+   <div class="np flex flex-wrap items-center justify-between gap-2 text-xs"><b class="uppercase text-[10px] text-slate-500 tracking-wider">Live preview (A4 landscape)</b><div class="flex items-center gap-2"><label for="pll" class="font-bold">Sheet language (patient-facing)</label><select id="pll" data-notr onchange="plSL()" class="border rounded p-1 font-bold"></select></div></div>
+   <div class="np flex flex-wrap items-center gap-2 text-xs"><button type="button" onclick="plSave()" class="g rounded px-3 py-1.5 font-bold uppercase">💾 Save this sheet</button><span class="text-slate-500 font-semibold">Months in this sheet:</span><b id="plmo" class="text-slate-900"></b></div>
+   <div id="plw" class="relative w-full overflow-hidden rounded-lg border border-slate-300" style="aspect-ratio:1123/793;background:#ffffff"><div id="pls" data-notr style="position:absolute;left:0;top:0;width:1123px;height:793px;transform-origin:top left"></div></div>
+   <p class="np text-[10px] text-slate-400">The planner sheet can be printed in a different language from the portal.</p>
+   <div class="np rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3"><h3 class="lux font-bold text-sm border-b border-slate-200 pb-2"><span class="text-[#a08a7c]">■</span> Saved Sheets</h3><p class="np text-xs text-slate-500">Press “Use in plans” on the sheet whose dates should appear in the Individual Price Promoted Plan and Package Promoted Plan messages of the Treatment Plan Calculator.</p><div id="plsv" class="space-y-2"></div></div>
+  </div>
+ </div>
+</section>
+<section id="vpd" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+ <div class="flex flex-wrap justify-between items-start gap-3"><div><h2 class="lux font-bold text-lg">Treatment Database</h2><p class="text-xs text-slate-500">Edit treatment names, prices and the rules (deposit, visits, promotions) that feed the Treatment Plan Calculator.</p></div>
+  <div class="np flex flex-wrap gap-2 text-xs font-bold uppercase"><button type="button" onclick="trdImp()" class="bg-slate-800 text-white rounded px-3 py-1.5">Import Excel</button><button type="button" onclick="trdExp()" class="bg-slate-800 text-white rounded px-3 py-1.5">Export Excel</button><button type="button" onclick="trdRst(this)" class="bg-red-600 text-white rounded px-3 py-1.5">Restore Starter Data</button></div></div>
+ <div id="trdm" class="np min-h-[1.25rem] text-xs font-bold"></div>
+ <div id="trdtb" class="np flex flex-wrap gap-2"></div>
+ <div id="trdb" class="space-y-4"></div>
+ <input type="file" id="trdf" accept=".xlsx,.xls,.csv" class="hidden" onchange="trdFile(this)">
+</section>
+<section id="vpc" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+ <div><h2 class="lux font-bold text-lg">Treatment Plan Calculator</h2><p class="text-xs text-slate-500">Enter the quantity of each treatment to see the Least, Normal and High price, the payment plan and ready-to-send messages.</p></div>
+ <div id="trcpin"></div>
+ <div id="trcbar" class="np flex flex-wrap items-end gap-3 text-xs"></div>
+ <div id="trcnote" class="text-xs space-y-1"></div>
+ <div id="trcpk" class="rounded-xl border border-slate-200 overflow-hidden bg-white"></div>
+ <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
+  <div class="rounded-xl border border-slate-200 overflow-hidden bg-white"><div class="px-3 py-2 bg-slate-900 flex flex-wrap justify-between items-center gap-2"><b class="lux text-[#a08a7c] text-xs uppercase tracking-wider">Treatment Plan</b><span class="text-[10px] font-bold uppercase text-slate-300">Input The Quantity</span></div><div id="trcl"></div></div>
+  <div class="space-y-3 min-w-0">
+   <div id="trct"></div>
+   <div id="trcp" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+   <div id="trccu" class="rounded-xl border border-slate-200 overflow-hidden bg-white"></div>
+  </div>
+ </div>
+ <div id="trcard"></div>
+ <div id="trcm" class="grid grid-cols-1 xl:grid-cols-2 gap-4"></div>
+ <div id="trcx" class="min-w-0"></div>
+</section>
+<section id="vkps" class="hidden space-y-4"><div id="kpsfb" class="np"><button type="button" onclick="KPS.back()" class="kpsfb-b">&#8592; <span>Back to the portal</span></button><button type="button" onclick="tab='kpsc';render()" class="kpsfb-b">&#128194; <span>Saved Cases</span></button><span class="kpsfb-sp"></span><button type="button" id="kpsfm" onclick="KPS.toMsgs()" class="kpsfb-b hidden">&#8595; <span>Messages and photos</span></button><button type="button" id="kpsfo" onclick="offPanel()" class="kpsfb-b hidden">&#9211; <span>Module status</span></button></div><div id="kpsfw" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><iframe id="kpsf" title="Kristal Plan Studio" style="display:block;width:100%;height:calc(100vh - 150px);min-height:620px;border:0"></iframe></div>
+ <div id="kpso" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"><div id="kpsm" class="grid grid-cols-1 xl:grid-cols-2 gap-4"></div><div id="kpsx" class="min-w-0"></div></div></section>
+<section id="vkpsc" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm"></section>
+<section id="vpk" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+ <div class="flex flex-wrap items-start justify-between gap-3"><div class="min-w-0"><h2 class="lux font-bold text-lg">Package Plan Calculator</h2><p id="pkdesc" class="text-xs text-slate-500"></p></div></div>
+ <div id="pkpin"></div>
+ <div id="pkbar" class="np flex flex-wrap items-end gap-3 text-xs"></div>
+ <div id="pknote" class="text-xs space-y-1"></div>
+ <div class="space-y-3">
+  <div class="rounded-xl border border-slate-200 overflow-hidden bg-white min-w-0"><button type="button" id="pkh_in" onclick="pkOp('in')" aria-expanded="false" class="w-full text-left px-3 py-2 bg-slate-900 flex flex-wrap justify-between items-center gap-2 cursor-pointer"><b class="lux text-[#a08a7c] text-xs uppercase tracking-wider"><span data-notr style="display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:9999px;background:#a08a7c;color:#161a59;font-size:10px;margin-right:.5rem">1</span>Package Treatments</b><span class="flex flex-wrap items-center gap-2"><span class="text-[10px] font-bold uppercase text-slate-300">Input The Quantity</span><span id="pksm_in" class="text-[10px] font-bold text-emerald-300" data-notr></span><span id="pkv_in" data-notr class="text-[#a08a7c] text-xs" style="display:inline-block;transition:transform .15s">&#9660;</span></span></button><div id="pkb_in" class="hidden"><div id="pkin"></div></div></div>
+  <div class="rounded-xl border border-slate-200 overflow-hidden bg-white min-w-0"><button type="button" id="pkh_ot" onclick="pkOp('ot')" aria-expanded="false" class="w-full text-left px-3 py-2 bg-slate-900 flex flex-wrap justify-between items-center gap-2 cursor-pointer"><b class="lux text-[#a08a7c] text-xs uppercase tracking-wider"><span data-notr style="display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:9999px;background:#a08a7c;color:#161a59;font-size:10px;margin-right:.5rem">2</span>Other Treatments</b><span class="flex flex-wrap items-center gap-2"><span class="text-[10px] font-bold uppercase text-slate-300">Input The Quantity</span><span id="pksm_ot" class="text-[10px] font-bold text-emerald-300" data-notr></span><span id="pkv_ot" data-notr class="text-[#a08a7c] text-xs" style="display:inline-block;transition:transform .15s">&#9660;</span></span></button><div id="pkb_ot" class="hidden"><div id="pksb" class="np flex flex-wrap items-end gap-3 text-xs p-3 border-b border-slate-200"></div><div id="pkl"></div></div></div>
+  <div class="rounded-xl border border-slate-200 overflow-hidden bg-white min-w-0"><button type="button" id="pkh_ap" onclick="pkOp('ap')" aria-expanded="false" class="w-full text-left px-3 py-2 bg-slate-900 flex flex-wrap justify-between items-center gap-2 cursor-pointer"><b class="lux text-[#a08a7c] text-xs uppercase tracking-wider"><span data-notr style="display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:9999px;background:#a08a7c;color:#161a59;font-size:10px;margin-right:.5rem">3</span>All-on Packages</b><span class="flex flex-wrap items-center gap-2"><span class="text-[10px] font-bold uppercase text-slate-300">All-on-4 · All-on-6 · Zygomatic</span><span id="pksm_ap" class="text-[10px] font-bold text-emerald-300" data-notr></span><span id="pkv_ap" data-notr class="text-[#a08a7c] text-xs" style="display:inline-block;transition:transform .15s">&#9660;</span></span></button><div id="pkb_ap" class="hidden"><div id="pkap"></div></div></div>
+ </div>
+ <div id="pksimple" class="space-y-4"></div>
+ <div id="pkx" class="min-w-0"></div>
+ <div id="pkadv" class="space-y-4 hidden">
+ <div id="pkt"></div>
+ <div class="rounded-xl border border-slate-200 overflow-hidden bg-white">
+  <div class="px-3 py-2 bg-slate-900 flex flex-wrap justify-between items-center gap-2"><b class="lux text-[#a08a7c] text-xs uppercase tracking-wider"><span data-notr style="display:inline-flex;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border-radius:9999px;background:#a08a7c;color:#161a59;font-size:10px;margin-right:.5rem">4</span>Packages</b><span class="text-[10px] font-bold uppercase text-slate-300">Choose the implant, crown and hotel of each package.</span></div>
+  <div class="p-3 space-y-4"><div id="pkmt" class="flex flex-wrap gap-2"></div><div id="pkc" class="min-w-0"></div>
+   <div class="space-y-3"><b class="lux text-xs uppercase tracking-wider text-slate-700">Messages</b><div id="pkm" class="grid grid-cols-1 xl:grid-cols-2 gap-4"></div></div></div>
+ </div>
+ </div>
+</section>
+
+<section id="vpl" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4"></section>
+</div></div>
+<div id="md" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-3">
+ <div class="bg-white rounded-2xl p-5 w-full max-w-xl max-h-[90vh] overflow-y-auto">
+  <div class="flex justify-between border-b pb-2 mb-3"><b id="mt" class="lux"></b><button onclick="cm()" class="text-xl font-bold">×</button></div>
+  <div id="mb"></div>
+ </div>
+</div>
+
+<script src="version.js"></script>
+<script src="translations.js"></script>
+<script src="treatment-data.js"></script>
+<script src="01-core.js"></script>
+<script src="local-cloud.js"></script>
+<script src="02-accounts.js"></script>
+<script src="03-statistics.js"></script>
+<script src="04-commission.js"></script>
+<script src="05-navigation.js"></script>
+<script src="10-treatment-database.js"></script>
+<script src="11-plan-calculator.js"></script>
+<script src="12-package-calculator.js"></script>
+<script src="13-offers.js"></script>
+<script src="14-planner.js"></script>
+<script src="15-languages.js"></script>
+<script src="explain-data.js"></script>
+<script src="17-explain.js"></script>
+<script src="18-plans.js"></script>
+<script src="21-library.js"></script>
+<script src="26-studio.js"></script>
+<script src="16-start.js"></script>
+<script src="backup.js"></script>
+<script src="firebase-config.js"></script>
+<script src="cloud-sync.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>
