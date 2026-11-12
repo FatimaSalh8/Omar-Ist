@@ -52,7 +52,7 @@ function trdDef(){let n=0;return{v:3,
 function trdDropLegacy(cats){const pr=new Set();cats.forEach(c=>{if(!TRD_LEGACY.includes(c.name))c.items.forEach(t=>{if(trdOK(c,t))pr.add(t.n)})});
  return cats.filter(c=>!(TRD_LEGACY.includes(c.name)&&c.items.every(t=>!trdOK(c,t)||pr.has(t.n))))}
 /* version 4.4: two new treatments, "Fiber Post" and "Apical Resection", are added once to the Treatments category, WITHOUT a price:
-   they show in the calculators and in Kristal Plan Studio when the administrator writes their prices in the Treatment Database */
+   they show in the calculators and in Omer Istanbul Dental Center when the administrator writes their prices in the Treatment Database */
 const TRD_ADD44=[['i_fiberpost','Fiber Post',{fr:'Tenon fibré',ar:'وتد ألياف',tr:'Fiber Post',ru:'Стекловолоконный штифт',es:'Poste de fibra',de:'Glasfaserstift',ro:'Pivot din fibră',it:'Perno in fibra',pt:'Espigão de fibra'}],['i_apical','Apical Resection',{fr:'Résection apicale',ar:'قطع قمة الجذر',tr:'Apikal Rezeksiyon',ru:'Резекция верхушки корня',es:'Apicectomía',de:'Wurzelspitzenresektion',ro:'Rezecție apicală',it:'Apicectomia',pt:'Apicectomia'}]];
 function trdAdd44(db){try{if(db.add44)return db;const tc=db.cats.find(c=>c.name==='Treatments')||db.cats.find(c=>c.kind=='t');if(tc){
   TRD_ADD44.forEach(([id,n,tn])=>{if(!db.cats.some(c=>(c.items||[]).some(t=>t.id===id||trdHK(t.n)===trdHK(n))))tc.items.push({id,n,b:0,l:0,x:0,e:[],tn:Object.assign({},tn)});});}

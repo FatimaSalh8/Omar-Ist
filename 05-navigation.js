@@ -1,7 +1,7 @@
 /* Ömar Istanbul by Rima — the module menu (and the phone menu bar) */
-const NAVS=[['kps','Kristal Plan Studio'],['kpsc','Saved Cases'],['commission','Commission Structure & Audits'],['stats','Monthly Performance Statistics'],['planner','Appointment Planning'],['plancalc','Treatment Plan Calculator'],['pkcalc','Package Plan Calculator'],['pricedb','Treatment Database'],['plans','All Saved Plans']];
-const NAVG=[['kps','kpsc'],['commission','stats'],['planner','plancalc','pkcalc','pricedb','plans']];
-const NAVT=['Kristal Plan Studio','My Performance','Planning & Prices'];
+const NAVS=[['tickets','Ticket Calendar'],['deposits','Deposit Calendar'],['potentials','Potential Patients Pipeline'],['commission','Commission Structure & Audits'],['stats','Monthly Performance Statistics'],['planner','Appointment Planning'],['plancalc','Treatment Plan Calculator'],['pkcalc','Package Plan Calculator'],['pricedb','Treatment Database'],['plans','All Saved Plans'],['kps','Omer Istanbul Dental Center'],['kpsc','Saved Cases']];
+const NAVG=[['tickets','deposits','potentials'],['commission','stats'],['planner','plancalc','pkcalc','pricedb','plans'],['kps','kpsc']];
+const NAVT=['Records','My Performance','Planning & Prices','Omer Istanbul Dental Center'];
 function navFolds(){const f=L('kc_fold',{});return f&&typeof f=='object'&&!Array.isArray(f)?f:{}}
 function navFold(g){const f=navFolds();f['g'+g]=!f['g'+g];S('kc_fold',f);buildNav()}
 function navOrder(){return NAVG.flat()}

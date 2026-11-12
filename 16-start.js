@@ -1,6 +1,5 @@
 /* Ömar Istanbul by Rima — start-up: the portal opens straight away for Rima (one user, no login) */
 function enter(a){me='admin';GUEST=false;
- $('login').classList.add('hidden');
  $('who').textContent='Rima';
  try{document.documentElement.classList.add('eop-boot')}catch(e){}
  if(window.EP)EP.enter(a);
@@ -28,6 +27,42 @@ function thmApply(t,save){const r=document.documentElement,d=t=='dark';if(d)r.se
 ['thm','thml'].forEach(id=>{const b=$(id);if(b)b.onclick=()=>thmApply(thmNow()=='dark'?'light':'dark',true)});
 thmApply((()=>{try{return localStorage.getItem('kc_theme')=='dark'?'dark':'light'}catch(e){return'light'}})(),false);
 i18nStart();
-enter(ACC[0]);
+
+/* ---- the opening page: the team picture as the background, and the sign-in of the owner ---- */
+function showLogin(){
+ const d=$('login');d.classList.remove('hidden');document.body.classList.add('lgon');
+ d.innerHTML='<select id="lgl" data-notr class="lg-lang" title="Language" aria-label="Language"></select>'
+ +'<form id="lgf" class="lg-box" novalidate>'
+ +'<div class="lg-logo"><img src="logo-white.png" alt="Omer Istanbul Dental Clinic"></div><p class="lg-by" data-notr>by Rima</p>'
+ +'<h1 class="lg-h">Welcome back</h1><p class="lg-s">Sign in to open your portal.</p>'
+ +'<label class="lg-l" for="lgem">Email</label><input id="lgem" name="email" type="email" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="name@email.com">'
+ +'<label class="lg-l" for="lgpw">Password</label><div class="lg-pw"><input id="lgpw" name="password" type="password" autocomplete="current-password" placeholder="Password"><button type="button" id="lgsh" class="lg-eye" aria-label="Show password">Show</button></div>'
+ +'<label class="lg-ck"><input type="checkbox" id="lgrm" checked><span>Keep me signed in on this device</span></label>'
+ +'<p id="lger" class="lg-er" role="alert"></p>'
+ +'<button type="submit" class="lg-go">Sign in</button></form>';
+ const sl=$('lgl');sl.innerHTML=LANGS.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join('');sl.value=LANG;sl.onchange=()=>setLang(sl.value);
+ $('lgf').onsubmit=e=>{e.preventDefault();lgTry()};
+ $('lgsh').onclick=()=>{const p=$('lgpw'),sh=p.type=='password';p.type=sh?'text':'password';$('lgsh').textContent=sh?'Hide':'Show';$('lgsh').setAttribute('aria-label',sh?'Hide password':'Show password')};
+ setTimeout(()=>{try{$('lgem').focus()}catch(e){}},60)}
+function lgTry(){
+ const em=$('lgem').value.trim().toLowerCase(),pw=$('lgpw').value,er=$('lger'),b=document.querySelector('#lgf .lg-go');
+ if(!em||!pw){er.textContent=ti('Please type your email and password.');return}
+ b.disabled=true;er.textContent='';
+ setTimeout(()=>{
+  let ok=false;try{ok=em===LG_MAIL&&lgKdf(em,pw)===LG_HASH}catch(x){}
+  if(!ok){b.disabled=false;er.textContent=ti('Wrong email or password.');$('lgpw').value='';try{$('lgpw').focus()}catch(x){}return}
+  try{const t=lgTok();if($('lgrm').checked)localStorage.setItem('kc_auth',t);else sessionStorage.setItem('kc_auth',t);sessionStorage.setItem('eop_hi','rima')}catch(x){}
+  const d=$('login');document.body.classList.remove('lgon');d.classList.add('lg-out');
+  setTimeout(()=>{d.classList.add('hidden');d.classList.remove('lg-out');d.innerHTML=''},550);
+  enter(ACC[0])},30)}
+function signOut(){try{localStorage.removeItem('kc_auth');sessionStorage.removeItem('kc_auth');sessionStorage.removeItem('eop_hi')}catch(e){}location.reload()}
+function gate(){let ok=false;try{const t=lgTok();ok=localStorage.getItem('kc_auth')===t||sessionStorage.getItem('kc_auth')===t}catch(e){}
+ if(ok)enter(ACC[0]);else showLogin()}
+/* the font the owner prefers (kept on this device only) */
+function fontApply(f,save){if(!['inter','poppins','lora','system'].includes(f))f='inter';const r=document.documentElement;if(f=='inter')r.removeAttribute('data-font');else r.setAttribute('data-font',f);
+ if(save){try{localStorage.setItem('kc_font',f)}catch(e){}}const s=$('fnt');if(s)s.value=f}
+{const s=$('fnt');if(s)s.onchange=()=>fontApply(s.value,true)}
+fontApply((()=>{try{return localStorage.getItem('kc_font')||'inter'}catch(e){return'inter'}})(),false);
+gate();
 
 (()=>{const h=document.querySelector('header.eop-hd');if(!h)return;const set=()=>document.documentElement.style.setProperty('--hdr-h',(getComputedStyle(h).position==='sticky'?h.offsetHeight:0)+'px');set();window.addEventListener('resize',set);if(window.ResizeObserver)new ResizeObserver(set).observe(h);setTimeout(set,1500)})();

@@ -63,7 +63,7 @@ function setLang(c){
  LANG=c;LI=i;
  try{localStorage.setItem('kc_lang',c)}catch(e){}
  document.documentElement.lang=c;
- ['lgh'].forEach(id=>{const s=$(id);if(s)s.value=c});
+ ['lgh','lgl'].forEach(id=>{const s=$(id);if(s)s.value=c});
  setTitle();
  try{cm()}catch(e){}
  walk(document.body);

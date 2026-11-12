@@ -13,22 +13,24 @@ const ME_NAME='Rima';
 /* the old team lists are kept as empty lists, so the modules that still look at them simply find nobody */
 let C=[],A=[];
 let H=[{id:'h0',name:'Else Where',price:0}];     /* the hotels: filled from the Treatment Database (hSync) */
-const K={},D={tickets:[],deposits:[],potentials:[]},E={};
+/* the three records (06-records.js): empty at the start, saved on the device */
+const K={tickets:'kc_tickets',deposits:'kc_deposits',potentials:'kc_potentials'};
+const D={tickets:L(K.tickets,[]),deposits:L(K.deposits,[]),potentials:L(K.potentials,[])},E={};
 const CUR=['USD','EUR','CAD','AUD','TRY','GBP'];
-let me=null,tab='stats';
+let me=null,tab='tickets';
 
 function toast(t){const d=document.createElement('div');d.className='fixed bottom-4 right-4 z-[60] bg-slate-900 text-[#a08a7c] text-xs font-bold px-4 py-2 rounded-lg shadow-lg';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),4000)}
 function cm(){const m=$('md');if(m)m.classList.add('hidden')}
 function lists(){}
 
 /* the modules of the portal and the screen of each one */
-const VIEWS={commission:'vc',stats:'vs',planner:'vp',plancalc:'vpc',pkcalc:'vpk',pricedb:'vpd',plans:'vpl',kps:'vkps',kpsc:'vkpsc'};
+const VIEWS={tickets:'vm',deposits:'vm',potentials:'vm',commission:'vc',stats:'vs',planner:'vp',plancalc:'vpc',pkcalc:'vpk',pricedb:'vpd',plans:'vpl',kps:'vkps',kpsc:'vkpsc'};
 function render(){
  if(!me)return;
- if(!VIEWS[tab])tab='stats';
+ if(!VIEWS[tab])tab='tickets';
  S('kc_lasttab_'+me,tab);
  buildNav();
- Object.keys(VIEWS).forEach(k=>{const v=$(VIEWS[k]);if(v)v.classList.toggle('hidden',k!=tab)});
+ Object.values(VIEWS).forEach(id=>{const v=$(id);if(v)v.classList.toggle('hidden',id!=VIEWS[tab])});
  document.body.classList.toggle('kps-full',tab=='kps');
  if(window.KPS&&KPS.seen)KPS.seen(tab);
  if(tab=='kps')return window.KPS&&KPS.render();
@@ -38,6 +40,7 @@ function render(){
  if(tab=='plancalc')return rTRC();
  if(tab=='pkcalc')return rPK();
  if(tab=='pricedb')return rTRD();
+ if(tab=='tickets'||tab=='deposits'||tab=='potentials')return rRec();
  if(tab=='stats')return rStats();
  if(tab=='commission')return rComm()}
-const SUB={kps:'Photos, diagnosis, treatment, plan card, price and PDF: the prices come from the Treatment Database.',kpsc:'The cases saved in Kristal Plan Studio.'};
+const SUB={kps:'Photos, diagnosis, treatment, plan card, price and PDF: the prices come from the Treatment Database.',kpsc:'The cases saved in Omer Istanbul Dental Center.'};
