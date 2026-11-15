@@ -1166,6 +1166,53 @@ details.fold.inner>summary{font-size:12.5px}
 .pgsh .pgrf input{width:100px;height:28px;border:1px solid var(--a-line);border-radius:7px;padding:0 8px;font-size:12px;color:var(--a-navy);background:#fff}
 
 .oipb{margin-top:6px}
+
+/* ---- PDF layout "Option cards" (lc*) and "Simple table" (lt*) ---- */
+.lcban{background:#161a59;color:#fff;border-radius:12px;text-align:center;padding:14px 18px}
+.lcban .k{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#d8c8bc;font-weight:700}
+.lcban .h{font-size:19px;font-weight:700;margin-top:3px}
+.lcc{display:grid;grid-template-columns:minmax(0,1fr) 205px;gap:18px;border:1.5px solid #d9d4cf;border-radius:16px;padding:20px 20px 18px 24px;background:#fff}
+.lce{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#a08a7c;font-weight:700}
+.lch{font-size:22px;line-height:1.2;color:#161a59;margin:5px 0 2px;font-weight:700}
+.lcs{font-size:12.5px;color:#8d8ea2;font-style:italic}
+.lcu{margin:12px 0 0;padding-left:18px;font-size:12.5px;line-height:1.5;color:#2c2d45}
+.lcu li{margin:0 0 5px}.lcu li::marker{color:#a08a7c}.lcu b{color:#161a59}
+.lcdots{margin-top:12px}
+.lcr{display:flex;align-items:center;gap:3px;margin:0 0 6px}
+.lcl{width:46px;font-size:9px;letter-spacing:.14em;font-weight:700;color:#8d8ea2;text-transform:uppercase}
+.lcr i{width:19px;height:19px;border-radius:50%;background:#ece9e6;border:1px solid #ece9e6;color:#a3a3b2;font:700 7.5px/17px Arial,sans-serif;text-align:center;font-style:normal}
+.lcr i.on{color:#fff}
+.lcm{width:1px;height:20px;border-left:1.5px dashed #d0cbc6;margin:0 4px}
+.lclg{display:flex;flex-wrap:wrap;gap:14px;font-size:10px;color:#6e6f84;margin-top:8px}
+.lclg span{display:flex;align-items:center;gap:6px}.lclg i{width:10px;height:10px;border-radius:50%;display:inline-block}.lclg i.off{background:#ece9e6}
+.lcp{background:#f5f2ef;border-radius:12px;padding:18px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.lcp .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8d8ea2;font-weight:700}
+.lcp .k2{color:#a08a7c;margin-top:16px}
+.lcp s{font-size:19px;color:#8d8ea2;margin-top:3px}
+.lcp b{font-size:38px;line-height:1.1;color:#161a59;margin-top:4px;font-weight:800}
+.lcp em{font-style:normal;background:#a08a7c;color:#fff;border-radius:20px;padding:6px 16px;font-weight:700;font-size:12.5px;margin-top:10px}
+.lcp.pk{gap:12px}.lct{display:flex;flex-direction:column;align-items:center}.lct b{font-size:26px}.lct em{font-size:11px;padding:4px 12px;margin-top:6px}
+.lcv{font-size:10px;color:#8d8ea2;margin-top:14px;line-height:1.5}
+.lcnote{background:#f5f2ef;border-radius:10px;padding:12px 18px;font-size:12px;color:#2c2d45}
+.ltb{border-radius:6px;overflow:hidden}
+.lth{background:#eeeeee;padding:10px 12px;font-size:15px;font-weight:700;color:#222}
+.ltg{width:100%;border-collapse:collapse;font-size:12px}
+.ltg th{font-size:10px;color:#777;font-weight:500;text-align:left;padding:4px 12px;border-bottom:1px solid #e3e3e3}
+.ltg td{padding:6px 12px;border-bottom:1px solid #e3e3e3;color:#222}.ltg td span{color:#555}
+.ltg .n{text-align:right;white-space:nowrap}
+.ltg .ltx td{color:#777}.ltg .ltd td{color:#161a59;font-weight:700}
+.ltt{display:flex;justify-content:space-between;background:#eeeeee;padding:10px 12px;font-size:15px;font-weight:700;margin-top:4px}
+.ltk{padding:8px 12px;font-size:12px}
+.ltban{background:#161a59;color:#fff;text-align:center;font-weight:700;padding:12px;font-size:13px}
+/* the layout chooser in the Print step */
+.lyrow{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:14px 18px 0;padding:12px 16px;border:1px solid var(--a-line,#ebe6e2);border-radius:16px;background:#fff}
+.lyrow h2{font-size:14px;margin:0}.lyrow .sub{margin:0}
+.lyopts{display:flex;gap:10px;flex-wrap:wrap}
+.lyopts button{display:flex;align-items:center;gap:10px;padding:7px 12px 7px 7px;border:1.5px solid var(--a-line,#e6e1dd);border-radius:12px;background:#fff;cursor:pointer;font:600 12.5px/1.2 inherit;font-family:inherit;color:#2c2d45;text-align:left}
+.lyopts button small{display:block;font-weight:500;font-size:10.5px;color:#8d8ea2;max-width:170px}
+.lyopts button.on{border-color:#181b53;box-shadow:0 0 0 2px #181b5322}
+.lyopts svg{flex:none;border-radius:6px;background:#f6f3f0}
+.lyrow label.f{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}
 </style></head><body>
 <div id="app">
  <header id="top">
@@ -2763,7 +2810,87 @@ function secPrices(){
   return flowPages(spec,pk.length?Tx('pri.t','Your packages and prices'):Tx('pri.t0','Your prices'));
 }
 
-const SECFN={promo:secPromo,cover:secCover,pre:secPre,options:secOptions,prices:secPrices,breakdown:secPlans,details:secDetails,pay:secPay,trust:secTrust,about:secAbout};
+/* ===== PDF layout of the plan pages (Print step → "PDF layout"):
+   'cards'  = the default: a promotion banner, then one card per option (bullets, dot chart of the teeth, price panel)
+   'blocks' = the boxed tooth chart of every option, then the packages and prices (the earlier Omer Istanbul pages)
+   'table'  = one simple page: the tooth chart, then a table of the treatments of each option and its price ===== */
+const PDF_LAYOUTS=[['cards','Option cards','Promotion banner, one card per option with its price'],['blocks','Tooth blocks','Boxed tooth chart of each option, then the packages'],['table','Simple table','Tooth chart, then a table of the treatments']];
+const pdfLayout=()=>{const v=pdfOpts().layout;return PDF_LAYOUTS.some(x=>x[0]===v)?v:'cards';};
+const LC_COL=['#161a59','#a08a7c','#5f8fa8','#7a9e7e','#b5838d'];
+const lcSkip=l=>l.auto||isHotel(l)||isTransport(l)||['service','other'].includes(l.cat);
+/* the treatments of a plan that are shown as bullets and coloured on the dot chart, grouped by kind */
+function lcKinds(p){
+  const out=[],by={};
+  p.lines.forEach(l=>{if(lcSkip(l))return;const k=l.type||l.cat;let g=by[k];if(!g){g=by[k]={k,label:(TYPE_BY[l.type]||{}).label||lineLabel(l),teeth:new Set(),lines:[]};out.push(g);}
+    g.lines.push(l);(l.teeth||[]).forEach(t=>g.teeth.add(+t));(l.brT||[]).forEach(t=>g.teeth.add(+t));});
+  out.forEach((g,i)=>g.col=LC_COL[i%LC_COL.length]);
+  return out;
+}
+function lcDots(kinds){
+  const col={};kinds.slice().reverse().forEach(g=>g.teeth.forEach(t=>col[t]=g.col));
+  const dot=t=>`<i class="${col[t]?'on':''}" style="${col[t]?'background:'+col[t]+';border-color:'+col[t]:''}">${t}</i>`;
+  const row=(lab,a,b)=>`<div class="lcr"><span class="lcl">${lab}</span>${a.map(dot).join('')}<span class="lcm"></span>${b.map(dot).join('')}</div>`;
+  const used=kinds.filter(g=>g.teeth.size);
+  if(!used.length)return '';
+  return `<div class="lcdots">${row(Tx('lc.upper','Upper'),OI_ROWS.U[0],OI_ROWS.U[1])}${row(Tx('lc.lower','Lower'),OI_ROWS.L[0],OI_ROWS.L[1])}
+<div class="lclg">${used.map(g=>`<span><i style="background:${g.col}"></i>${esc(LT(g.label))}</span>`).join('')}<span><i class="off"></i>${Tx('lc.notin','Not in this plan')}</span></div></div>`;
+}
+function lcBullets(kinds){
+  return kinds.map(g=>{const q=g.lines.reduce((n,l)=>n+lineQty(l),0),l=g.lines[0],sc=g.lines.map(lineScopeText).filter(Boolean).join(' · ');
+    return `<li><b>${q>1||scopeOf(l)==='tooth'?q+' ':''}${esc(lineLabel(l))}</b>${sc?` <span>(${esc(LT(sc))})</span>`:''}</li>`;}).join('');
+}
+const lcUntil=()=>{const v=String(pdfOpts().promoUntil||'').trim();return /^\d{4}-\d\d-\d\d$/.test(v)?fmtDate(v):v;};
+/* the price panel on the right of an option card */
+function lcPrice(p){
+  const P=pdfOpts(),u=lcUntil(),foot=`<div class="lcv">${u?Tx('lc.valid','Valid until')+' '+esc(u)+'<br>':''}${Tx('lc.cur','Prices in')} ${esc(TPL.cur.code||TPL.cur.sym)}</div>`;
+  if(p.mode==='package'){
+    const T=oiTiers(p);if(!T.length)return '';
+    return `<div class="lcp pk">${T.map(x=>{const pr=x.r.fin.tot,old=P.disc&&x.r.fin.promo&&x.r.NT>pr+0.5?x.r.NT:0;return `<div class="lct"><span class="k">${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span>${old?`<s>${oiMoney(old)}</s>`:''}<b>${oiMoney(pr)}</b>${old?`<em>${Tx('lc.save','You save')} ${oiMoney(old-pr)}</em>`:''}</div>`;}).join('')}${foot}</div>`;
+  }
+  const o=calcPlan(p),pc=o.pc&&o.pc.ok?o.pc:null,tot=planTotal(p);if(!(tot>0))return '';
+  if(pc&&P.disc)return `<div class="lcp"><span class="k">${Tx('lc.reg','Regular price')}</span><s>${oiMoney(o.ct)}</s><span class="k k2">${Tx('lc.promo','Promotional price')}</span><b>${oiMoney(pc.price)}</b><em>${Tx('lc.save','You save')} ${oiMoney(pc.save)}</em>${foot}</div>`;
+  return `<div class="lcp"><span class="k k2">${Tx('lc.price','Your price')}</span><b>${oiMoney(tot)}</b>${foot}</div>`;
+}
+function lcCard(p,i){
+  const kinds=lcKinds(p),custom=!/^\s*(option|plan|treatment plan\s*#?)\s*\d*\s*$/i.test(p.name||'')&&(p.name||'').trim();
+  const title=custom?esc(p.name):esc(oiSummary(p)||Tx('lc.plan','Treatment plan')),sub=planChips(p).slice(0,4).join(' · ');
+  return `<div class="lcc"><div class="lcb"><div class="lce">${Tx('opt.label','Option')} ${planNo(p,i)}</div><h2 class="lch">${title}</h2>${sub?`<div class="lcs">${esc(sub)}</div>`:''}
+<ul class="lcu">${lcBullets(kinds)}</ul>${lcDots(kinds)}</div>${lcPrice(p)}</div>`;
+}
+function secCards(){
+  const u=lcUntil(),items=[];
+  items.push({html:`<div class="lcban"><div class="k">${Tx('lc.ban.k','Limited-time promotion')}</div><div class="h">${u?Tx('lc.ban.h','Special prices valid until')+' '+esc(u):Tx('lc.ban.h0','Special prices for a limited time')}</div></div>`});
+  DATA.plans.forEach((p,i)=>items.push({html:lcCard(p,i)}));
+  items.push({html:`<div class="lcnote"><b>${Tx('lc.payk','Payment note:')}</b> ${Tx('lc.pay','paying by card adds a 10% tax fee.')}</div>`});
+  const N=DATA.plans.length,title=N===1?['opt.t1','Your treatment plan']:N===2?['opt.t2','Your two treatment options']:N===3?['opt.t3','Your three treatment options']:['opt.tn','Your treatment options'];
+  return flowPages({head:c=>c?'<div class="oic0"></div>':'<div class="oic0"></div>',items},Tx(title[0],title[1]));
+}
+/* the simple table: the tooth chart, then one table per option (treatment, quantity, amount), the price and the promotion */
+function ltTable(p,i,N){
+  const P=pdfOpts();
+  if(p.mode==='package'){
+    const T=oiTiers(p),rows=pkgTreatRows(p);
+    return `<div class="ltb"><div class="lth">${N>1?planNo(p,i)+'. ':''}${oiName(p,i)}</div><div class="ltk">${rows.join('')}</div>${T.map(x=>`<div class="ltt"><span>${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span><b>${oiMoney(x.r.fin.tot)}</b></div>`).join('')}</div>`;
+  }
+  const o=calcPlan(p),pc=o.pc&&o.pc.ok?o.pc:null,show=P.indiv;
+  const rows=o.rows.map((r,k)=>{const l=r.l,sc=lineScopeText(l),nm=isHotel(l)?String(l.name).replace(/^Nights\s*-\s*/i,''):lineLabel(l),eu=pc&&pc.u[k]!=null&&P.disc&&P.imode!=='before'?pc.u[k]:r.eu;
+    return `<tr><td>${esc(nm)}${sc?` <span>(${esc(LT(sc))})</span>`:''}</td><td class="n">${r.q}</td>${show?`<td class="n">${r.eu>0||eu>0?oiMoney(r.q*eu):Tx('plan.included','Included')}</td>`:''}</tr>`;}).join('');
+  const sum=pc&&P.disc?`<tr class="ltx"><td colspan="${show?2:1}">${Tx('lt.std','Standard price')}</td><td class="n"><s>${oiMoney(o.ct)}</s></td></tr><tr class="ltd"><td colspan="${show?2:1}">${Tx('lt.disc','Discount')} (${pc.p}%)</td><td class="n">− ${oiMoney(pc.save)}</td></tr>`:'';
+  return `<div class="ltb"><div class="lth">${N>1?planNo(p,i)+'. ':''}${oiName(p,i)}</div><table class="ltg"><thead><tr><th>${Tx('lt.treat','Treatment')}</th><th class="n">${Tx('lt.qty','Quantity')}</th>${show?`<th class="n">${Tx('lt.amt','Amount')}</th>`:''}</tr></thead><tbody>${rows||`<tr><td colspan="3">—</td></tr>`}${sum}</tbody></table><div class="ltt"><span>${Tx('plan.total','Total')}</span><b>${oiMoney(planTotal(p))}</b></div></div>`;
+}
+function secTable(){
+  const N=DATA.plans.length,u=lcUntil(),items=[];
+  const first=DATA.plans[0],V=first?KChart.planVisuals(DATA.pre,first.lines,true):{};
+  if(N===1)items.push({html:`<div>${chartCard(V,[])}</div>`});
+  DATA.plans.forEach((p,i)=>{if(N>1)items.push({html:`<div class="ltc">${chartCard(KChart.planVisuals(DATA.pre,p.lines,true),[])}</div>`});items.push({html:ltTable(p,i,N)});});
+  items.push({html:`<div class="lcnote">${Tx('imp.3','Card payment: +10% tax.')}</div>`});
+  if(u)items.push({html:`<div class="ltban">${Tx('lt.ban','Promotional offer: prices valid until')} ${esc(u)}</div>`});
+  return flowPages({head:c=>'<div class="oic0"></div>',items},Tx('opt.t1','Your treatment plan'));
+}
+/* the sections that change with the layout: 'options' carries the chosen layout, 'prices' is only used by the tooth blocks */
+const secOptionsL=()=>{const L=pdfLayout();return L==='cards'?secCards():L==='table'?secTable():secOptions();};
+const secPricesL=()=>pdfLayout()==='blocks'?secPrices():[];
+const SECFN={promo:secPromo,cover:secCover,pre:secPre,options:secOptionsL,prices:secPricesL,breakdown:secPlans,details:secDetails,pay:secPay,trust:secTrust,about:secAbout};
 const SEC_NAME={promo:'Team picture',cover:'Title page',pre:'Pre treatment (diagnosis)',options:'Treatment options (tooth chart)',prices:'Packages and prices',breakdown:'Detailed price breakdown (optional)',details:'What is included, your stay',pay:'Next steps, deposit & information',trust:'Trusted worldwide',about:'Doctor & contact'};
 /* the order of the clinic's own plan PDF: team picture, title page, tooth chart of the options, packages and prices, what is included, next steps, trust page, doctor and contact */
 const SEC_DEFAULT=['promo','cover','pre','options','prices','breakdown','details','pay','trust','about'];
@@ -3782,6 +3909,7 @@ V.print=function(el){
       <div class="pxin"><div class="pdftg" id="pdfTg"></div><div class="pdfseg" id="pdfSeg"></div></div></section>
     <section class="optc"><h2>Availability</h2><div class="sub">From Appointment Planning (the saved sheet marked “Use in plans”). Shown on the payment page.</div><div class="pdfav" id="pdAv"></div></section>
   </div>
+  <div class="lyrow" id="lyrow"></div>
   <div class="split"><aside class="panel">
     <h2>PDF</h2><div class="sub">Check the list, then print. Choose “Save as PDF” in the print window.</div>
     <div class="chk" id="chk"></div>
@@ -3796,9 +3924,22 @@ V.print=function(el){
   $('#doPrint').onclick=printPdf;
   pagesPanel($('#secs'),()=>scheduleRender(),true);
   {const a=CASE.avail=KP.availPdf(pdfLang()),b=$('#pdAv');b.innerHTML=a.until?'<span class="kav-u">'+UT('Fully booked until')+' <b>'+esc(a.until)+'</b></span>'+String(a.dates||'').split('\n').filter(Boolean).map(d=>'<span class="kav-d">'+esc(d)+'</span>').join(''):'<span class="hint">No dates yet: open Appointment Planning and press “Use in plans” on a saved sheet.</span>';}
-  pdfPanel();
+  pdfPanel();lyPanel();
   mountStage($('#holder'));renderDoc();checks();
 };
+/* the small boxes to choose the layout of the plan pages ("Option cards" is the normal one) */
+const LY_ICON={cards:'<svg width="46" height="58" viewBox="0 0 46 58"><rect x="4" y="4" width="38" height="7" rx="2" fill="#161a59"/><rect x="4" y="15" width="38" height="18" rx="3" fill="#fff" stroke="#cfc9c4"/><rect x="29" y="18" width="10" height="12" rx="2" fill="#e8e1db"/><g fill="#161a59"><circle cx="9" cy="27" r="1.6"/><circle cx="13" cy="27" r="1.6"/><circle cx="17" cy="27" r="1.6"/></g><rect x="4" y="36" width="38" height="18" rx="3" fill="#fff" stroke="#cfc9c4"/><rect x="29" y="39" width="10" height="12" rx="2" fill="#e8e1db"/><g fill="#a08a7c"><circle cx="9" cy="48" r="1.6"/><circle cx="13" cy="48" r="1.6"/><circle cx="17" cy="48" r="1.6"/></g></svg>',
+ blocks:'<svg width="46" height="58" viewBox="0 0 46 58"><rect x="4" y="5" width="38" height="5" rx="2" fill="#161a59"/><rect x="4" y="10" width="38" height="17" fill="#f3efec"/><g fill="#161a59"><rect x="8" y="13" width="4" height="5"/><rect x="13" y="13" width="4" height="5"/><rect x="18" y="13" width="4" height="5"/><rect x="24" y="13" width="4" height="5"/><rect x="29" y="13" width="4" height="5"/><rect x="34" y="13" width="4" height="5"/></g><rect x="4" y="31" width="38" height="5" rx="2" fill="#8c7566"/><rect x="4" y="36" width="38" height="17" fill="#f3efec"/><g fill="#8c7566"><rect x="13" y="39" width="4" height="5"/><rect x="18" y="39" width="4" height="5"/><rect x="24" y="39" width="4" height="5"/><rect x="29" y="39" width="4" height="5"/></g></svg>',
+ table:'<svg width="46" height="58" viewBox="0 0 46 58"><rect x="6" y="5" width="34" height="13" rx="2" fill="#fff" stroke="#cfc9c4"/><g fill="#9cd39a"><rect x="12" y="8" width="3" height="7"/><rect x="17" y="8" width="3" height="7"/><rect x="22" y="8" width="3" height="7"/><rect x="27" y="8" width="3" height="7"/></g><rect x="4" y="22" width="38" height="4" fill="#e3e3e3"/><g stroke="#d6d6d6"><path d="M4 30h38M4 34h38M4 38h38M4 42h38"/></g><rect x="4" y="45" width="38" height="4" fill="#e3e3e3"/><rect x="4" y="51" width="38" height="4" fill="#161a59"/></svg>'};
+function lyPanel(){
+  const box=$('#lyrow');if(!box)return;const P=pdfOpts(),cur=pdfLayout(),N=CASE.plans.filter(planShown).length;
+  box.innerHTML=`<div><h2>PDF layout</h2><div class="sub">${N>1?'How the options look in the PDF.':'How the plan looks in the PDF.'}</div></div>
+<div class="lyopts">${PDF_LAYOUTS.map(x=>`<button type="button" class="${cur===x[0]?'on':''}" data-ly="${x[0]}">${LY_ICON[x[0]]}<span>${x[1]}${x[0]==='cards'?' <em style="font-style:normal;color:#a08a7c">(normal)</em>':''}<small>${x[2]}</small></span></button>`).join('')}</div>
+${cur!=='blocks'?`<label class="f">Promotion valid until <input type="date" id="lyUntil" value="${esc(P.promoUntil||'')}"></label>`:''}`;
+  $$('[data-ly]',box).forEach(b=>b.onclick=()=>{P.layout=b.dataset.ly;saveCase();lyPanel();scheduleRender();});
+  const u=$('#lyUntil');if(u)u.onchange=()=>{P.promoUntil=u.value;saveCase();scheduleRender();};
+}
+
 /* Print / Save as PDF. The browser blocks window.print() when the studio is shown inside a preview pane or an embedded page, and then nothing happens at all. So: build the pages, try to print, and when the print window never opened say so and offer the PDF pages as a file that prints from any normal browser tab */
 async function printPdf(){
   const b=$('#doPrint'),t0=b?b.textContent:'';

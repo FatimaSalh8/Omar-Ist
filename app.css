@@ -562,3 +562,14 @@ html[lang=ar] #login .lg-eye{right:auto;left:8px}
 #login .lg-go:focus-visible,#login .lg-eye:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @media (max-height:850px){#login .lg-box{padding:12px 22px 14px}#login .lg-logo img{height:44px}#login .lg-h{margin-top:4px;font-size:18px}#login .lg-s{margin:2px 0 4px;font-size:12px}#login .lg-l{margin:6px 0 3px}#login input[type=email],#login input[type=password],#login input[type=text]{padding:9px 13px;font-size:14px}#login .lg-ck{margin-top:8px}#login .lg-er{min-height:14px;margin-top:4px}#login .lg-go{padding:10px 16px}}
 @media (max-height:700px){#login .lg-s{display:none}}
+
+/* Monthly Performance Statistics: the 6-month forecast table of the old portal */
+.st-fc th{vertical-align:middle;font-size:9.5px}.st-fc th.c{text-align:center}.st-fc .st-g1{background:#f1f2f6}.st-fc .st-g2{background:#eef0fc}
+.st-fc tr.on td{background:#fdf8e7}.st-fc td.st-ok{color:#059669;font-weight:800}
+.st-tin{width:70px;text-align:right;border:1px solid #e3ddd8;border-radius:6px;padding:2px 6px;font:inherit;background:#fff}
+.st-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:8px}
+.st-tiers div{border:1px solid #e3ddd8;border-radius:10px;padding:10px;text-align:center;background:#fff}.st-tiers div.on{border-color:#7c3aed;box-shadow:0 0 0 2px #ede9fe}
+.st-tiers small{display:block;font-size:10px;color:#6b6c80}.st-tiers b{display:block;font-size:18px;color:#7c3aed;margin:2px 0}.st-tiers i{font-size:9px;color:#9b9cbb}
+.st-rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:8px}
+.st-rates div{display:flex;justify-content:space-between;border:1px solid #e3ddd8;border-radius:8px;padding:9px 11px;background:#fff;font-size:12px}.st-rates span{color:#4f46e5;font-weight:700}
+html.dark .st-fc .st-g1,html.dark .st-fc .st-g2{background:transparent}html.dark .st-tiers div,html.dark .st-rates div,html.dark .st-tin{background:transparent}

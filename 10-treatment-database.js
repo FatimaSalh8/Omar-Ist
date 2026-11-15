@@ -57,7 +57,22 @@ const TRD_ADD44=[['i_fiberpost','Fiber Post',{fr:'Tenon fibré',ar:'وتد أل�
 function trdAdd44(db){try{if(db.add44)return db;const tc=db.cats.find(c=>c.name==='Treatments')||db.cats.find(c=>c.kind=='t');if(tc){
   TRD_ADD44.forEach(([id,n,tn])=>{if(!db.cats.some(c=>(c.items||[]).some(t=>t.id===id||trdHK(t.n)===trdHK(n))))tc.items.push({id,n,b:0,l:0,x:0,e:[],tn:Object.assign({},tn)});});}
  db.add44=1;}catch(e){}return db}
-function trdLoad(){return trdAdd44(trdLoad0())}
+/* 2026-11 (once): only the implant brands Medigma, Straumann, Nobel and Ziacom, only Vita and Ivoclar crowns,
+   and only the Elite World and Ramada hotels. Ziacom and the two hotels come WITHOUT a price: they show in the calculators
+   once the administrator writes their prices in the Treatment Database. Done once (flag trim1), so items added later stay. */
+const TRD_TRIM_IMP=/medigma|straumann|nobel|ziacom/i,TRD_TRIM_CR=/vita|ivoclar/i;
+const TRD_ZIACOM=['i_ziacom','Ziacom - Spanish Implants',{fr:'Ziacom - Implants espagnols',ar:'Ziacom - زرعات إسبانية',tr:'Ziacom - İspanyol İmplantları',ru:'Ziacom - испанские импланты',es:'Ziacom - Implantes españoles',de:'Ziacom - Spanische Implantate',ro:'Ziacom - Implanturi spaniole',it:'Ziacom - Impianti spagnoli',pt:'Ziacom - Implantes espanhóis'}];
+const TRD_HOTELS1=[['i_h_elite','Nights - Elite World Hotel'],['i_h_ramada','Nights - Ramada Hotel']];
+function trdTrim1(db){try{if(db.trim1)return db;
+ db.cats.forEach(c=>{const nm=String(c.name||'');if(!Array.isArray(c.items))return;
+  if(c.kind=='h'){c.items=[];TRD_HOTELS1.forEach(([id,n])=>c.items.push({id,n,b:0,l:0,x:0,e:['hotel'],tn:{}}));return}
+  if(/implant/i.test(nm))c.items=c.items.filter(t=>TRD_TRIM_IMP.test(t.n||''));
+  else if(/crown/i.test(nm))c.items=c.items.filter(t=>TRD_TRIM_CR.test(t.n||''));
+  else c.items=c.items.filter(t=>!/multi ?unit/i.test(t.n||'')||TRD_TRIM_IMP.test(t.n||''));});
+ const ic=db.cats.find(c=>/implant/i.test(String(c.name||''))&&c.kind!='h');const [zid,zn,ztn]=TRD_ZIACOM;
+ if(ic&&!db.cats.some(c=>(c.items||[]).some(t=>/ziacom/i.test(t.n||''))))ic.items.splice(Math.min(ic.items.length,1),0,{id:zid,n:zn,b:0,l:0,x:0,e:[],tn:Object.assign({},ztn),p:'imp'});
+ db.trim1=1;try{S('kc_pricedb',db)}catch(e){}}catch(e){}return db}
+function trdLoad(){return trdTrim1(trdAdd44(trdLoad0()))}
 function trdLoad0(){const d=trdDef(),s=L('kc_pricedb',null);if(!s||!Array.isArray(s.cats))return d;
  const sd=new Map(),sc=new Map();TRD_SEED.forEach(c=>{sc.set(c.name,c);c.items.forEach(t=>{if(!sd.has(t.n))sd.set(t.n,t)})});
  let cats=s.cats.map(c=>({...c,tn:(c.tn&&typeof c.tn=='object')?c.tn:{...((sc.get(c.name)||{}).tn||{})},items:(c.items||[]).map(t=>{const q=sd.get(t.n)||{};return{...t,e:Array.isArray(t.e)?t.e:(q.e||[]).slice(),tn:(t.tn&&typeof t.tn=='object')?t.tn:{...(q.tn||{})},...(t.p===undefined&&q.p?{p:q.p}:{}),...(t.h===undefined&&trdHi(t.n)?{h:trdHi(t.n)}:{})}})}));

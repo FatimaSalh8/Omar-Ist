@@ -48,10 +48,53 @@ function stBreak(C){
   +Object.keys(o).map(k=>`<tr><td>${esc(f(k))}</td><td class="n">${o[k].n}</td>${h[1]?`<td class="n">${cxE(o[k].o)}</td>`:''}<td class="n">${cxE(o[k].e)}</td></tr>`).join('')+`</tbody></table>`;
  return `<div class="st-two"><div>${tb(['Payment'],pay,k=>ti(k))}</div><div>${tb(['Currency','Original amount'],cur,k=>k)}</div></div>`}
 
+
+/* ---------- LIVE from the Ticket Calendar and the Deposit Calendar (as in the old portal) ----------
+   Tickets received = tickets whose "Booking Made On" is in the month. Patients arrived = tickets whose arrival is in the month.
+   Expected cash = the Visit Payment of the tickets arriving that month; the hotel (nights x price per night) is taken off to give the net.
+   Deposits received = deposits whose "Deposit Made On" is in the month; a deposit with a payment link earns the deposit bonus.
+   The commission % follows the same tiers as Commission Structure & Audits. Targets are kept per month on this device (kc_targets). */
+let STG=L('kc_targets',{});
+const stEur=(m,a,c)=>{a=parseFloat(a);if(!isFinite(a)||!a)return 0;c=String(c||'USD').toUpperCase().trim();if(c==='EUR')return a;
+ const M=typeof CXM!='undefined'&&CXM[m],r=(M&&cxRate(M,c))||cxDefRates()[c];return r>0?a*r:0};
+const stOk=t=>t.visitType!=='Canceled'&&t.visitType!=='Unsold';
+function stLive(m){
+ const T=(D.tickets||[]).filter(stOk),P=(D.deposits||[]),inM=v=>String(v||'').startsWith(m);
+ const booked=T.filter(t=>inM(t.bookingMadeOn)),arr=T.filter(t=>inM(t.arrivalDate)),deps=P.filter(d=>inM(d.depositMadeOn));
+ const cash=arr.reduce((s,t)=>s+stEur(m,t.pay1,t.currency),0),hotel=arr.reduce((s,t)=>s+stEur(m,(+t.nights||0)*(+t.pricePerNight||0),t.currency),0);
+ const exp=booked.reduce((s,t)=>s+stEur(m,t.pay1,t.currency),0),net=cash-hotel,Ts=cxTiers(),pct=cxPct(Math.max(0,net)),depE=deps.reduce((s,d)=>s+stEur(m,d.amount,d.currency),0),linked=deps.filter(d=>/^https?:/i.test(d.depositLink||'')).length;
+ const g=STG[m]||{},tg={dep:+g.dep||0,tix:+g.tix||0,cash:+g.cash||0},hit=(tg.dep||tg.tix||tg.cash)&&(!tg.dep||deps.length>=tg.dep)&&(!tg.tix||booked.length>=tg.tix)&&(!tg.cash||exp>=tg.cash);
+ return{m,exp,tix:booked.length,arr:arr.length,deps:deps.length,depE,cash,hotel,net,pct,comm:Math.round(Math.max(0,net)*pct)/100,bonus:linked*CXS.dep,linked,tg,hit:!!hit,tb:hit?(+STG._bonus||0):0}}
+function stTgSet(m,k,v){const g=STG[m]=STG[m]||{};v=Math.max(0,parseFloat(v)||0);if(v)g[k]=v;else delete g[k];if(!Object.keys(g).length)delete STG[m];S('kc_targets',STG);rStats()}
+function stTgBonus(v){STG._bonus=Math.max(0,parseFloat(v)||0);S('kc_targets',STG);rStats()}
+/* the 6-month forecast: the month chosen and the 5 months after it */
+const stNext=(m,n)=>{const[y,q]=m.split('-').map(Number),o=[];for(let i=0;i<n;i++){const d=new Date(y,q-1+i,1);o.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}return o};
+function stLiveHtml(m){
+ const X=stLive(m),cur=nm(),eu=v=>money(v),k=(l,v,c)=>`<div class="cx-tile"><span>${esc(l)}</span><b style="color:${c}">${v}</b></div>`;
+ let h=`<div class="cx-sum"><div class="cx-sumh"><b class="lux uppercase tracking-wider text-sm" style="color:#c9a24a">${esc(ti('{0} Performance Summary',mn(m)))}</b><span style="font-size:10px;color:#9b9cbb">${esc(ti('Consolidated Executive Metrics'))}</span></div><div class="cx-tiles" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">`
+  +k(ti('Month Total Cash'),eu(X.cash),'#34d399')+k(ti('Net Total'),eu(X.net),'#818cf8')+k(ti('Patients Arrived'),X.arr,'#fbbf24')+k(ti('Commission Amount'),eu(X.comm),'#c084fc')+k(ti('Total Bonuses'),eu(X.tb)+' + '+cxN(X.bonus)+' ₺','#60a5fa')+`</div></div>`;
+ const tin=(mm,key,v)=>`<input type="number" min="0" step="1" value="${v||0}" onchange="stTgSet('${mm}','${key}',this.value)" class="st-tin" aria-label="${esc(ti(key=='dep'?'Deposit Target':key=='tix'?'Tickets Target':'Cash Target'))}">`;
+ const R6=stNext(m,6).map(stLive);
+ h+=`<div class="st-card" style="padding:0;overflow:hidden"><div class="cx-wrap" style="margin:0;border:0"><table class="st-t st-fc" style="min-width:1180px"><thead>`
+  +`<tr><th rowspan="2">${esc(ti('Month (6-Month Forecast)'))}</th><th colspan="3" class="c st-g1">${esc(ti('Target Criteria'))}</th><th colspan="3" class="c st-g2">${esc(ti('Expected Income Performance'))}</th><th rowspan="2" class="n">${esc(ti('Month Total Cash'))} (€)</th><th rowspan="2" class="n">${esc(ti('Net Total'))} (€)</th><th rowspan="2" class="n">${esc(ti('Patients Arrived'))}</th><th rowspan="2" class="n">${esc(ti('Comm. %'))}</th><th rowspan="2" class="n">${esc(ti('Comm. Amount'))} (€)</th><th rowspan="2" class="n">${esc(ti('Target Bonus'))} (€)</th><th rowspan="2" class="n">${esc(ti('Deposit Bonus'))} (₺)</th></tr>`
+  +`<tr><th class="n st-g1">${esc(ti('Deposit Target'))}</th><th class="n st-g1">${esc(ti('Tickets Target'))}</th><th class="n st-g1">${esc(ti('Cash Target'))} (€)</th><th class="n st-g2">${esc(ti('Deposits Rec’d'))}</th><th class="n st-g2">${esc(ti('Tickets Rec’d'))}</th><th class="n st-g2">${esc(ti('Income Cash Exp.'))} (€)</th></tr></thead><tbody>`
+  +R6.map(x=>`<tr class="${x.m===m?'on':''}"><td style="white-space:nowrap">${esc(mn(x.m))}${x.m===cur?' ('+esc(ti('Active'))+')':''}</td>`
+   +`<td class="n st-g1">${tin(x.m,'dep',x.tg.dep)}</td><td class="n st-g1">${tin(x.m,'tix',x.tg.tix)}</td><td class="n st-g1">${tin(x.m,'cash',x.tg.cash)}</td>`
+   +`<td class="n st-g2${x.tg.dep&&x.deps>=x.tg.dep?' st-ok':''}">${x.deps}</td><td class="n st-g2${x.tg.tix&&x.tix>=x.tg.tix?' st-ok':''}">${x.tix}</td><td class="n st-g2${x.tg.cash&&x.exp>=x.tg.cash?' st-ok':''}">${cxE(x.exp)}</td>`
+   +`<td class="n" style="color:#059669">${cxE(x.cash)}</td><td class="n" style="color:#4f46e5">${cxE(x.net)}</td><td class="n" style="color:#d97706">${x.arr}</td><td class="n" style="color:#7c3aed">${x.pct}%</td><td class="n" style="color:#7c3aed"><b>${cxE(x.comm)}</b></td><td class="n">${x.tb?cxE(x.tb):'0'}</td><td class="n">${cxN(x.bonus)}</td></tr>`).join('')
+  +`</tbody></table></div></div>`;
+ h+=`<div class="st-card np" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center"><label class="text-xs font-bold">${esc(ti('Target Bonus'))} (€): <input type="number" min="0" step="1" class="cx-in" style="width:110px" value="${+STG._bonus||0}" onchange="stTgBonus(this.value)"></label><span style="font-size:11px;color:#6b6c80">${esc(ti('Paid in a month where every target that is set is reached. Type the targets straight into the table.'))}</span></div>`;
+ const T=cxTiers();
+ h+=`<div class="st-card"><h3>💎 ${esc(ti('Tiered Commission Rate Reference Structure'))}</h3><div class="st-tiers">${T.map((t,i)=>`<div class="${X.pct===t[1]&&cxTierI(X.net)===i?'on':''}"><small>${esc(cxRange(i))} €</small><b>${t[1]}%</b><i>* ${esc(ti('Net Total'))} (€)</i></div>`).join('')}</div>`;
+ const RT=(typeof CXM!='undefined'&&CXM[m]&&CXM[m].rates)?Object.assign({},cxDefRates(),CXM[m].rates):cxDefRates();
+ h+=`<h3 style="margin-top:16px">💱 ${esc(ti('Active Currency Conversion Rates (to EUR)'))}</h3><div class="st-rates">${['EUR','USD','GBP','CAD','AUD','TRY'].map(c=>`<div><b>${c}</b><span>${(+RT[c]||0).toLocaleString('en-US',{maximumFractionDigits:4})} EUR</span></div>`).join('')}</div>`
+  +`<p style="font-size:10px;color:#9b9cbb;margin:10px 0 0">${esc(ti('Month Total Cash = Visit Payment of the tickets arriving in the month; Net Total = cash minus hotel. Income Cash Exp. = Visit Payment of the tickets booked in the month. Canceled and unsold tickets are left out.'))}</p></div>`;
+ return h}
 function rStats(){
- const m=cxSel(),C=cxCalc(m),ms=stMonths(m,6);let h=`<div class="cx-h"><div><h2 class="lux font-bold text-lg uppercase tracking-wider">${esc(ti('Monthly Performance Statistics'))}</h2><p class="text-xs text-slate-500">${esc(ti('Consultant view'))}: <b>${esc(ME_NAME)}</b> — ${esc(ti('Sales consultant'))}</p></div>`
-  +`<div class="cx-bar np"><label class="text-xs font-bold">${esc(ti('Month'))}:</label><input type="month" id="sm" value="${m}" onchange="cxMonthSet(this.value);rStats()" class="cx-in"><button type="button" class="ep-btn" onclick="$('sm').value=nm();cxMonthSet(nm());rStats()">${esc(ti('Current Month'))}</button></div></div>`;
+ const m=cxSel(),C=cxCalc(m),ms=stMonths(m,6);let h=`<div class="cx-h"><div><h2 class="lux font-bold text-lg uppercase tracking-wider">${esc(ti('Monthly Performance Statistics'))}</h2><p class="text-xs text-slate-500">${esc(ti('Target criteria, expected cash, tiered commission breakdown, and bonus audits.'))}</p></div>`
+  +`<div class="cx-bar np"><button type="button" class="ep-btn ep-gold" onclick="print()">🖨 ${esc(ti('Print / PDF Export'))}</button><label class="text-xs font-bold">${esc(ti('Filter Month'))}:</label><input type="month" id="sm" value="${m}" onchange="cxMonthSet(this.value);rStats()" class="cx-in"><button type="button" class="ep-btn" onclick="$('sm').value=nm();cxMonthSet(nm());rStats()">${esc(ti('Current Month'))}</button></div></div>`;
  const all=ms.map(x=>cxCalc(x)),any=all.some(Boolean);
+ h+=stLiveHtml(m)+`<h3 class="lux font-bold uppercase tracking-wider text-sm" style="margin:26px 0 8px;color:#a08a7c">${esc(ti('Commission from the monthly Excel sheet'))}</h3>`;
  if(!any){
   h+=`<div class="cx-empty"><b>${esc(ti('No figures yet.'))}</b><p>${esc(ti('Upload the Excel sheet of a month under Commission Structure & Audits and the statistics appear here.'))}</p><p style="margin-top:10px"><button type="button" class="ep-btn ep-gold" onclick="tab='commission';render()">${esc(ti('Open Commission Structure & Audits'))}</button></p></div>`;
   $('vs').innerHTML=h;return}

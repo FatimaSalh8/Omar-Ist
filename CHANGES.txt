@@ -1,4 +1,17 @@
-Ömar Istanbul by Rima — version 1.3 (2026-11-12)
+Ömar Istanbul by Rima — version 1.4 (2026-11-15)
+
+NEW IN 1.4
+- TREATMENT DATABASE (changed once on every device): implants only Medigma, Straumann, Nobel and Ziacom; crowns only Vita and Ivoclar;
+  hotels only Elite World Hotel and Ramada Hotel. Ziacom and the two hotels have NO price yet: write their prices in the Treatment Database
+  and they appear in the calculators. The multiunit abutments of the removed implant brands are removed too.
+- MONTHLY PERFORMANCE STATISTICS: like the old portal, linked to the Ticket Calendar and the Deposit Calendar. Performance summary,
+  6-month forecast with Target Criteria (deposit, tickets, cash targets typed into the table) and Expected Income Performance
+  (deposits received, tickets received, income cash expected), commission tiers and currency rates. The Excel commission stays below.
+- PDF LAYOUT (Omer Istanbul Dental Center → Price & PDF → PDF): a small box to choose how the plans look:
+  "Option cards" (the normal one: promotion banner, one card per option with the dot chart and the price), "Tooth blocks"
+  (the earlier boxed chart + packages) or "Simple table". A "Promotion valid until" date goes on the banner.
+
+VERSION 1.3 (2026-11-12)
 
 NEW IN 1.3
 - OPENING PAGE: the team picture of the clinic is the background, with the sign-in of the owner on a glass card (e-mail + password,
