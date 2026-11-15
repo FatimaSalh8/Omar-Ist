@@ -3054,7 +3054,7 @@ async function renderDoc(){
   await bakeMesh();
   applyTheme();
   await bakePhotos(secOrder().filter(id=>!secOff(id)));
-  const pages=[],only=pdfLayout()==='table'?['pre','options']:null;secOrder().forEach(id=>{if(only&&!only.includes(id))return;if(!secOff(id))pages.push(...SECFN[id]());});
+  const pages=[];secOrder().forEach(id=>{if(!secOff(id))pages.push(...SECFN[id]());});
   const N=pages.length;let n=0;
   wrap.innerHTML=pages.map(h=>trHtml(h).replace('{{PG}}',()=>`${++n} / ${N}`)).join('');wrap.classList.toggle('kp-ar',pdfLang()==='ar');wrap.setAttribute('lang',pdfLang());
   // cover (page 1 or any) has no footer; renumber is by footer order, so recount using real page index

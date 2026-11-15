@@ -1,4 +1,11 @@
-Ömar Istanbul by Rima — version 1.6 (2026-11-15)
+Ömar Istanbul by Rima — version 1.7 (2026-11-15)
+
+NEW IN 1.7
+- Simple table: the PDF has all its pages again (team picture, title page, pre-treatment, the simple plan page of each option,
+  what is included, next steps, trust, doctor and contact). Only the package cards are left out. Every chart is drawn with outlined teeth.
+- Appointment Planning sheet: the Omer Istanbul logo at the top; the address, phone, e-mail and website of Omer Istanbul Dental Center at the bottom.
+
+VERSION 1.6 (2026-11-15)
 
 NEW IN 1.6
 - The old tooth chart with the gums is no longer used anywhere in the PDF. Each layout has its own chart, on every page (pre-treatment too):
