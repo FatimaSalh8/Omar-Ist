@@ -2,7 +2,9 @@
 const L=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
 /* ONE user (Rima, the administrator). The data stays on this device — see local-cloud.js */
 const CLOUD=false;
-const S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){try{window.dispatchEvent(new CustomEvent('omr-notsaved',{detail:{k,why:'the storage of this browser is full'}}))}catch(x){}}};
+/* photos are switched off for now (Follow up Messages photos, Before and After, Accommodation, Status). Set to false to bring them back. */
+window.OMR_NO_PHOTOS=true;
+const S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));if(!/^kc_bk_|^kc_auth$/.test(k))try{window.dispatchEvent(new CustomEvent('omr-changed',{detail:{k}}))}catch(x){}}catch(e){try{window.dispatchEvent(new CustomEvent('omr-notsaved',{detail:{k,why:'the storage of this browser is full'}}))}catch(x){}}};
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fd=s=>s?s.split('-').reverse().join('/'):'';

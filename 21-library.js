@@ -19,7 +19,7 @@
   var tt = function () { return typeof ti === 'function' ? ti.apply(null, arguments) : arguments[0]; };
   var isAdm = function () { return typeof me !== 'undefined' && me === 'admin'; };
   var PAGE = { ba: 8, sx: 8, ac: 40 };               /* records asked at a time */
-  var TOPS = ['ba', 'ac', 'sx'], NAMES = { ba: 'Before and After', ac: 'Accommodation', sx: 'Status' };
+  var TOPS = window.OMR_NO_PHOTOS ? [] : ['ba', 'ac', 'sx'], NAMES = { ba: 'Before and After', ac: 'Accommodation', sx: 'Status' };
   var GEN = [['m', 'Men'], ['f', 'Women']];
   var SKIN = [['w', 'White', '#f3d9c6'], ['br', 'Brown', '#a8714a'], ['bk', 'Black', '#4a2e22']];
   var DEF = [['zc', 'Zirconium Crowns'], ['ec', 'E-max Crowns'], ['vn', 'Veneers'], ['im', 'Implants'], ['a4', 'All on 4'], ['a6', 'All on 6'], ['zy', 'Zygomatic'], ['hs', 'Hollywood Smile'], ['al', 'Aligners']];

@@ -1,4 +1,13 @@
-Ömar Istanbul by Rima — version 2.4 (2026-11-15)
+Ömar Istanbul by Rima — version 2.5 (2026-11-15)
+
+NEW IN 2.5
+- Photos are switched off for now: no photo boxes in Follow up Messages and Patient Explanations, no Before and After,
+  Accommodation or Status galleries. Photos already saved are kept (not deleted); one setting (OMR_NO_PHOTOS in 01-core.js) brings them back.
+- Cloud copy (Firebase): every change (tickets, deposits, pipeline, prices, targets, saved plans, saved cases, settings) is sent
+  about 4 seconds after it is made, every minute as a safety net, and when the portal is closed. It starts as soon as
+  firebase-config.js holds the values of the Omer Istanbul Firebase project and Rima signs in (Settings → Backup & Cloud).
+
+VERSION 2.4 (2026-11-15)
 
 NEW IN 2.4
 - The update message is now the sign-in look: the team picture, a glass card and the small Omer Istanbul logo.

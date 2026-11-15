@@ -392,6 +392,7 @@
     if (!hasT && !p.ph) return '';
     var pn = showN ? '<span class="ep-pn">' + esc(tt('Part {0} of {1}').replace('{0}', i + 1).replace('{1}', Q.length)) + '</span>' : '';
     var miss = !!(p.ph && !phL(p.ph, p.l)), hasImg = !!p.ph && !miss;
+    if (window.OMR_NO_PHOTOS) { miss = false; hasImg = false; if (!hasT) return ''; }
     var bar = hasImg
       ? pn + '<button type="button" class="ep-btn ' + (dp ? 'ep-ok' : 'ep-gold') + '" data-ex="cphoto" data-v="' + esc(k) + '">' + (dp ? '&#10003; ' + esc(tt('Photo copied')) : '1 &middot; ' + esc(tt('Copy photo'))) + '</button>'
         + (hasT ? '<button type="button" class="ep-btn ' + (dt ? 'ep-ok' : 'ep-gold') + '" data-ex="ctxt" data-v="' + esc(k) + '">' + (dt ? '&#10003; ' + esc(tt('Text copied')) : '2 &middot; ' + esc(tt('Copy text'))) + '</button><button type="button" class="ep-btn ' + (done ? 'ep-ok' : '') + '" data-ex="cpart" data-v="' + esc(k) + '">' + (done ? '&#10003; ' + esc(tt('Copied')) + ' - ' + esc(tt('photo + text')) : esc(tt('Photo + text together'))) + '</button>' : '')
@@ -407,7 +408,8 @@
     if (lgOn && lkOf(key) && lkOf(key) !== lgP()) { var m2 = msgOf(key); if (m2) m = m2; }
     var mid = key + (o.only ? '#' + o.only.join('.') : ''), mn = mmGet(sc, mid);
     var Q = m.parts, idx = o.only || Q.map(function (p, i) { return i; }), nph = idx.filter(function (i) { return Q[i].ph; }).length;
-    var pick = (!!o.pick && idx.length > 1) || (lgOn && idx.length > 1 && nph > 1);   /* several pictures: the small ones are shown to choose from, then the chosen one (a list of text-only parts stays a list) */
+    var pick = (!!o.pick && idx.length > 1) || (lgOn && idx.length > 1 && nph > 1);
+    if (window.OMR_NO_PHOTOS) { pick = false; idx = idx.filter(function (i) { return (Q[i].t || '').trim(); }); if (!idx.length) return ''; o = Object.assign({}, o, { only: idx.length < Q.length ? idx : o.only }); }   /* several pictures: the small ones are shown to choose from, then the chosen one (a list of text-only parts stays a list) */
     var multi = Q.length > 1 && !o.only && !o.pick && !o.noall, body;
     if (pick) {
       var sel = idx.indexOf(SEL[key]) >= 0 ? SEL[key] : idx[0];

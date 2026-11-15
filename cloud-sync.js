@@ -149,7 +149,11 @@ const CL=(()=>{
  function start(){
   if(!ON||started)return;started=true;
   setTimeout(()=>{load().then(()=>{if(user)check();else if(!sessionStorage.getItem('cl_nudge')){sessionStorage.setItem('cl_nudge','1');try{toast(t('Sign in to the cloud copy (menu: Backup).'))}catch(e){}}}).catch(()=>{})},3000);
-  setInterval(()=>tick(false),90000);
+  setInterval(()=>tick(true),60000);
+  /* every change on this device is sent a few seconds later (nothing waits for the minute) */
+  {let tt=0;window.addEventListener('omr-changed',()=>{clearTimeout(tt);tt=setTimeout(()=>tick(true),4000)});
+   window.addEventListener('message',e=>{if(e&&e.data&&e.data.omrChanged){clearTimeout(tt);tt=setTimeout(()=>tick(true),4000)}});
+   window.addEventListener('beforeunload',()=>{try{tick(true)}catch(x){}})}
   document.addEventListener('visibilitychange',()=>{if(document.hidden)tick(true);else if(user)check()});
  }
  start();
