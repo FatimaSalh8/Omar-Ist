@@ -31,7 +31,7 @@ function render(){
  S('kc_lasttab_'+me,tab);
  buildNav();
  Object.values(VIEWS).forEach(id=>{const v=$(id);if(v)v.classList.toggle('hidden',id!=VIEWS[tab])});
- document.body.classList.toggle('kps-full',tab=='kps');
+ document.body.classList.toggle('kps-full',tab=='kps');if(tab=='kps')setTimeout(()=>{try{window.scrollTo(0,0);const v=$('vkps');if(v)v.scrollTop=0}catch(e){}},0);
  if(window.KPS&&KPS.seen)KPS.seen(tab);
  if(tab=='kps')return window.KPS&&KPS.render();
  if(tab=='kpsc')return window.KPS&&KPS.cases();

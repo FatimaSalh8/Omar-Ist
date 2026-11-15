@@ -39,37 +39,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #st tr.stsel td{background:#fde68a!important}
 tr.bg-red-200 td{color:#881337}tr.bg-blue-100 td{color:#1e40af}tr.bg-slate-300 td{color:#3a3e70;background:#e3ddd8}tr.bg-yellow-100 td{color:#713f12}tr.bg-pink-100 td{color:#831843}tr.bg-green-100 td{color:#14532d}tr.bg-slate-200 td{color:#3a3e70}
 .bg-silver{background:linear-gradient(135deg,#eceef1 0%,#bcc0c7 52%,#d9dbe0 100%)}tr.bg-silver{background:#c4c8ce}tr.bg-silver td{color:#1f2937}
-
-/* Dark mode: the whole page is turned over (invert + hue-rotate), so every screen follows without being touched one by one.
-   Pictures, bright buttons, the gold and the printable A4 pages are turned back, so they look as they always did.
-   The colours below are written "before the turn": they show on screen as dark grey cards (#1b2029) on a darker page (#12151b). */
-html[data-theme=dark]{filter:invert(1) hue-rotate(180deg);background:#e7eaf0}
-html[data-theme=dark] body{background:#e7eaf0}
-html[data-theme=dark] img,html[data-theme=dark] video,html[data-theme=dark] canvas,html[data-theme=dark] .g,
-html[data-theme=dark] .bg-slate-900,html[data-theme=dark] .bg-slate-800,html[data-theme=dark] .bg-slate-700,html[data-theme=dark] .bg-slate-600,
-html[data-theme=dark] .bg-indigo-600,html[data-theme=dark] .bg-red-600,html[data-theme=dark] .bg-emerald-500,html[data-theme=dark] .bg-emerald-600,html[data-theme=dark] .bg-emerald-800,
-html[data-theme=dark] .bg-sky-500,html[data-theme=dark] .bg-sky-600,html[data-theme=dark] .bg-amber-500,
-html[data-theme=dark] .plsr,html[data-theme=dark] .ttsr,html[data-theme=dark] .qpsr,html[data-theme=dark] .tpsr{filter:invert(1) hue-rotate(180deg)}
-html[data-theme=dark] .bg-white{background-color:#dbe0e9}
-html[data-theme=dark] .bg-slate-50{background-color:#d4dae3}
-html[data-theme=dark] .bg-slate-100{background-color:#ccd3de}
-html[data-theme=dark] .bg-slate-200{background-color:#c4ccd8}
-html[data-theme=dark] .bg-red-50{background-color:#ecdde0}
-html[data-theme=dark] .bg-emerald-50{background-color:#cfe0d8}
-html[data-theme=dark] .bg-green-50{background-color:#cde1d5}
-html[data-theme=dark] .bg-indigo-50{background-color:#d7dbfa}
-html[data-theme=dark] .bg-amber-50{background-color:#e1daca}
-html[data-theme=dark] .bg-amber-100{background-color:#e0d5bb}
-html[data-theme=dark] .bg-sky-50{background-color:#ccdef2}
-html[data-theme=dark] th,html[data-theme=dark] .cm th{background:#c9d1dd}
-html[data-theme=dark] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),html[data-theme=dark] select,html[data-theme=dark] textarea{background-color:#cfd6e1}
-html[data-theme=dark] #offbar>div,html[data-theme=dark] #cv [style*="background:#ffffff"]{background:#dbe0e9!important}
-html[data-theme=dark] #cv [style*="background:#f7f3ef"]{background:#dfe4eb!important}
-html[data-theme=dark] #cv [style*="background:#efe9e3"]{background:#c9d1dd!important}
-html[data-theme=dark] .bg-slate-900\/95{background-color:rgba(231,234,240,.96)}
-html[data-theme=dark] .bg-slate-900\/60{background-color:rgba(231,234,240,.62)}
 .thmb{white-space:nowrap}
-@media print{html[data-theme=dark]{filter:none;background:#fff}html[data-theme=dark] body{background:#fff}}
+
 
 /* ---------- version 2.2: explanation blocks, Follow Up window, saved plans, requests, messages, online status ---------- */
 .ep-btn{display:inline-flex;align-items:center;gap:4px;border:1px solid #d8cfc8;background:#f7f3ef;color:#161a59;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:800;line-height:1.25;cursor:pointer;text-align:center}
@@ -84,7 +55,6 @@ html[data-theme=dark] .bg-slate-900\/60{background-color:rgba(231,234,240,.62)}
 .ep-car{font-size:12px;color:#6e7099;width:14px;flex:none}
 .ep-mbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid #e3ddd8;border-radius:10px;background:#f7f3ef;padding:6px 10px}
 .ep-mbar .lux{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#4b4f80}
-html[data-theme=dark] .ep-mbar{background-color:#d4dae3}
 .ep-chip{display:inline-block;border-radius:999px;background:#e3ddd8;color:#3a3e70;font-size:10px;font-weight:800;padding:1px 8px;white-space:nowrap}
 .ep-chip.ep-warn{background:#fef3c7;color:#92400e}.ep-chip.ep-okc{background:#d1fae5;color:#065f46}.ep-chip.ep-badc{background:#fee2e2;color:#991b1b}
 .ep-n{display:inline-block;min-width:16px;border-radius:999px;background:#dc2626;color:#fff;font-size:10px;font-weight:800;line-height:16px;text-align:center;padding:0 5px;margin-left:6px}
@@ -227,19 +197,6 @@ html[data-theme=dark] .ep-mbar{background-color:#d4dae3}
 .ep-draft{display:none;align-items:center;gap:8px;flex-wrap:wrap;border:1px solid #fcd34d;background:#fffbeb;border-radius:10px;padding:8px 10px}.ep-draft.ep-on{display:flex}
 .ep-pin{border:2px solid #a08a7c;background:#fffbeb;border-radius:12px;padding:8px 10px;margin-bottom:8px}
 @media (max-width:640px){.ep-msgs{height:56vh}.ep-m{max-width:94%}}
-/* dark mode: the page is turned over, so whites are written as the greys they should become */
-html[data-theme=dark] .ep-gold,html[data-theme=dark] .ep-ph,html[data-theme=dark] .ep-tab.ep-on,html[data-theme=dark] .ep-who button.ep-on,html[data-theme=dark] .ep-vc button,html[data-theme=dark] .ep-btn.ep-yes,html[data-theme=dark] .ep-btn.ep-bad,html[data-theme=dark] .ep-n,html[data-theme=dark] .ep-lb{filter:invert(1) hue-rotate(180deg)}
-html[data-theme=dark] .ep-pop{background-color:#dbe0e9}
-html[data-theme=dark] .ep-hbtn{background-color:#d4dae3}
-html[data-theme=dark] .ep-panel,html[data-theme=dark] .ep-box,html[data-theme=dark] .ep-md,html[data-theme=dark] .ep-blk,html[data-theme=dark] .ep-m:not(.ep-mine),html[data-theme=dark] .ep-lr,html[data-theme=dark] .ep-sbtn{background-color:#dbe0e9}
-html[data-theme=dark] .ep-pt,html[data-theme=dark] .ep-note:not(.ep-okn):not(.ep-badn),html[data-theme=dark] .ep-tile,html[data-theme=dark] .ep-side,html[data-theme=dark] .ep-msgs,html[data-theme=dark] .ep-cardm:not(.ep-okn):not(.ep-badn),html[data-theme=dark] .ep-btn:not(.ep-ok):not(.ep-on):not(.ep-yes):not(.ep-bad):not(.ep-gold),html[data-theme=dark] .ep-pe{background-color:#d4dae3}
-html[data-theme=dark] .ep-in,html[data-theme=dark] .ep-field input,html[data-theme=dark] .ep-field textarea,html[data-theme=dark] .ep-field select,html[data-theme=dark] .ep-comp textarea{background-color:#cfd6e1}
-html[data-theme=dark] .ep-ov{background:rgba(231,234,240,.62)}
-html[data-theme=dark] .ep-t td.ep-cath,html[data-theme=dark] .ep-t tr.ep-tot td,html[data-theme=dark] .ep-tab,html[data-theme=dark] .ep-who button{background-color:#c9d1dd}
-
-html[data-theme=dark] .ep-tab.ep-redtab{background-color:#b91c1c;filter:invert(1) hue-rotate(180deg)}
-
-html[data-theme=dark] .ep-tr,html[data-theme=dark] .ep-libg,html[data-theme=dark] .ep-mv{background-color:#d4dae3}
 
 /* a person who is already logged in: no login form while the portal opens again (refresh) */
 #lsp{display:none;text-align:center;color:#a08a7c}html.eop-boot #lsp{display:block}html.eop-boot #lf{display:none}
@@ -280,13 +237,6 @@ html[data-theme=dark] .ep-tr,html[data-theme=dark] .ep-libg,html[data-theme=dark
 .ep-pbar i{display:block;height:100%;background:#a08a7c;transition:width .2s}
 .ep-lb img.ep-lbs{width:min(100%,520px);max-height:none;image-rendering:auto}
 .ep-mgbar .ep-bar{margin-top:4px}
-html[data-theme=dark] .ep-lt,html[data-theme=dark] .ep-flt{background-color:#d4dae3}
-html[data-theme=dark] .ep-fb:not(.ep-on){background-color:#cfd6e1}
-html[data-theme=dark] .ep-fb.ep-on{filter:invert(1) hue-rotate(180deg)}
-html[data-theme=dark] .ep-fb .ep-dot[style]{filter:invert(1) hue-rotate(180deg)}
-html[data-theme=dark] .ep-fb.ep-on .ep-dot[style]{filter:none}
-html[data-theme=dark] .ep-lt img{background-color:#dbe0e9}
-html[data-theme=dark] .ep-ltg .ep-dot[style]{filter:invert(1) hue-rotate(180deg)}
 
 .ep-rt{display:inline-flex;align-items:center;gap:4px;border:1px dashed #a08a7c;border-radius:999px;padding:3px 5px;background:#fffbeb}
 .ep-rt b{font-size:12px;padding:0 4px;white-space:nowrap}
@@ -314,12 +264,6 @@ html[data-theme=dark] .ep-ltg .ep-dot[style]{filter:invert(1) hue-rotate(180deg)
 .ep-tabs.ep-sub3 .ep-tab{background:transparent;border:0;border-radius:7px;font-size:11px;font-weight:700;color:#6e7099;padding:4px 10px}
 .ep-tabs.ep-sub3 .ep-tab.ep-on{background:#efe9e3;color:#161a59;box-shadow:inset 0 0 0 1px #d8cfc8}
 .ep-mbar.ep-lite .ep-btn{border:0;background:transparent;color:#4b4f80;font-size:11.5px;padding:2px 4px}
-html[data-theme=dark] .ep-ib{background-color:#cfd6e1}
-html[data-theme=dark] .ep-ib.ep-on{filter:invert(1) hue-rotate(180deg)}
-html[data-theme=dark] .ep-tabs.ep-top .ep-tab,html[data-theme=dark] .ep-tabs.ep-sub2 .ep-tab:not(.ep-on),html[data-theme=dark] .ep-tabs.ep-sub3 .ep-tab:not(.ep-on){background-color:transparent}
-html[data-theme=dark] .ep-tabs.ep-top .ep-tab.ep-on{filter:none}
-html[data-theme=dark] .ep-tabs.ep-sub3 .ep-tab.ep-on{background-color:#cfd6e1;filter:none}
-html[data-theme=dark] .ep-mbar.ep-lite .ep-btn:not(.ep-ok):not(.ep-on):not(.ep-yes):not(.ep-bad):not(.ep-gold){background-color:transparent}
 
 /* version 2.9: the boxes under each package of the Package Plan Calculator are narrow - photo above, text below */
 .ep-panel.ep-cmp .ep-part.ep-hasimg{grid-template-columns:minmax(0,1fr);grid-template-areas:"img" "txt" "bar"}
@@ -378,9 +322,6 @@ html[data-theme=dark] .ep-mbar.ep-lite .ep-btn:not(.ep-ok):not(.ep-on):not(.ep-y
 .fbx-sh i{display:block;height:100%;background:#2563eb}
 .fbx-foot{font-size:11px;color:#6e7099;line-height:1.55}
 
-/* version 2.9: the update message and the 10-minute lock keep their own colours in dark mode */
-html[data-theme=dark] #eopUpd{filter:invert(1) hue-rotate(180deg)}
-
 /* version 3.0: the top bar and the module menu stay in view while the page is scrolled */
 header.eop-hd{position:sticky;top:0;z-index:40;padding-top:7px;padding-bottom:7px}
 header.eop-hd>div{row-gap:6px}
@@ -395,7 +336,6 @@ header.eop-hd>div{row-gap:6px}
  header.eop-hd{position:static}
  aside.eop-aside{top:0;max-height:100vh}
 }
-html[data-theme=dark] aside.eop-aside{background:#fff}
 @media print{header.eop-hd,aside.eop-aside{position:static!important;max-height:none!important}}
 /* version 3.4: Follow up Messages - "Move to..." bar and the up / down arrows of a message (⇅ Reorder) */
 .ep-mvbar{margin:6px 0;padding:8px;border:1px dashed #a08a7c;border-radius:10px;background:#fffbeb}
@@ -412,7 +352,6 @@ html[data-theme=dark] aside.eop-aside{background:#fff}
 #eophi .hi-go{margin-top:26px;background:#a08a7c;color:#161a59;border:0;border-radius:10px;padding:10px 26px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 #eophi .hi-go:focus-visible{outline:2px solid #fff;outline-offset:3px}
 @media (prefers-reduced-motion:no-preference){#eophi .hi-in{animation:eophi .7s ease both}@keyframes eophi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
-html[data-theme=dark] #eophi{filter:invert(1) hue-rotate(180deg)}
 /* version 3.6: the ready message of the supervisor price */
 .ep-supmsg{white-space:pre-wrap;word-break:break-word;font:13px/1.6 var(--ff);color:#161a59;background:#f7f3ef;border:1px solid #e3ddd8;border-radius:10px;padding:12px 14px;margin:10px 0 6px}
 /* version 3.7: Deposit Calendar - the box with the details of the ticked rows */
@@ -426,7 +365,6 @@ html[data-theme=dark] #eophi{filter:invert(1) hue-rotate(180deg)}
 #dinfo pre{margin:0;white-space:pre-wrap;word-break:break-word;font:13px/1.7 var(--ff);color:#161a59}
 #dinfo .dpi-c{align-self:flex-start;background:#a08a7c;color:#161a59;border:0;border-radius:8px;padding:7px 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
 #dinfo .dpi-c.dpi-ok{background:#d1fae5;color:#065f46}
-html[data-theme=dark] #dinfo .dpi-h,html[data-theme=dark] #dinfo .dpi-c{filter:invert(1) hue-rotate(180deg)}
 @media print{#dinfo{display:none!important}}
 
 /* version 4.3: Kristal Plan Studio opens as a full page inside the portal (a thin bar on top brings you back) */
@@ -535,8 +473,6 @@ th{background:#efe9e3;color:#4b4f80}
 #login:before{content:"";position:fixed;top:0;right:0;bottom:0;left:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,12,64,.62) 0%,rgba(8,12,64,.08) 20%,rgba(8,12,64,0) 46%,rgba(8,12,64,.74) 100%)}
 #login.lg-out{opacity:0;pointer-events:none}
 .lgon>*:not(#login){visibility:hidden}
-html[data-theme=dark] #login{filter:invert(1) hue-rotate(180deg)}
-html[data-theme=dark] #login img{filter:none}
 #login .lg-lang{position:fixed;top:14px;right:14px;z-index:2;background:rgba(14,18,78,.55);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 #login .lg-lang option{color:#161a59}
 #login .lg-box{position:relative;width:100%;max-width:430px;margin:auto auto 0;padding:20px 26px 22px;border-radius:22px;background:rgba(12,16,72,.55);border:1px solid rgba(255,255,255,.24);box-shadow:0 24px 70px rgba(0,0,0,.45);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);animation:lgin .7s ease both}
@@ -572,12 +508,10 @@ html[lang=ar] #login .lg-eye{right:auto;left:8px}
 .st-tiers small{display:block;font-size:10px;color:#6b6c80}.st-tiers b{display:block;font-size:18px;color:#7c3aed;margin:2px 0}.st-tiers i{font-size:9px;color:#9b9cbb}
 .st-rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:8px}
 .st-rates div{display:flex;justify-content:space-between;border:1px solid #e3ddd8;border-radius:8px;padding:9px 11px;background:#fff;font-size:12px}.st-rates span{color:#4f46e5;font-weight:700}
-html.dark .st-fc .st-g1,html.dark .st-fc .st-g2{background:transparent}html.dark .st-tiers div,html.dark .st-rates div,html.dark .st-tin{background:transparent}
 
 /* the Omer Istanbul Dental Center button in the top bar, and the Settings box at the bottom of the menu */
 .oi-kpsb{background:#161a59!important;color:#fff!important;border-color:#161a59!important}
 .oi-kpsb.on{background:#a08a7c!important;border-color:#a08a7c!important}
-html.dark .oi-set{background:transparent}
 
 /* the welcome screen: the same team picture as the sign-in page */
 #eophi{background:#0a0e45 url(login-bg.jpg) center top/cover no-repeat}
@@ -596,4 +530,83 @@ html.dark .oi-set{background:transparent}
 .oi-seti{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:9px 10px;border-radius:9px;font-size:12.5px;font-weight:700;color:#161a59;background:none;border:0;cursor:pointer}
 .oi-seti:hover{background:#f5f2ef}.oi-out{color:#b91c1c}
 .oi-setl{justify-content:space-between}.oi-setl select{border:1px solid #e3ddd8;border-radius:6px;padding:2px 4px;font-size:12px;font-weight:700;background:#fff}
-html[data-theme=dark] .oi-setp{background:#1f2430;border-color:#323a4a}html[data-theme=dark] .oi-seti{color:#e5e7eb}html[data-theme=dark] .oi-seti:hover{background:#2a3140}
+
+/* ================= DARK MODE (a real dark theme: deep navy surfaces, soft text, the clinic's mocha and navy accents) ================= */
+html[data-theme=dark]{--d-bg:#0e1220;--d-card:#161b2c;--d-soft:#1c2236;--d-head:#232a41;--d-line:#2c3450;--d-tx:#e7e9f1;--d-tx2:#b9bfd0;--d-mut:#8c93aa;--d-gold:#c9ad98;color-scheme:dark;background:var(--d-bg)}
+html[data-theme=dark] body{background:var(--d-bg);color:var(--d-tx)}
+/* surfaces */
+html[data-theme=dark] :is(.bg-white,.ep-panel,.ep-blk,.ep-mv,.ep-tr,.ep-libg,.ep-md,.ep-lr,.ep-box,.ep-sbtn,.ep-pop,.ep-m,.ep-fb,.ep-lt,.fbx-card,.fbx-box,.fbx-kpi,aside.eop-aside,.st-card,.st-tiers div,.st-rates div,.oi-setp,main,.eop-hd){background-color:var(--d-card)!important}
+html[data-theme=dark] #dinfo{background-color:var(--d-card)!important}
+html[data-theme=dark] :is(.bg-slate-50,.bg-slate-100,.ep-btn,.ep-mbar,.ep-note,.ep-pt,.ep-pe,.ep-tile,.ep-side,.ep-hbtn,.ep-msgs,.ep-cardm,.ep-flt,.ep-noimg,.cx-tr,.cx-rt,.cx-struct,.cx-empty,.ep-supmsg,.ep-pr.ep-sel,.ep-srch .ep-in,.ep-ib){background-color:var(--d-soft)!important}
+html[data-theme=dark] :is(.bg-slate-200,.bg-slate-300,th,.cm th,.cx-t th,.st-t th,.ep-t td.ep-cath,.ep-t tr.ep-tot td,.ep-tab,.ep-who button,.ep-pk,.ep-chip,.cx-t tfoot td,.st-t tfoot td,.st-meter,.ep-pbar,.fbx-bar,.fbx-sh){background-color:var(--d-head)!important}
+html[data-theme=dark] header.eop-hd{border-color:var(--d-line)!important;box-shadow:0 1px 0 var(--d-line)}
+/* text */
+html[data-theme=dark] :is(.text-slate-900,.text-slate-800,.text-slate-700,.text-black,h1,h2,h3,h4,.lux,b,strong){color:var(--d-tx)}
+html[data-theme=dark] :is(.text-slate-600,.text-slate-500){color:var(--d-tx2)!important}
+html[data-theme=dark] :is(.text-slate-400,.text-slate-300,.text-gray-500){color:var(--d-mut)!important}
+html[data-theme=dark] :is(td,th,label,p,span,li,.ep-hbtn,.ep-btn,.oi-seti){color:inherit}
+html[data-theme=dark] :is(th,.cx-t th,.st-t th){color:var(--d-tx2)!important}
+html[data-theme=dark] :is(.ep-gh,.ep-gh span){color:var(--d-mut)}
+html[data-theme=dark] nav button,html[data-theme=dark] #nav button{color:var(--d-tx2)}
+html[data-theme=dark] #nav button.g,html[data-theme=dark] .g{background:#a08a7c!important;color:#141833!important}
+html[data-theme=dark] #nav button:not(.g):hover,html[data-theme=dark] .hover\:bg-slate-200:hover{background:var(--d-head)!important}
+/* lines */
+html[data-theme=dark] :is(.border,.border-b,.border-t,.border-slate-200,.border-slate-300,table,td,th,tr,.ep-box,.ep-panel,.st-card,.cx-tile,.st-tiers div,.st-rates div,.oi-setp,.cx-empty,input,select,textarea,.ep-hbtn,hr){border-color:var(--d-line)!important}
+/* form fields */
+html[data-theme=dark] :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),select,textarea,.cx-in,.st-tin,.ep-in,.ep-field input,.ep-field select,.ep-field textarea){background-color:#11162a!important;color:var(--d-tx)!important;border-color:#343d5c!important}
+html[data-theme=dark] ::placeholder{color:#6f7690}
+html[data-theme=dark] input[type=date]::-webkit-calendar-picker-indicator,html[data-theme=dark] input[type=month]::-webkit-calendar-picker-indicator{filter:invert(.85)}
+/* the rows of the Ticket Calendar keep their meaning, in darker tints */
+html[data-theme=dark] tr.bg-yellow-100 td,html[data-theme=dark] .bg-yellow-100{background-color:rgba(234,179,8,.16)!important}
+html[data-theme=dark] tr.bg-green-100 td,html[data-theme=dark] .bg-green-100{background-color:rgba(34,197,94,.15)!important}
+html[data-theme=dark] tr.bg-blue-100 td,html[data-theme=dark] .bg-blue-100{background-color:rgba(59,130,246,.17)!important}
+html[data-theme=dark] tr.bg-pink-100 td,html[data-theme=dark] .bg-pink-100{background-color:rgba(236,72,153,.16)!important}
+html[data-theme=dark] tr.bg-red-200 td,html[data-theme=dark] .bg-red-200{background-color:rgba(239,68,68,.2)!important}
+html[data-theme=dark] tr.bg-slate-300 td{background-color:rgba(148,163,184,.18)!important}
+html[data-theme=dark] tr.bg-silver td,html[data-theme=dark] .bg-silver{background:rgba(203,213,225,.12)!important}
+html[data-theme=dark] :is(.bg-emerald-50,.bg-green-50,.ep-note.ep-okn,.ep-tile.ep-pos){background-color:rgba(16,185,129,.13)!important}
+html[data-theme=dark] :is(.bg-red-50,.ep-note.ep-badn,.ep-tile.ep-neg,.fbx-note.fbx-bad,.fbx-card.fbx-bad){background-color:rgba(239,68,68,.13)!important}
+html[data-theme=dark] :is(.bg-amber-50,.bg-amber-100,.ep-mgbar,.ep-draft,.ep-pin,.ep-rt,.ep-mvbar,.fbx-note.fbx-warn,.ep-btn.ep-on,.ep-fb.ep-on,.ep-m.ep-mine,.cx-tr.on,.cx-rt.miss,.cx-t tr.bad td,.st-t tr.on td,.st-fc tr.on td,.ep-lr:hover){background-color:rgba(201,173,152,.14)!important}
+html[data-theme=dark] :is(.bg-indigo-50,.bg-sky-50,.st-fc .st-g2){background-color:rgba(99,102,241,.12)!important}
+html[data-theme=dark] .st-fc .st-g1{background-color:rgba(148,163,184,.07)!important}
+html[data-theme=dark] .text-red-600,html[data-theme=dark] .oi-out{color:#f87171!important}
+html[data-theme=dark] .text-emerald-900,html[data-theme=dark] .text-emerald-950{color:#6ee7b7!important}
+html[data-theme=dark] .text-amber-900{color:#fcd34d!important}
+/* the logo and the name in the top bar */
+html[data-theme=dark] .oi-logo{content:url(logo-white.png)}
+html[data-theme=dark] .oi-by{color:var(--d-gold)}
+html[data-theme=dark] .ep-hbtn{color:var(--d-tx)!important}
+html[data-theme=dark] header button.oi-kpsb.oi-kpsb{background:#a08a7c!important;border-color:#a08a7c!important;color:#141833!important}
+/* statistics */
+html[data-theme=dark] .st-tiers i,html[data-theme=dark] .st-tiers small{color:var(--d-mut)}
+html[data-theme=dark] .st-tiers b{color:#c4b5fd}
+html[data-theme=dark] .st-rates span{color:#a5b4fc}
+html[data-theme=dark] .cx-sum{box-shadow:0 0 0 1px var(--d-line)}
+/* settings gear */
+html[data-theme=dark] .oi-setg{background:#a08a7c;color:#141833}
+html[data-theme=dark] .oi-seti{color:var(--d-tx)}
+html[data-theme=dark] .oi-seti:hover{background:var(--d-head)!important}
+/* modals and overlays */
+html[data-theme=dark] :is(.bg-slate-900\/60,.ep-ov){background-color:rgba(5,8,18,.7)!important}
+html[data-theme=dark] .shadow-sm,html[data-theme=dark] .shadow{box-shadow:0 1px 0 rgba(0,0,0,.4)!important}
+/* pages that are printed (planner sheet, PDF previews) stay light, as on paper */
+html[data-theme=dark] :is(#plp,#plpv,.plsr,.ttsr,.qpsr,.tpsr) {color-scheme:light}
+@media print{html[data-theme=dark]{background:#fff}html[data-theme=dark] body{background:#fff;color:#000}}
+html[data-theme=dark] #dinfo .dpi{background-color:var(--d-soft)!important}
+html[data-theme=dark] .cx-empty p,html[data-theme=dark] .cx-empty{color:var(--d-tx2)!important}
+html[data-theme=dark] .ep-gold,html[data-theme=dark] .ep-btn.ep-gold{background-color:#a08a7c!important;color:#141833!important;border-color:#a08a7c!important}
+html[data-theme=dark] [style*="color:#4f46e5"]{color:#a5b4fc!important}
+html[data-theme=dark] [style*="color:#7c3aed"]{color:#c4b5fd!important}
+html[data-theme=dark] [style*="color:#059669"]{color:#6ee7b7!important}
+html[data-theme=dark] [style*="color:#d97706"]{color:#fcd34d!important}
+html[data-theme=dark] [style*="color:#4b4f80"],html[data-theme=dark] [style*="color:#6e7099"],html[data-theme=dark] [style*="color:#161a59"]{color:var(--d-tx2)!important}
+html[data-theme=dark] :is(.bg-yellow-200,.bg-amber-200,.bg-yellow-300,.bg-amber-300){color:#3b2f0b!important}
+/* iPad / phone: the Studio starts one row lower, below the status bar, so "Back to the portal" is always reachable */
+body.kps-full #vkps{padding-top:env(safe-area-inset-top,0px)}
+@media (pointer:coarse){
+ body.kps-full #vkps{padding-top:calc(env(safe-area-inset-top,0px) + 44px);background:#10134a}
+ body.kps-full #kpsf{height:calc(100vh - 86px - env(safe-area-inset-top,0px))!important;height:calc(100dvh - 86px - env(safe-area-inset-top,0px))!important}
+}
+
+/* the Settings gear is hidden while the Studio fills the screen */
+body.kps-full .oi-setw{display:none}

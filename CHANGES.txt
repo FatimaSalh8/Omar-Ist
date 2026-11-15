@@ -1,4 +1,13 @@
-Ömar Istanbul by Rima — version 2.0 (2026-11-15)
+Ömar Istanbul by Rima — version 2.1 (2026-11-15)
+
+NEW IN 2.1
+- A real dark mode (no more inverted colours): deep navy screens, soft white text, the clinic's mocha accents, the white logo,
+  readable tables, coloured ticket rows kept in darker tints, statistics and Treatment Database included.
+- iPad / phone: the Studio (Omer Istanbul Dental Center) opens one row lower, so Back to the portal is always reachable.
+  The Settings gear is hidden while the Studio is open.
+- The Kit number box is removed from the Studio too.
+
+VERSION 2.0 (2026-11-15)
 
 NEW IN 2.0
 - The language is a button in the top bar again (no longer inside Settings).

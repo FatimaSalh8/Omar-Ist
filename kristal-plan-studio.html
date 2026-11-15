@@ -3407,14 +3407,12 @@ V.photos=function(el){
   <div class="pagehead"><div><h1>Patient photos</h1><p>Add the photos the patient sent. You will see them while you plan, and they go into the PDF. You can skip this and add them later.</p></div></div>
   <section class="card dxpat">
     <label class="f n grow">Patient name<input type="text" id="pName" placeholder="e.g. Rima" value="${esc(CASE.patient.name)}"></label>
-    <label class="f n" style="width:170px">Kit number<input type="text" id="pKit" placeholder="e.g. 1234" value="${esc(CASE.patient.kit||'')}"></label>
     <label class="f n" style="width:190px">Date<input type="date" id="pDate" value="${esc(CASE.patient.date)}"></label>
   </section>
   <section class="card"><h2>Photos <small>upper arch, lower arch — or one photo showing both</small></h2><div class="bigslots" id="bigslots"></div>
   <div class="hint" style="margin-top:12px">Use the clearest photos you have. Bigger pictures give a sharper PDF (they are kept up to 2600 px).</div></section>
   <div class="nextbar"><span></span><button class="ab primary big" id="phNext1">Next: Plan →</button></div></div>`;
   $('#pName').oninput=e=>{CASE.patient.name=e.target.value;saveCase();};
-  $('#pKit').oninput=e=>{CASE.patient.kit=e.target.value;saveCase();};
   $('#pDate').onchange=e=>{CASE.patient.date=e.target.value;saveCase();};
   $('#phNext1').onclick=()=>go('diag');
   const draw=()=>{
