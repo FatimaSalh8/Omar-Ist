@@ -1,4 +1,10 @@
-Ömar Istanbul by Rima — version 2.1 (2026-11-15)
+Ömar Istanbul by Rima — version 2.2 (2026-11-15)
+
+NEW IN 2.2
+- Dark mode now also covers Omer Istanbul Dental Center (the Studio): Photos, Plan, Price and PDF screens, menus, fields and buttons.
+  It follows the portal setting straight away, even when switched while the Studio is open. The PDF pages stay white, as on paper.
+
+VERSION 2.1 (2026-11-15)
 
 NEW IN 2.1
 - A real dark mode (no more inverted colours): deep navy screens, soft white text, the clinic's mocha accents, the white logo,
