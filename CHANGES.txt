@@ -1,4 +1,14 @@
-Ömar Istanbul by Rima — version 1.9 (2026-11-15)
+Ömar Istanbul by Rima — version 2.0 (2026-11-15)
+
+NEW IN 2.0
+- The language is a button in the top bar again (no longer inside Settings).
+- The welcome screen shows only the greeting and the sentence (no logo).
+- Option cards follow the language of the PDF (banner, prices, You save, legend, payment note), with prices written as in that language.
+- PDF layout bar: a Package button next to Promotion valid until. When it is on, the package (X-rays, consultations, interpreter,
+  3D smile design, 10-year warranty, 24h assistance, VIP transfer) is written in every layout: in the table rows, as a line in each
+  option card, and as a note under the tooth blocks. Press it again to hide it.
+
+VERSION 1.9 (2026-11-15)
 
 NEW IN 1.9
 - The portal font is back to its own font (Inter), always; there is still no font menu.

@@ -407,7 +407,7 @@ html[data-theme=dark] aside.eop-aside{background:#fff}
 #eophi{position:fixed;top:0;right:0;bottom:0;left:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#0422d2 0%,#161a59 78%);color:#cdbcb0;text-align:center;cursor:pointer;transition:opacity .5s ease}
 #eophi.eop-out{opacity:0;pointer-events:none}
 #eophi .hi-in{max-width:560px;display:flex;flex-direction:column;align-items:center}
-#eophi .hi-name{margin:26px 0 0;font-size:30px;line-height:1.2;color:#fff}
+#eophi .hi-name{margin:0;font-size:30px;line-height:1.2;color:#fff}
 #eophi .hi-q{margin:14px 0 0;font-size:15px;line-height:1.6;color:#e6dcd4;font-style:italic}
 #eophi .hi-go{margin-top:26px;background:#a08a7c;color:#161a59;border:0;border-radius:10px;padding:10px 26px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 #eophi .hi-go:focus-visible{outline:2px solid #fff;outline-offset:3px}
@@ -584,6 +584,8 @@ html.dark .oi-set{background:transparent}
 #eophi::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,69,.35) 0%,rgba(10,14,69,.72) 100%)}
 #eophi .hi-in{position:relative;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:30px 34px}
 #eophi .hi-q{font-size:17px;color:#fff}
+/* the language button in the top bar */
+.oi-lang{position:relative;cursor:pointer}.oi-lang select{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;padding:0 2px;outline:none}
 /* the Settings gear (bottom left) and its small menu */
 .oi-setw{position:fixed;left:18px;bottom:18px;z-index:60}
 .oi-setg{width:46px;height:46px;border-radius:50%;background:#161a59;color:#fff;border:0;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(22,26,89,.3);cursor:pointer;transition:transform .2s}

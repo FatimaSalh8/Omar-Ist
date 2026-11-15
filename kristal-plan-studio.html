@@ -1190,7 +1190,7 @@ details.fold.inner>summary{font-size:12.5px}
 .lcp .k2{color:#a08a7c;margin-top:16px}
 .lcp s{font-size:19px;color:#8d8ea2;margin-top:3px}
 .lcp b{font-size:38px;line-height:1.1;color:#161a59;margin-top:4px;font-weight:800}
-.lcp em{font-style:normal;background:#a08a7c;color:#fff;border-radius:20px;padding:6px 16px;font-weight:700;font-size:12.5px;margin-top:10px}
+.lcp em{white-space:nowrap;font-style:normal;background:#a08a7c;color:#fff;border-radius:20px;padding:6px 16px;font-weight:700;font-size:12.5px;margin-top:10px}
 .lcp.pk{gap:12px}.lct{display:flex;flex-direction:column;align-items:center}.lct b{font-size:26px}.lct em{font-size:11px;padding:4px 12px;margin-top:6px}
 .lcv{font-size:10px;color:#8d8ea2;margin-top:14px;line-height:1.5}
 .lcnote{background:#f5f2ef;border-radius:10px;padding:12px 18px;font-size:12px;color:#2c2d45}
@@ -1225,6 +1225,7 @@ details.fold.inner>summary{font-size:12.5px}
 .lyopts button small{display:block;font-weight:500;font-size:10.5px;color:#8d8ea2;max-width:170px}
 .lyopts button.on{border-color:#181b53;box-shadow:0 0 0 2px #181b5322}
 .lyopts svg{flex:none;border-radius:6px;background:#f6f3f0}
+.lypkg{padding:8px 14px;border-radius:12px;border:1.5px solid var(--a-line,#e6e1dd);background:#fff;font:700 12.5px/1.2 inherit;font-family:inherit;color:#8d8ea2;cursor:pointer}.lypkg.on{background:#161a59;border-color:#161a59;color:#fff}
 .lyrow label.f{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}
 </style></head><body>
 <div id="app">
@@ -2393,8 +2394,34 @@ function pkgRender(p){
 }
 
 /* ===== document engine: sections -> pages, auto-fit pagination ===== */
-const Tx=(k,def,tag)=>{tag=tag||'span';const l=pdfLang(),v=l==='en'?TPL.texts[k]:TPL.texts[k+'@'+l];return `<${tag} class="ed" data-k="${k}">${escBr(v!=null?v:(l==='en'?def:LT(def)))}</${tag}>`;};
-const TxP=(k,def)=>{const l=pdfLang(),v=l==='en'?TPL.texts[k]:TPL.texts[k+'@'+l];return v!=null?v:(l==='en'?def:LT(def));};
+/* translations of the words of the "Option cards" and of the charts (fr ar tr ru es de ro it pt) */
+const LCX_L=['fr','ar','tr','ru','es','de','ro','it','pt'];
+const LCX={
+ 'Limited-time promotion':['Promotion limitée dans le temps','عرض لفترة محدودة','Sınırlı süreli kampanya','Ограниченное предложение','Promoción por tiempo limitado','Zeitlich begrenzte Aktion','Promoție pe timp limitat','Promozione a tempo limitato','Promoção por tempo limitado'],
+ 'Special prices valid until':['Prix spéciaux valables jusqu’au','أسعار خاصة سارية حتى','Özel fiyatlar geçerlilik tarihi:','Специальные цены действуют до','Precios especiales válidos hasta el','Sonderpreise gültig bis','Prețuri speciale valabile până la','Prezzi speciali validi fino al','Preços especiais válidos até'],
+ 'Special prices for a limited time':['Prix spéciaux pour une durée limitée','أسعار خاصة لفترة محدودة','Sınırlı süre için özel fiyatlar','Специальные цены на ограниченное время','Precios especiales por tiempo limitado','Sonderpreise für kurze Zeit','Prețuri speciale pentru o perioadă limitată','Prezzi speciali per un periodo limitato','Preços especiais por tempo limitado'],
+ 'Option':['Option','الخيار','Seçenek','Вариант','Opción','Option','Opțiunea','Opzione','Opção'],
+ 'Regular price':['Prix normal','السعر العادي','Normal fiyat','Обычная цена','Precio normal','Regulärer Preis','Preț normal','Prezzo normale','Preço normal'],
+ 'Promotional price':['Prix promotionnel','السعر الترويجي','Kampanya fiyatı','Акционная цена','Precio promocional','Aktionspreis','Preț promoțional','Prezzo promozionale','Preço promocional'],
+ 'You save':['Vous économisez','توفّر','Tasarrufunuz','Ваша экономия','Usted ahorra','Sie sparen','Economisiți','Risparmiate','Poupa'],
+ 'Your price':['Votre prix','سعرك','Fiyatınız','Ваша цена','Su precio','Ihr Preis','Prețul dvs.','Il vostro prezzo','O seu preço'],
+ 'Valid until':['Valable jusqu’au','ساري حتى','Geçerlilik:','Действует до','Válido hasta el','Gültig bis','Valabil până la','Valido fino al','Válido até'],
+ 'Prices in':['Prix en','الأسعار بـ','Fiyatlar:','Цены в','Precios en','Preise in','Prețuri în','Prezzi in','Preços em'],
+ 'Payment note:':['Note de paiement :','ملاحظة الدفع:','Ödeme notu:','Об оплате:','Nota de pago:','Zahlungshinweis:','Notă de plată:','Nota sul pagamento:','Nota de pagamento:'],
+ 'paying by card adds a 10% tax fee.':['le paiement par carte ajoute 10 % de taxe.','الدفع بالبطاقة يضيف ضريبة 10%.','kartla ödemede %10 vergi eklenir.','при оплате картой добавляется налог 10%.','el pago con tarjeta añade un 10 % de impuesto.','bei Kartenzahlung kommen 10 % Steuer hinzu.','plata cu cardul adaugă o taxă de 10%.','il pagamento con carta aggiunge il 10% di tasse.','o pagamento com cartão acrescenta 10% de taxa.'],
+ 'Upper':['Haut','العلوي','Üst','Верх','Superior','Oben','Sus','Superiore','Superior'],
+ 'Lower':['Bas','السفلي','Alt','Низ','Inferior','Unten','Jos','Inferiore','Inferior'],
+ 'Not in this plan':['Hors de ce plan','غير مشمول في هذه الخطة','Bu planda yok','Не входит в план','No incluido en este plan','Nicht in diesem Plan','Nu este în acest plan','Non in questo piano','Fora deste plano'],
+ 'Treatment plan':['Plan de traitement','الخطة العلاجية','Tedavi planı','План лечения','Plan de tratamiento','Behandlungsplan','Plan de tratament','Piano di trattamento','Plano de tratamento'],
+ 'Your teeth':['Vos dents','أسنانك','Dişleriniz','Ваши зубы','Sus dientes','Ihre Zähne','Dinții dvs.','I vostri denti','Os seus dentes'],
+ 'Missing':['Absente','مفقود','Eksik','Отсутствует','Ausente','Fehlend','Lipsă','Mancante','Em falta'],
+ 'Existing work / finding':['Travaux existants / constat','أعمال سابقة / ملاحظة','Mevcut çalışma / bulgu','Существующие работы / находки','Trabajo existente / hallazgo','Vorhandene Arbeit / Befund','Lucrări existente / constatări','Lavori esistenti / riscontri','Trabalho existente / achado'],
+ 'Treated in this plan':['Traité dans ce plan','يُعالج في هذه الخطة','Bu planda tedavi edilir','Лечится в этом плане','Tratado en este plan','In diesem Plan behandelt','Tratat în acest plan','Trattato in questo piano','Tratado neste plano'],
+ 'Package included':['Forfait inclus','الباقة المشمولة','Pakete dahil','Включено в пакет','Paquete incluido','Im Paket enthalten','Pachet inclus','Pacchetto incluso','Pacote incluído']
+};
+const lcxT=(d,l)=>{const a=LCX[d],i=LCX_L.indexOf(l);return a&&i>=0?a[i]:LT(d);};
+const Tx=(k,def,tag)=>{tag=tag||'span';const l=pdfLang(),v=l==='en'?TPL.texts[k]:TPL.texts[k+'@'+l];return `<${tag} class="ed" data-k="${k}">${escBr(v!=null?v:(l==='en'?def:lcxT(def,l)))}</${tag}>`;};
+const TxP=(k,def)=>{const l=pdfLang(),v=l==='en'?TPL.texts[k]:TPL.texts[k+'@'+l];return v!=null?v:(l==='en'?def:lcxT(def,l));};
 const LK=k=>(TPL.links[k]!=null&&TPL.links[k]!=='')?TPL.links[k]:LINK_DEFAULT[k];
 const Im=(key,asset,attrs)=>`<img data-img="${key}" data-asset="${asset}" src="${getImg('tpl:'+key)||A(asset)}" ${attrs||''}>`;
 function Sl(key,label){const u=getImg('slot:'+key);return u?`<div class="slot filled" data-slot="${key}" title="Click to replace the ${esc(label)} logo"><img alt="${esc(label)}" src="${u}"></div>`:`<div class="slot" data-slot="${key}" data-name="${esc(label)}" title="Click to add the ${esc(label)} logo"><span>${esc(label)}<em>+ logo</em></span></div>`;}
@@ -2746,6 +2773,7 @@ function secOptions(){
   const N=DATA.plans.length,crowns=DATA.plans.some(p=>{const c=planCounts(p);return (c.crown+c.bridge)>0;});
   const W=[['Metal-free','A biocompatible ceramic: no visible metal edge at the gum line.'],['Very strong','A high-strength material designed to last in everyday life. 10-year warranty.'],['Natural look','Shape and shade designed with you through 3D digital smile design.']];
   const items=DATA.plans.map((p,i)=>({html:oiOptionBlock(p,i)}));
+  if(pkgOn())items.push({html:`<div class="oinote"><div class="ck">${OI_TICK}</div><p><b>${Tx('lc.pkg','Package included')}:</b> ${esc(pkgList())}</p></div>`});
   items.push({html:`<div class="oinote"><div class="ck">${OI_TICK}</div><p>${N>1?Tx('note.multi','The options are alternatives. The exact details of your plan (teeth involved, bridge position, any additional procedure) are confirmed by Dr Ömer Karaaslan during your clinical examination.'):Tx('note.single','The exact details of your plan (teeth involved, bridge position, any additional procedure) are confirmed by Dr Ömer Karaaslan during your clinical examination.')}</p></div>`});
   if(crowns)items.push({html:`<div class="oiwhy"><h2 class="oih">${Tx('why.h','Why zirconia crowns?')}</h2><div class="w3">${W.map((w,i)=>`<div class="wc"><div class="wt"><div class="ck">${OI_TICK}</div><h3>${Tx('why.'+i+'.h',w[0])}</h3></div><p>${Tx('why.'+i+'.p',w[1])}</p></div>`).join('')}</div></div>`});
   const title=N===1?['opt.t1','Your treatment plan']:N===2?['opt.t2','Your two treatment options']:N===3?['opt.t3','Your three treatment options']:['opt.tn','Your treatment options'];
@@ -2828,6 +2856,9 @@ function secPrices(){
    'blocks' = the boxed tooth chart of every option, then the packages and prices (the earlier Omer Istanbul pages)
    'table'  = one simple page: the tooth chart, then a table of the treatments of each option and its price ===== */
 const PDF_LAYOUTS=[['table','Simple table','Outlined teeth, phase table, standard price, discount and total'],['cards','Option cards','Promotion banner, one card per option with its price'],['blocks','Tooth blocks','Boxed tooth chart of each option, then the packages']];
+const LC_SVC=['xray','consult','interp','smile','warr','assist','transfer'];
+const pkgOn=()=>pdfOpts().pkgSvc!==false;
+const pkgList=()=>LC_SVC.map(k=>ltx(k)).join(' · ');
 const pdfLayout=()=>{const v=pdfOpts().layout;return PDF_LAYOUTS.some(x=>x[0]===v)?v:'table';};
 const LC_COL=['#161a59','#a08a7c','#5f8fa8','#7a9e7e','#b5838d'];
 const lcSkip=l=>l.auto||isHotel(l)||isTransport(l)||['service','other'].includes(l.cat);
@@ -2858,17 +2889,17 @@ function lcPrice(p){
   const P=pdfOpts(),u=lcUntil(),foot=`<div class="lcv">${u?Tx('lc.valid','Valid until')+' '+esc(u)+'<br>':''}${Tx('lc.cur','Prices in')} ${esc(TPL.cur.code||TPL.cur.sym)}</div>`;
   if(p.mode==='package'){
     const T=oiTiers(p);if(!T.length)return '';
-    return `<div class="lcp pk">${T.map(x=>{const pr=x.r.fin.tot,old=P.disc&&x.r.fin.promo&&x.r.NT>pr+0.5?x.r.NT:0;return `<div class="lct"><span class="k">${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span>${old?`<s>${oiMoney(old)}</s>`:''}<b>${oiMoney(pr)}</b>${old?`<em>${Tx('lc.save','You save')} ${oiMoney(old-pr)}</em>`:''}</div>`;}).join('')}${foot}</div>`;
+    return `<div class="lcp pk">${T.map(x=>{const pr=x.r.fin.tot,old=P.disc&&x.r.fin.promo&&x.r.NT>pr+0.5?x.r.NT:0;return `<div class="lct"><span class="k">${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span>${old?`<s>${ltMoney(old)}</s>`:''}<b>${ltMoney(pr)}</b>${old?`<em>${Tx('lc.save','You save')} ${ltMoney(old-pr)}</em>`:''}</div>`;}).join('')}${foot}</div>`;
   }
   const o=calcPlan(p),pc=o.pc&&o.pc.ok?o.pc:null,tot=planTotal(p);if(!(tot>0))return '';
-  if(pc&&P.disc)return `<div class="lcp"><span class="k">${Tx('lc.reg','Regular price')}</span><s>${oiMoney(o.ct)}</s><span class="k k2">${Tx('lc.promo','Promotional price')}</span><b>${oiMoney(pc.price)}</b><em>${Tx('lc.save','You save')} ${oiMoney(pc.save)}</em>${foot}</div>`;
-  return `<div class="lcp"><span class="k k2">${Tx('lc.price','Your price')}</span><b>${oiMoney(tot)}</b>${foot}</div>`;
+  if(pc&&P.disc)return `<div class="lcp"><span class="k">${Tx('lc.reg','Regular price')}</span><s>${ltMoney(o.ct)}</s><span class="k k2">${Tx('lc.promo','Promotional price')}</span><b>${ltMoney(pc.price)}</b><em>${Tx('lc.save','You save')} ${ltMoney(pc.save)}</em>${foot}</div>`;
+  return `<div class="lcp"><span class="k k2">${Tx('lc.price','Your price')}</span><b>${ltMoney(tot)}</b>${foot}</div>`;
 }
 function lcCard(p,i){
   const kinds=lcKinds(p),custom=!/^\s*(option|plan|treatment plan\s*#?)\s*\d*\s*$/i.test(p.name||'')&&(p.name||'').trim();
   const title=custom?esc(p.name):esc(oiSummary(p)||Tx('lc.plan','Treatment plan')),sub=planChips(p).slice(0,4).join(' · ');
   return `<div class="lcc"><div class="lcb"><div class="lce">${Tx('opt.label','Option')} ${planNo(p,i)}</div><h2 class="lch">${title}</h2>${sub?`<div class="lcs">${esc(sub)}</div>`:''}
-<ul class="lcu">${lcBullets(kinds)}</ul>${lcDots(kinds)}</div>${lcPrice(p)}</div>`;
+<ul class="lcu">${lcBullets(kinds)}${pkgOn()?`<li><b>${Tx('lc.pkg','Package included')}:</b> <span>${esc(pkgList())}</span></li>`:''}</ul>${lcDots(kinds)}</div>${lcPrice(p)}</div>`;
 }
 function secCards(){
   const u=lcUntil(),items=[];
@@ -2963,11 +2994,11 @@ function ltTable(p,i,N){
   const teethTxt=l=>{const sc=scopeOf(l);if(sc==='tooth'||l.cat==='crown'||l.cat==='bridge'){const t=Array.from(new Set((l.teeth||[]).concat(l.brT||[]))).sort((a,b)=>a-b);return t.length?' ('+t.join(', ')+')':'';}const s=lineScopeText(l);return s?' ('+LT(s)+')':'';};
   const nights=p.lines.filter(isHotel).reduce((n,l)=>n+lineQty(l),0);
   const svc=k=>tr(esc(ltx(k)),'1 ×');
-  let rows=svc('xray')+svc('consult')+svc('interp'),o=null,pc=null;
+  const on=pkgOn();let rows=on?svc('xray')+svc('consult')+svc('interp'):'',o=null,pc=null;
   if(p.mode==='package')rows+=pkgTreatRows(p).map(r=>`<tr><td colspan="2">${r}</td></tr>`).join('');
   else{o=calcPlan(p);pc=o.pc&&o.pc.ok?o.pc:null;
     o.rows.filter(r=>!r.hot&&!isTransport(r.l)&&!['service','other'].includes(r.l.cat)).forEach(r=>{rows+=tr(esc(LT(lineLabel(r.l)))+esc(teethTxt(r.l)),r.q+' ×');});}
-  rows+=svc('smile')+svc('warr')+svc('assist')+(nights>0?tr(esc(ltx('hotel',{N:nights})),'1 ×'):'')+svc('transfer');
+  rows+=(on?svc('smile')+svc('warr')+svc('assist'):'')+(nights>0?tr(esc(ltx('hotel',{N:nights})),'1 ×'):'')+(on?svc('transfer'):'');
   const mon=new Date((DATA.patient.date||new Date().toISOString().slice(0,10))+'T12:00:00').toLocaleString(ltLoc(),{month:'long'});
   let foot=`<tr class="ltc0"><td colspan="2">${esc(ltx('card'))}</td></tr>`;
   if(pc&&P.disc)foot+=`<tr class="ltx"><td>${esc(ltx('std'))}</td><td class="n"><s>${ltMoney(o.ct)}</s></td></tr><tr class="ltd"><td>${esc(ltx('disc',{M:mon}))}</td><td class="n">− ${ltMoney(pc.save)}</td></tr>`;
@@ -4060,8 +4091,9 @@ function lyPanel(){
   const box=$('#lyrow');if(!box)return;const P=pdfOpts(),cur=pdfLayout(),N=CASE.plans.filter(planShown).length;
   box.innerHTML=`<div><h2>PDF layout</h2><div class="sub">${N>1?'How the options look in the PDF.':'How the plan looks in the PDF.'}</div></div>
 <div class="lyopts">${PDF_LAYOUTS.map(x=>`<button type="button" class="${cur===x[0]?'on':''}" data-ly="${x[0]}">${LY_ICON[x[0]]}<span>${x[1]}${x[0]==='table'?' <em style="font-style:normal;color:#a08a7c">(normal)</em>':''}<small>${x[2]}</small></span></button>`).join('')}</div>
-${cur!=='blocks'?`<label class="f">Promotion valid until <input type="date" id="lyUntil" value="${esc(P.promoUntil||'')}"></label>`:''}`;
+${cur!=='blocks'?`<label class="f">Promotion valid until <input type="date" id="lyUntil" value="${esc(P.promoUntil||'')}"></label>`:''}<button type="button" id="lyPkg" class="lypkg${pkgOn()?' on':''}" title="X-rays, consultations, interpreter, 3D smile design, 10-year warranty, 24h assistance, VIP transfer">&#128230; Package: ${pkgOn()?'included ✓':'not shown'}</button>`;
   $$('[data-ly]',box).forEach(b=>b.onclick=()=>{P.layout=b.dataset.ly;saveCase();lyPanel();scheduleRender();});
+  {const k=$('#lyPkg');if(k)k.onclick=()=>{P.pkgSvc=!pkgOn();saveCase();lyPanel();scheduleRender();};}
   const u=$('#lyUntil');if(u)u.onchange=()=>{P.promoUntil=u.value;saveCase();scheduleRender();};
   lyPin();
 }

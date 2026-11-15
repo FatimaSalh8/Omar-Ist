@@ -13,7 +13,7 @@ function hello(a){ /* shown each time the portal is opened or refreshed */
  const old=$('eophi');if(old)old.remove();
  const nm='Rima',q=HI_Q[Math.floor(Math.random()*HI_Q.length)];
  const d=document.createElement('div');d.id='eophi';d.setAttribute('role','dialog');d.setAttribute('aria-label',ti('Welcome'));
- d.innerHTML='<div class="hi-in"><div class="hi-logo"><img src="logo.png" alt="Omer Istanbul Dental Clinic"></div><p class="hi-by">by Rima</p>'
+ d.innerHTML='<div class="hi-in">'
   +'<p class="lux hi-name">'+esc(ti('Hello {0}, lovely to see you!',nm))+'</p><p class="hi-q">“'+esc(q)+'”</p><button type="button" class="hi-go">'+esc(ti('Enter Portal'))+'</button></div>';
  let t=0;const go=()=>{clearTimeout(t);d.classList.add('eop-out');setTimeout(()=>d.remove(),550)};
  d.onclick=go;d.addEventListener('keydown',e=>{if(e.key=='Escape'||e.key=='Enter')go()});
