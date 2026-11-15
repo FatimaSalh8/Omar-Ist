@@ -1,4 +1,10 @@
-Ömar Istanbul by Rima — version 2.5 (2026-11-15)
+Ömar Istanbul by Rima — version 2.6 (2026-11-15)
+
+NEW IN 2.6
+- The cloud copy is ON: firebase-config.js holds the values of the Omer Istanbul Firebase project (omar-ist).
+  Sign in once (Settings → Backup & Cloud) with the Firebase email and password; every change is then sent within seconds.
+
+VERSION 2.5 (2026-11-15)
 
 NEW IN 2.5
 - Photos are switched off for now: no photo boxes in Follow up Messages and Patient Explanations, no Before and After,
