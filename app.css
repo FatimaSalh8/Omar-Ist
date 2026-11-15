@@ -625,3 +625,9 @@ html[data-theme=dark] #exm *:not(.ep-on){border-color:#2c3450!important}
 html[data-theme=dark] #exm :is(.ep-tabs>*,.ep-tabs button):not(.ep-on){background:transparent!important}
 html[data-theme=dark] #exm .ep-tabs .ep-on{border-bottom:2px solid #c9ad98!important;background:transparent!important}
 html[data-theme=dark] #exm textarea,html[data-theme=dark] #exm .ep-txt{background:#11162a!important}
+
+/* the small cloud next to the name: everything saved in Firebase (✓), saving (↑), offline (⚠) */
+.oi-flst{display:inline-block;margin-left:6px;font-size:11px;font-weight:800;padding:2px 7px;border-radius:999px;background:#eef0f6;color:#6e7099;cursor:default;white-space:nowrap}
+.oi-flst[data-s=ok]{background:#dcfce7;color:#047857}.oi-flst[data-s=saving],.oi-flst[data-s=wait]{background:#e0e7ff;color:#3730a3}
+.oi-flst[data-s=offline]{background:#fef3c7;color:#92400e}.oi-flst[data-s=err]{background:#fee2e2;color:#b91c1c}
+html[data-theme=dark] .oi-flst{background:#232a41!important}html[data-theme=dark] .oi-flst[data-s=ok]{color:#6ee7b7!important}

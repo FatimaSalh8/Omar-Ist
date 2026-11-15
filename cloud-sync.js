@@ -8,7 +8,7 @@
    - nothing is loaded from Google when firebase-config.js is empty. */
 const CL=(()=>{
  const CFG=window.OI_FIREBASE||{};
- const ON=!!(CFG.apiKey&&CFG.projectId);
+ const ON=!!(CFG.apiKey&&CFG.projectId)&&!window.OMR_LIVE;   /* the live link (firebase-live.js) replaces this copy */
  const SDK='10.12.5',CDN='https://www.gstatic.com/firebasejs/'+SDK+'/';
  const CHUNK=300000;                         /* one Firestore record may hold 1 MB: the copy is cut into pieces of 300,000 characters */
  const t=(k,...a)=>typeof ti=='function'?ti(k,...a):k.replace(/\{(\d+)\}/g,(m,i)=>a[+i]!=null?a[+i]:m);

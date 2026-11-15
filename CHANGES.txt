@@ -1,4 +1,16 @@
-Ömar Istanbul by Rima — version 2.6 (2026-11-15)
+Ömar Istanbul by Rima — version 2.7 (2026-11-15)
+
+NEW IN 2.7 — EVERYTHING IS SAVED STRAIGHT INTO FIREBASE (like the old portal)
+- One sign-in: the opening page signs in to Firebase (the Firebase email and password). There is no second sign-in any more.
+- Every change is written to Firebase the moment it is saved: tickets, deposits, pipeline, prices, targets, commission sheets,
+  saved plans, Studio cases, settings. Every phone, iPad and computer shows the same data; a change on one appears on the others by itself.
+- A device with old data never overwrites newer data: it takes what changed in Firebase and sends only what it changed itself.
+- The first sign-in sends up what the device already holds, so nothing is lost. Without internet the portal still works and
+  sends the changes when the internet is back.
+- The small cloud next to the name: ✓ saved in Firebase, ↑ saving, ⚠ no internet.
+- Per device only (not shared): theme, language, last page, folded menu and the exchange rates.
+
+VERSION 2.6 (2026-11-15)
 
 NEW IN 2.6
 - The cloud copy is ON: firebase-config.js holds the values of the Omer Istanbul Firebase project (omar-ist).

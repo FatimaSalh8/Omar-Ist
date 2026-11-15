@@ -29,7 +29,7 @@ thmApply((()=>{try{return localStorage.getItem('kc_theme')=='dark'?'dark':'light
 i18nStart();
 
 /* ---- the opening page: the team picture as the background, and the sign-in of the owner ---- */
-function showLogin(){
+function showLogin(note){
  const d=$('login');d.classList.remove('hidden');document.body.classList.add('lgon');
  d.innerHTML='<select id="lgl" data-notr class="lg-lang" title="Language" aria-label="Language"></select>'
  +'<form id="lgf" class="lg-box" novalidate>'
@@ -38,7 +38,7 @@ function showLogin(){
  +'<label class="lg-l" for="lgem">Email</label><input id="lgem" name="email" type="email" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="name@email.com">'
  +'<label class="lg-l" for="lgpw">Password</label><div class="lg-pw"><input id="lgpw" name="password" type="password" autocomplete="current-password" placeholder="Password"><button type="button" id="lgsh" class="lg-eye" aria-label="Show password">Show</button></div>'
  +'<label class="lg-ck"><input type="checkbox" id="lgrm" checked><span>Keep me signed in on this device</span></label>'
- +'<p id="lger" class="lg-er" role="alert"></p>'
+ +'<p id="lger" class="lg-er" role="alert">'+(note?esc(note):'')+'</p>'
  +'<button type="submit" class="lg-go">Sign in</button></form>';
  const sl=$('lgl');sl.innerHTML=LANGS.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join('');sl.value=LANG;sl.onchange=()=>setLang(sl.value);
  $('lgf').onsubmit=e=>{e.preventDefault();lgTry()};
@@ -48,16 +48,29 @@ function lgTry(){
  const em=$('lgem').value.trim().toLowerCase(),pw=$('lgpw').value,er=$('lger'),b=document.querySelector('#lgf .lg-go');
  if(!em||!pw){er.textContent=ti('Please type your email and password.');return}
  b.disabled=true;er.textContent='';
- setTimeout(()=>{
+ setTimeout(async()=>{
+  const done=()=>{try{const t=lgTok();if($('lgrm').checked)localStorage.setItem('kc_auth',t);else sessionStorage.setItem('kc_auth',t);sessionStorage.setItem('omr_hi','rima')}catch(x){}
+   const d=$('login');document.body.classList.remove('lgon');d.classList.add('lg-out');
+   setTimeout(()=>{d.classList.add('hidden');d.classList.remove('lg-out');d.innerHTML=''},550);
+   enter(ACC[0])};
+  const bad=m=>{b.disabled=false;er.textContent=ti(m);$('lgpw').value='';try{$('lgpw').focus()}catch(x){}};
+  /* the sign-in of Firebase: the same email and password open the portal and save everything in Firebase */
+  if(window.FL&&FL.on){
+   try{await FL.signIn(em,pw);done();FL.start();return}
+   catch(e){const c=String(e&&e.code||'');
+    if(/network|unavailable/.test(c)||navigator.onLine===false){let ok=false;try{ok=em===LG_MAIL&&lgKdf(em,pw)===LG_HASH}catch(x){}
+     if(ok){done();return}return bad('No internet connection. Try again when you are online.')}
+    if(/too-many/.test(c))return bad('Too many tries. Wait a few minutes and try again.');
+    return bad('Wrong email or password.')}}
   let ok=false;try{ok=em===LG_MAIL&&lgKdf(em,pw)===LG_HASH}catch(x){}
-  if(!ok){b.disabled=false;er.textContent=ti('Wrong email or password.');$('lgpw').value='';try{$('lgpw').focus()}catch(x){}return}
-  try{const t=lgTok();if($('lgrm').checked)localStorage.setItem('kc_auth',t);else sessionStorage.setItem('kc_auth',t);sessionStorage.setItem('omr_hi','rima')}catch(x){}
-  const d=$('login');document.body.classList.remove('lgon');d.classList.add('lg-out');
-  setTimeout(()=>{d.classList.add('hidden');d.classList.remove('lg-out');d.innerHTML=''},550);
-  enter(ACC[0])},30)}
-function signOut(){try{localStorage.removeItem('kc_auth');sessionStorage.removeItem('kc_auth');sessionStorage.removeItem('omr_hi')}catch(e){}location.reload()}
+  if(!ok)return bad('Wrong email or password.');
+  done()},30)}
+async function signOut(){try{if(window.FL&&FL.on)await FL.signOut()}catch(e){}try{localStorage.removeItem('kc_auth');sessionStorage.removeItem('kc_auth');sessionStorage.removeItem('omr_hi')}catch(e){}location.reload()}
 function gate(){let ok=false;try{const t=lgTok();ok=localStorage.getItem('kc_auth')===t||sessionStorage.getItem('kc_auth')===t}catch(e){}
- if(ok)enter(ACC[0]);else showLogin()}
+ if(!ok){showLogin();return}
+ enter(ACC[0]);
+ /* everything is saved in Firebase: the portal needs the Firebase sign-in too (asked once, then remembered) */
+ if(window.FL&&FL.on)FL.current().then(u=>{if(u)FL.start();else if(navigator.onLine!==false){try{localStorage.removeItem('kc_auth');sessionStorage.removeItem('kc_auth')}catch(e){}showLogin(ti('Sign in once so that everything is saved in Firebase.'))}}).catch(()=>{})}
 /* the font the owner prefers (kept on this device only) */
 function fontApply(f,save){if(!['inter','poppins','lora','system'].includes(f))f='inter';const r=document.documentElement;if(f=='inter')r.removeAttribute('data-font');else r.setAttribute('data-font',f);
  if(save){try{localStorage.setItem('kc_font',f)}catch(e){}}const s=$('fnt');if(s)s.value=f}

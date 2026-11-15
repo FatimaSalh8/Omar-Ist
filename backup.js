@@ -31,7 +31,7 @@ const BK=(()=>{
  function paint(){const e=$('bkl');if(!e)return;const l=L('kc_bk_last',0);e.textContent=l?t('Last backup: {0}',stamp(new Date(l))):t('No backup saved yet.')}
  function open(){
   $('mt').textContent=t('Backup');
-  $('mb').innerHTML=`<p class="text-xs text-slate-600 mb-3">${esc(t('Everything you do in this portal stays on this device. Save a backup file now and then (for example every week) and keep it somewhere safe: it also moves everything to a new phone or computer.'))}</p>
+  $('mb').innerHTML=`<p class="text-xs text-slate-600 mb-3">${esc(t('Everything you do is saved in Firebase automatically (the small cloud next to your name shows ✓). A backup file is an extra copy you can keep somewhere safe.'))}</p>
    <p id="bkl" class="text-xs font-bold mb-2"></p>
    <div class="flex flex-wrap gap-2"><button type="button" onclick="BK.save()" class="g rounded px-4 py-2 font-bold uppercase text-xs">&#128190; ${esc(t('Save a backup now'))}</button><button type="button" onclick="BK.pick()" class="bg-slate-800 text-white rounded px-4 py-2 font-bold uppercase text-xs">${esc(t('Restore from a backup file'))}</button></div>
    <input type="file" id="bkf" accept=".json,application/json" class="hidden" onchange="BK.restore(this)"><p id="bkm" class="text-xs font-bold mt-3 min-h-[1rem]"></p>${window.CL?CL.html():''}`;

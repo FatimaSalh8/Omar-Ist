@@ -97,11 +97,11 @@
     return base;
   }
   /* every change is also sent to the cloud copy (Firebase) a few seconds later */
-  function changed(c) { try { window.dispatchEvent(new CustomEvent('omr-changed', { detail: { c: c } })); } catch (e) {} }
+  function changed(c, id, d) { try { window.dispatchEvent(new CustomEvent('omr-changed', { detail: { c: c, id: id, d: d } })); } catch (e) {} }
   function setDoc(c, id, data, opts) {
     return ready().then(function () {
       var nd = apply(col(c).get(id), data, !!(opts && opts.merge));
-      col(c).set(id, nd); put(c, id, nd); notify(c); changed(c);
+      col(c).set(id, nd); put(c, id, nd); notify(c); changed(c, id, nd);
     });
   }
   function updDoc(c, id, data) {
@@ -110,11 +110,11 @@
       if (old === undefined) throw new Error('not-found');
       /* "a.b" style field paths are written as a plain key (the modules only use flat fields) */
       var nd = apply(old, data, true);
-      col(c).set(id, nd); put(c, id, nd); notify(c); changed(c);
+      col(c).set(id, nd); put(c, id, nd); notify(c); changed(c, id, nd);
     });
   }
   function delDoc(c, id) {
-    return ready().then(function () { col(c).delete(id); drop(c, id); notify(c); changed(c); });
+    return ready().then(function () { col(c).delete(id); drop(c, id); notify(c); changed(c, id, null); });
   }
 
   /* ---------- the Firestore-like objects ---------- */
