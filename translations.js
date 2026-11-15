@@ -214,7 +214,7 @@ const TRX=[
 ["Add","Ajouter","إضافة","Ekle","Добавить","Añadir","Hinzufügen","Adaugă","Aggiungi","Adicionar"],
 ["Save","Enregistrer","حفظ","Kaydet","Сохранить","Guardar","Speichern","Salvează","Salva","Guardar"],
 ["Consultant full name","Nom complet du consultant","الاسم الكامل للمستشار","Danışmanın tam adı","Полное имя консультанта","Nombre completo del consultor","Vollständiger Name des Beraters","Numele complet al consultantului","Nome completo del consulente","Nome completo do consultor"],
-["Email (name@kristalclinic.com)","E-mail (nom@kristalclinic.com)","البريد الإلكتروني (name@kristalclinic.com)","E-posta (ad@kristalclinic.com)","Эл. почта (name@kristalclinic.com)","Correo (nombre@kristalclinic.com)","E-Mail (name@kristalclinic.com)","Email (name@kristalclinic.com)","Email (name@kristalclinic.com)","Email (name@kristalclinic.com)"],
+["Email (name@omeristanbul.com)","E-mail (nom@omeristanbul.com)","البريد الإلكتروني (name@omeristanbul.com)","E-posta (ad@omeristanbul.com)","Эл. почта (name@omeristanbul.com)","Correo (nombre@omeristanbul.com)","E-Mail (name@omeristanbul.com)","Email (name@omeristanbul.com)","Email (name@omeristanbul.com)","Email (name@omeristanbul.com)"],
 ["Administrator","Administrateur","المسؤول","Yönetici","Администратор","Administrador","Administrator","Administrator","Amministratore","Administrador"],
 ["Active consultants","Consultants actifs","المستشارون النشطون","Aktif danışmanlar","Активные консультанты","Consultores activos","Aktive Berater","Consultanți activi","Consulenti attivi","Consultores ativos"],
 ["None","Aucun","لا يوجد","Yok","Нет","Ninguno","Keine","Niciunul","Nessuno","Nenhum"],

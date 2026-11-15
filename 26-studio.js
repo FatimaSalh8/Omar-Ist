@@ -227,7 +227,7 @@
     if (!host.dataset.built) {
       host.dataset.built = 1;
       host.innerHTML = '<div class="flex flex-wrap items-end justify-between gap-3 mb-4"><div class="min-w-0"><h2 class="lux font-bold text-lg">Saved Cases</h2><p class="text-xs text-slate-500">The cases saved in Omer Istanbul Dental Center. Open a case and it opens straight in the studio.</p></div>'
-        + '<div class="flex flex-wrap items-end gap-2"><label class="block text-[10px] text-slate-500 font-bold uppercase">Search<input id="kpsq" placeholder="Patient name or kit number" class="block w-64 max-w-full border rounded p-1.5 mt-1 font-bold text-slate-900 normal-case bg-white text-xs"></label>'
+        + '<div class="flex flex-wrap items-end gap-2"><label class="block text-[10px] text-slate-500 font-bold uppercase">Search<input id="kpsq" placeholder="Patient name" class="block w-64 max-w-full border rounded p-1.5 mt-1 font-bold text-slate-900 normal-case bg-white text-xs"></label>'
         + '<label id="kpscw" class="block text-[10px] text-slate-500 font-bold uppercase hidden">Consultant<select id="kpscs" class="block border rounded p-1.5 mt-1 font-bold text-slate-900 normal-case bg-white text-xs"></select></label></div></div><div id="kpsl"></div>';
       document.getElementById('kpsq').oninput = function (e) { ST.q = e.target.value; rList(); };
       document.getElementById('kpscs').onchange = function (e) { ST.cons = e.target.value; rList(); };

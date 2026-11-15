@@ -1,4 +1,14 @@
-Ömar Istanbul by Rima — version 1.7 (2026-11-15)
+Ömar Istanbul by Rima — version 1.8 (2026-11-15)
+
+NEW IN 1.8
+- The portal always uses the Lora font (the font menu is removed). The font files are now in the fonts folder, so they really load.
+- Kit number removed everywhere (calendars, pipeline, forms, receipts, calculators, saved plans, Studio search).
+  Saved plans are now told apart by the patient name.
+- Settings box at the bottom left of the menu: Treatment Database, Language, Dark mode, Backup, Sign out (taken out of the top bar).
+- Omer Istanbul Dental Center is a button in the top bar, next to Follow up Messages (Saved Cases are inside the Studio).
+- The old Kristal website, Instagram, YouTube and map in the follow-up messages are replaced by the Omer Istanbul website and address.
+
+VERSION 1.7 (2026-11-15)
 
 NEW IN 1.7
 - Simple table: the PDF has all its pages again (team picture, title page, pre-treatment, the simple plan page of each option,

@@ -355,15 +355,15 @@ function trcPdfAsk(){
  d.id='trcpm';d.className='fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4';
  d.addEventListener('keydown',e=>{if(e.key=='Escape')trcPdfX()});
  d.addEventListener('mousedown',e=>{if(e.target===d)trcPdfX()});
- d.innerHTML=`<form onsubmit="return trcPdfGo(event)" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-5 space-y-4"><h3 class="lux font-bold text-base">Download the plan as PDF</h3><p class="text-xs text-slate-500">Write the patient name and the kit number. Both are printed on the PDF.</p><label class="${lab}">Patient name<input id="trcpt" autocomplete="off" class="${inp}"></label><label class="${lab}">Kit number<input id="trckit" autocomplete="off" class="${inp}"></label><div class="flex flex-wrap justify-end gap-2 text-xs font-bold uppercase"><button type="button" onclick="trcPdfX()" class="bg-slate-200 rounded px-4 py-2">Cancel</button><button type="submit" class="bg-slate-800 text-white rounded px-4 py-2">⬇ Download PDF</button></div></form>`;
+ d.innerHTML=`<form onsubmit="return trcPdfGo(event)" class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-5 space-y-4"><h3 class="lux font-bold text-base">Download the plan as PDF</h3><p class="text-xs text-slate-500">Write the patient name. It is printed on the PDF.</p><label class="${lab}">Patient name<input id="trcpt" autocomplete="off" class="${inp}"></label><div class="flex flex-wrap justify-end gap-2 text-xs font-bold uppercase"><button type="button" onclick="trcPdfX()" class="bg-slate-200 rounded px-4 py-2">Cancel</button><button type="submit" class="bg-slate-800 text-white rounded px-4 py-2">⬇ Download PDF</button></div></form>`;
  document.body.appendChild(d);
- ['trcpt','trckit'].forEach(i=>$(i).addEventListener('input',e=>e.target.classList.remove('border-red-500','ring-1','ring-red-500')));
+ ['trcpt'].forEach(i=>$(i).addEventListener('input',e=>e.target.classList.remove('border-red-500','ring-1','ring-red-500')));
  $('trcpt').focus()}
 function trcPdfX(){const d=$('trcpm');if(d)d.remove()}
 function trcPdfGo(ev){if(ev&&ev.preventDefault)ev.preventDefault();
- const a=$('trcpt'),b=$('trckit');if(!a||!b)return false;
+ const a=$('trcpt'),b=$('trckit')||{value:''};if(!a)return false;
  const nm=a.value.trim(),kt=b.value.trim();
- if(!nm||!kt){const x=!nm?a:b;x.classList.add('border-red-500','ring-1','ring-red-500');x.focus();toast(ti('Please write the patient name and the kit number first.'));return false}
+ if(!nm){const x=a;x.classList.add('border-red-500','ring-1','ring-red-500');x.focus();toast(ti('Please write the patient name first.'));return false}
  trcPdfX();trcPdfRun(nm,kt);return false}
 async function trcPdfRun(pt,kit){
  if(TRC_BUSY)return;
@@ -393,7 +393,7 @@ function trcPdfHtml(D){
   dt=(()=>{try{return new Date(at).toLocaleDateString(LANGS[trdLn(l)][2],{dateStyle:'medium'})}catch(e){return String(at).slice(0,10)}})(),
   pct=p=>p==null?'':' ('+p+'%)',
   info=(k,v)=>`<div style="display:flex;gap:6px;align-items:baseline;font-size:10.5px;line-height:1.6"><span style="color:#6e7099;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;min-width:84px">${esc(k)}</span><b dir="auto" style="unicode-bidi:plaintext">${esc(v)}</b></div>`,
-  head=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:2px solid ${GL};padding-bottom:12px"><div style="display:flex;align-items:center;gap:12px"><div style="background:${NV};color:#a08a7c;font-family:Lato,Montserrat,sans-serif;font-weight:700;font-size:13px;letter-spacing:.02em;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center">EOP</div><div><div style="font-family:Lato,Montserrat,sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;color:${NV}">EXECUTIVE OPERATIONS PORTAL</div><div style="font-size:9px;font-weight:700;letter-spacing:.2em;color:#a08a7c;margin-top:4px;text-transform:uppercase">${esc(ti('Treatment Plan'))}</div></div></div><div style="min-width:0">${info(ti('Patient name'),pt)}${info(ti('Kit number'),kit)}${info(ti('Date'),dt)}${info(ti('Currency'),o.cur)}${info(ti('Visits'),ti(vis))}${me!='admin'?info(ti('Consultant'),me):''}</div></div>`;
+  head=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:2px solid ${GL};padding-bottom:12px"><div style="display:flex;align-items:center;gap:12px"><div style="background:${NV};color:#a08a7c;font-family:Lato,Montserrat,sans-serif;font-weight:700;font-size:13px;letter-spacing:.02em;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center">EOP</div><div><div style="font-family:Lato,Montserrat,sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;color:${NV}">EXECUTIVE OPERATIONS PORTAL</div><div style="font-size:9px;font-weight:700;letter-spacing:.2em;color:#a08a7c;margin-top:4px;text-transform:uppercase">${esc(ti('Treatment Plan'))}</div></div></div><div style="min-width:0">${info(ti('Patient name'),pt)}${info(ti('Date'),dt)}${info(ti('Currency'),o.cur)}${info(ti('Visits'),ti(vis))}${me!='admin'?info(ti('Consultant'),me):''}</div></div>`;
  /* price tables: Least / Normal / High, and the custom plan */
  const nm=r=>esc(trdTn(r.t,l)),
   GC=[['Least Price','#047857'],['Normal Price','#4338ca'],['High Price','#be123c']],

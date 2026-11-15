@@ -10,7 +10,7 @@
   var isAdm = function () { return me === 'admin'; };
   var isGst = function () { return typeof GUEST !== 'undefined' && GUEST; };       /* a guest saves plans, but asks for no discount (no discount requests, no chat) */
   var fm = function (sym, n) { return typeof trdFm === 'function' ? trdFm(sym, n) : sym + Math.round(n); };
-  var kitFmt = function (k) { k = String(k || '').trim(); return /^kit-/i.test(k) ? k.toUpperCase() : 'KIT-' + k; };
+  var kitFmt = function (k) { k = String(k || '').trim(); if (!k) return ''; return /^kit-/i.test(k) ? k.toUpperCase() : 'KIT-' + k; };
   var kitKey = function (k) { return String(k || '').trim().replace(/^kit-/i, '').toLowerCase().replace(/[^a-z0-9]/g, ''); };
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
   function when(ms) {
@@ -206,12 +206,12 @@
       + (isAdm() || isGst() ? '' : '<div><button type="button" onclick="EP.reqOpen(\'' + kind + '\')" class="g rounded px-3 py-1.5 font-bold uppercase">&#128232; ' + esc(tt('Request more discount')) + '</button></div>');
   }
   function patientBox(name, kit) {
-    return '<div class="ep-row"><div class="ep-field"><label>' + esc(tt('Patient name')) + '</label><input type="text" id="ep_pn" value="' + esc(name) + '" autocomplete="off"></div><div class="ep-field"><label>' + esc(tt('Kit number')) + '</label><input type="text" id="ep_pk" value="' + esc(kit) + '" autocomplete="off" placeholder="12111"></div></div>';
+    return '<div class="ep-row"><div class="ep-field"><label>' + esc(tt('Patient name')) + '</label><input type="text" id="ep_pn" value="' + esc(name) + '" autocomplete="off"></div></div>';
   }
   function readPatient() {
     var n = (document.getElementById('ep_pn') || {}).value || '', k = (document.getElementById('ep_pk') || {}).value || '';
     n = n.trim(); k = k.trim();
-    if (!n || !k) { toast(tt('Enter the patient name and the kit number first.')); return null; }
+    if (!n) { toast(tt('Enter the patient name first.')); return null; }
     ST.last = { name: n, kit: k }; return { name: n, kit: kitFmt(k) };
   }
   function need() { if (!X) { toast(tt('The shared database is not connected.')); return false; } return true; }
@@ -220,7 +220,7 @@
     var st = current(kind), c = calc(kind, st, pkk);
     if (!c) { toast(tt('Enter at least one treatment and choose a currency first.')); return null; }
     var owner = as ? as.owner : X.email;
-    var id = owner.replace(/[^a-z0-9]/gi, '_') + '__' + kitKey(p.kit) + '__' + kind;
+    var id = owner.replace(/[^a-z0-9]/gi, '_') + '__' + (kitKey(p.kit) || kitKey(p.name)) + '__' + kind;
     var old = PL.filter(function (x) { return x.id === id; })[0];
     var doc = { owner: owner, name: as ? as.name : ME_NAME, kit: p.kit, patient: p.name, kind: kind, pkk: kind === 'pkg' ? (pkk || PKP.sel || 'std') : '', cur: c.cur, tg: c.T.given, tl: c.T.list, pct: c.T.pct, st: st, kb: Math.round(st.length / 1024 * 10) / 10, ms: Date.now(), at: X.fb.firestore.FieldValue.serverTimestamp() };
     if (as) doc.adm = true;                              /* version 3.6: changed by the supervisor */
@@ -335,7 +335,7 @@
   function planLocal(id) {
     var p = PL.filter(function (x) { return x.id === id; })[0]; if (!p) return;
     var c = calc(p.kind, p.st, p.pkk);
-    modal(p.patient + ' · ' + p.kit, '<p class="ep-sub">' + esc(p.name || '') + ' · ' + esc(kindName(p)) + ' · ' + esc(when(p.ms)) + '</p><p class="ep-note">&#128274; ' + esc(tt('Local prices are visible to you only.')) + '</p>' + (c ? localView(c) : '<p class="ep-sub">' + esc(tt('This plan cannot be shown.')) + '</p>'), true);
+    modal(p.patient + (p.kit ? ' · ' + p.kit : ''), '<p class="ep-sub">' + esc(p.name || '') + ' · ' + esc(kindName(p)) + ' · ' + esc(when(p.ms)) + '</p><p class="ep-note">&#128274; ' + esc(tt('Local prices are visible to you only.')) + '</p>' + (c ? localView(c) : '<p class="ep-sub">' + esc(tt('This plan cannot be shown.')) + '</p>'), true);
   }
 
   /* ---------- the page: Saved Plans ---------- */
@@ -351,8 +351,8 @@
     var el = document.getElementById('vpl'), adm = isAdm();
     if (!el.dataset.built || el.dataset.me !== me) {
       el.dataset.built = 1; el.dataset.me = me;
-      el.innerHTML = '<div><h2 class="lux font-bold text-lg">' + esc(adm ? tt('All Saved Plans') : tt('Saved Plans')) + '</h2><p class="text-xs text-slate-500">' + esc(adm ? tt('Every plan you saved. Search by kit number or patient name.') : tt(isGst() ? 'Your saved plans. Search by kit number or patient name, or open one.' : 'Your saved plans. Search by kit number or patient name, open one, or send it to the admin as a request.')) + '</p></div>'
-        + '<div class="ep-row ' + (adm ? 'ep-r3' : '') + '"><div class="ep-field"><label>' + esc(tt('Search kit number or patient')) + '</label><input type="text" id="ep_ps" value="' + esc(ST.search) + '" placeholder="12111" autocomplete="off"></div>'
+      el.innerHTML = '<div><h2 class="lux font-bold text-lg">' + esc(adm ? tt('All Saved Plans') : tt('Saved Plans')) + '</h2><p class="text-xs text-slate-500">' + esc(adm ? tt('Every plan you saved. Search by patient name.') : tt(isGst() ? 'Your saved plans. Search by patient name, or open one.' : 'Your saved plans. Search by kit number or patient name, open one, or send it to the admin as a request.')) + '</p></div>'
+        + '<div class="ep-row ' + (adm ? 'ep-r3' : '') + '"><div class="ep-field"><label>' + esc(tt('Search patient')) + '</label><input type="text" id="ep_ps" value="' + esc(ST.search) + '" placeholder="12111" autocomplete="off"></div>'
         + '' + '<div class="ep-tile" id="ep_pt" style="align-self:end"></div></div><div id="plist"></div>';
       document.getElementById('ep_ps').oninput = function () { ST.search = this.value; paintPlans(); };
       var pc = document.getElementById('ep_pc'); if (pc) pc.onchange = function () { ST.cons = this.value; paintPlans(); };
@@ -367,10 +367,10 @@
     var kb = PL.reduce(function (s, p) { return s + (p.kb || 0); }, 0), pt = document.getElementById('ep_pt');
     if (pt) pt.innerHTML = '<small>' + esc(tt('{0} plans saved', PL.length)) + '</small><b>' + kb.toFixed(1) + ' KB</b>';
     if (!L.length) { list.innerHTML = '<p class="ep-sub" style="padding:14px">' + esc(PL.length ? tt('No plan found.') : tt('No saved plans yet. Press Save plan in a calculator.')) + '</p>'; return; }
-    list.innerHTML = '<div class="ep-scroll"><table class="ep-t"><thead><tr><th>' + esc(tt('Kit')) + '</th><th>' + esc(tt('Patient')) + '</th>' + '<th>' + esc(tt('Type')) + '</th><th>' + esc(tt('Price to patient')) + '</th><th>' + esc(tt('Discount')) + '</th><th>' + esc(tt('Saved')) + '</th><th></th></tr></thead><tbody>'
+    list.innerHTML = '<div class="ep-scroll"><table class="ep-t"><thead><tr><th>' + esc(tt('Patient')) + '</th>' + '<th>' + esc(tt('Type')) + '</th><th>' + esc(tt('Price to patient')) + '</th><th>' + esc(tt('Discount')) + '</th><th>' + esc(tt('Saved')) + '</th><th></th></tr></thead><tbody>'
       + L.map(function (p) {
         var sym = TRD_SYM[p.cur] || '', lk = !!(p.sup && p.sup.reqId);
-        return '<tr><td data-notr><b>' + esc(p.kit) + '</b></td><td data-notr style="white-space:normal">' + esc(p.patient) + (p.adm ? ' <span class="ep-chip">' + esc(tt('Changed by the supervisor')) + '</span>' : '') + (p.card ? ' <span class="ep-chip" title="' + esc(tt('Plan card')) + '">📎</span>' : '') + '</td>' + '<td>' + esc(kindName(p)) + '</td><td data-notr>' + fm(sym, p.tg || 0) + (lk ? '<br><span class="ep-chip ep-okc">&#128274; ' + esc(tt('Supervisor price')) + ' ' + fm(sym, p.sup.tot || 0) + '</span>' : '') + '</td><td data-notr>' + pctTxt(p.pct > 0 ? p.pct : 0) + '</td><td data-notr>' + esc(when(p.ms)) + '</td>'
+        return '<tr><td data-notr style="white-space:normal">' + esc(p.patient) + (p.adm ? ' <span class="ep-chip">' + esc(tt('Changed by the supervisor')) + '</span>' : '') + (p.card ? ' <span class="ep-chip" title="' + esc(tt('Plan card')) + '">📎</span>' : '') + '</td>' + '<td>' + esc(kindName(p)) + '</td><td data-notr>' + fm(sym, p.tg || 0) + (lk ? '<br><span class="ep-chip ep-okc">&#128274; ' + esc(tt('Supervisor price')) + ' ' + fm(sym, p.sup.tot || 0) + '</span>' : '') + '</td><td data-notr>' + pctTxt(p.pct > 0 ? p.pct : 0) + '</td><td data-notr>' + esc(when(p.ms)) + '</td>'
           + '<td style="white-space:nowrap">' + (adm ? '<button type="button" class="ep-btn ep-gold" data-ep="plocal" data-v="' + esc(p.id) + '">&#128274; ' + esc(tt('Local prices')) + '</button> <button type="button" class="ep-btn" data-ep="aopen" data-v="' + esc(p.id) + '">&#9998; ' + esc(tt('Open in my calculator')) + '</button> ' : '<button type="button" class="ep-btn" data-ep="popen" data-v="' + esc(p.id) + '">' + esc(lk ? tt('Open discount request') : tt('Open')) + '</button> ' + (isGst() || lk ? '' : '<button type="button" class="ep-btn ep-gold" data-ep="preq" data-v="' + esc(p.id) + '">' + esc(tt('Request discount')) + '</button> '))
           + '<button type="button" class="ep-btn" data-ep="pdel" data-v="' + esc(p.id) + '" aria-label="Delete">&#128465;</button></td></tr>';
       }).join('') + '</tbody></table></div>';

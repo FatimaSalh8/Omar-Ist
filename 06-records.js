@@ -3,14 +3,14 @@
    (kc_tickets, kc_deposits, kc_potentials: they are part of the Backup file and of the cloud copy). */
 Object.assign(E,{
  tickets:{t:'Ticket Calendar',s:'arrivalDate',
-  cols:[['bookingMadeOn','Booking Made On','d'],['kitNumber','Kit #','k'],['patientName','Patient Name - Zoho'],['arrivalDate','Arrival Date','d'],['departureDate','Departure Date','d'],['airport','Airport'],['appointmentDate','Appointment Date','d'],['pay1','Visit Payment','m'],['pay2','2nd Visit Payment','m'],['totalPayment','Total Plan Amount','M'],['hotel','Hotel'],['nights','Nights'],['pricePerNight','Price/Night','p'],['currency','Currency'],['visitType','Visit Type'],['treatmentPlan','Treatment Plan']],
-  f:[['bookingMadeOn','Booking Made On','date'],['kitNumber','Kit Number','text'],['patientName','Patient Name - Zoho','text'],['arrivalDate','Arrival Date','date'],['departureDate','Departure Date','date'],['airport','Airport',['IST','SAW']],['appointmentDate','Appointment Date','date'],['visitType','Visit Type',['First Visit','Second Visit','Third Visit','Canceled','Unsold']],['pay1','Visit Payment','number'],['pay2','2nd Visit Payment','number'],['totalPayment','Total Plan Amount','number'],['hotel','Hotel','hotel'],['currency','Currency',CUR],['treatmentPlan','Treatment Plan Details','area']]},
+  cols:[['bookingMadeOn','Booking Made On','d'],['patientName','Patient Name - Zoho'],['arrivalDate','Arrival Date','d'],['departureDate','Departure Date','d'],['airport','Airport'],['appointmentDate','Appointment Date','d'],['pay1','Visit Payment','m'],['pay2','2nd Visit Payment','m'],['totalPayment','Total Plan Amount','M'],['hotel','Hotel'],['nights','Nights'],['pricePerNight','Price/Night','p'],['currency','Currency'],['visitType','Visit Type'],['treatmentPlan','Treatment Plan']],
+  f:[['bookingMadeOn','Booking Made On','date'],['patientName','Patient Name - Zoho','text'],['arrivalDate','Arrival Date','date'],['departureDate','Departure Date','date'],['airport','Airport',['IST','SAW']],['appointmentDate','Appointment Date','date'],['visitType','Visit Type',['First Visit','Second Visit','Third Visit','Canceled','Unsold']],['pay1','Visit Payment','number'],['pay2','2nd Visit Payment','number'],['totalPayment','Total Plan Amount','number'],['hotel','Hotel','hotel'],['currency','Currency',CUR],['treatmentPlan','Treatment Plan Details','area']]},
  deposits:{t:'Deposit Calendar',s:'depositMadeOn',
-  cols:[['depositMadeOn','Deposit Made On','d'],['kitNumber','Kit #','k'],['patientName','Patient Name - Zoho'],['totalPlanAmount','Total Plan Amount','M'],['amount','Deposit Amount','M'],['currency','Currency'],['depositLink','Deposit Payment Link','l']],
-  f:[['depositMadeOn','Deposit Made On','date'],['kitNumber','Kit Number','text'],['patientName','Patient Name - Zoho','text'],['totalPlanAmount','Total Plan Amount','number'],['amount','Deposit Amount','number'],['currency','Currency',CUR],['depositLink','Deposit Payment Link','url']]},
+  cols:[['depositMadeOn','Deposit Made On','d'],['patientName','Patient Name - Zoho'],['totalPlanAmount','Total Plan Amount','M'],['amount','Deposit Amount','M'],['currency','Currency'],['depositLink','Deposit Payment Link','l']],
+  f:[['depositMadeOn','Deposit Made On','date'],['patientName','Patient Name - Zoho','text'],['totalPlanAmount','Total Plan Amount','number'],['amount','Deposit Amount','number'],['currency','Currency',CUR],['depositLink','Deposit Payment Link','url']]},
  potentials:{t:'Potential Patients',s:'date',
-  cols:[['date','Date','d'],['status','Status'],['kitNumber','Kit Number','k'],['patientName','Patient Name - Zoho'],['notes','Notes / Remarks']],
-  f:[['date','Date','date'],['status','Status',['NR','No Reply','Waiting For photos','Waiting For Evaluation','Negotiation','Waiting For Deposit','Waiting For Ticket','Postponed','Confirmed']],['kitNumber','Kit Number','text'],['patientName','Patient Name - Zoho','text'],['notes','Notes / Remarks','area']]}
+  cols:[['date','Date','d'],['status','Status'],['patientName','Patient Name - Zoho'],['notes','Notes / Remarks']],
+  f:[['date','Date','date'],['status','Status',['NR','No Reply','Waiting For photos','Waiting For Evaluation','Negotiation','Waiting For Deposit','Waiting For Ticket','Postponed','Confirmed']],['patientName','Patient Name - Zoho','text'],['notes','Notes / Remarks','area']]}
 });
 Object.assign(SUB,{tickets:'Track bookings, visits, accommodations, and follow-ups (Sorted by Arrival Date).',deposits:'Track incoming deposits (Sorted by Deposit Made On Date).',potentials:'Track incoming lead statuses, postponed clients, and confirmed conversions.'});
 
@@ -126,7 +126,7 @@ function delSel(b){const s=sel();if(!s.length)return msg('Select at least one ro
 /* ---------- Deposit Calendar: the ticked rows written out in a box, ready to paste in WhatsApp ---------- */
 const DSYM={USD:'$',EUR:'€',GBP:'£',CAD:'C$',AUD:'A$',TRY:'₺',TL:'₺'};
 function depTxt(r){const c=r.currency||'USD',a=Number(r.amount)||0;
- return['Consultant Name : '+ME_NAME,'Payment Date : '+(r.depositMadeOn?fd(r.depositMadeOn):'-'),'Kit-Number : '+cell(r,['kitNumber','','k']),'Patient Name : '+(r.patientName||''),'Paid Amount : '+(DSYM[c]||'')+a.toLocaleString('en-US')+' '+c,'Link : '+(/^https?:/.test(r.depositLink||'')?r.depositLink:'-')].join('\n')}
+ return['Consultant Name : '+ME_NAME,'Payment Date : '+(r.depositMadeOn?fd(r.depositMadeOn):'-'),'Patient Name : '+(r.patientName||''),'Paid Amount : '+(DSYM[c]||'')+a.toLocaleString('en-US')+' '+c,'Link : '+(/^https?:/.test(r.depositLink||'')?r.depositLink:'-')].join('\n')}
 function depInfo(){const b=$('dinfo');if(!b)return;
  const ids=tab=='deposits'?[...document.querySelectorAll('#tb .ck:checked')].map(c=>c.value):[],R=ids.map(id=>D.deposits.find(x=>String(x.id)==id)).filter(Boolean);
  b.classList.toggle('hidden',!R.length);if(!R.length){b.innerHTML='';return}
@@ -161,17 +161,17 @@ async function pdfSel(){const s=sel();if(!s.length)return msg('Select at least o
   if(tab=='tickets'){
    const n=parseFloat(r.nights)||0;
    body=head('Ticket Confirmation')+who('Booking Date',r.bookingMadeOn)
-    +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+fld('Kit Number',kt(r.kitNumber))+fld('Arrival Date',dd(r.arrivalDate))+fld('Departure Date',dd(r.departureDate))+fld('Airport',v(r.airport))+fld('Appointment Date',dd(r.appointmentDate))+fld('Hotel Accommodation',v(r.hotel))+fld('Nights Stayed',typeof nightsTxt=='function'?nightsTxt(n):String(n))+'</div>'
+    +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+fld('Arrival Date',dd(r.arrivalDate))+fld('Departure Date',dd(r.departureDate))+fld('Airport',v(r.airport))+fld('Appointment Date',dd(r.appointmentDate))+fld('Hotel Accommodation',v(r.hotel))+fld('Nights Stayed',typeof nightsTxt=='function'?nightsTxt(n):String(n))+'</div>'
     +pay('Visit Payment',r.visitType=='Unsold'?'-':amt(r.pay1,r.currency))+note('Treatment Plan Details',v(r.treatmentPlan))+bar(r.visitType=='Unsold'?'-':amt(r.totalPayment,r.currency));
    fn=(r.patientName||'Ticket')+' - '+(r.arrivalDate?fd(r.arrivalDate).replace(/\//g,'-'):ti('No arrival date'));
   }else if(tab=='deposits'){
    body=head('Deposit Confirmation Receipt')+who('Deposit Made On',r.depositMadeOn)
-    +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+fld('Kit Number',kt(r.kitNumber))+'</div>'
+    +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+'</div>'
     +pay('Deposit Amount Received',amt(r.amount,r.currency))+note('Deposit Payment Link',v(r.depositLink))+bar(amt(r.totalPlanAmount,r.currency));
    fn=[r.patientName||'Deposit',kt(r.kitNumber),amt(r.amount,r.currency)].join(' - ');
   }else{
    body=head('Potential Patient Summary')+who('Date',r.date)
-    +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+fld('Kit Number',kt(r.kitNumber))+fld('Status',v(r.status))+'</div>'+note('Notes / Remarks',v(r.notes));
+    +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+fld('Status',v(r.status))+'</div>'+note('Notes / Remarks',v(r.notes));
    fn=(r.patientName||'Patient')+' - '+kt(r.kitNumber);
   }
   fn=fn.replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()+'.pdf';
@@ -202,7 +202,7 @@ function legMark(){[...$('leg').children].forEach(b=>{const on=(b.getAttribute('
 const cvBase=()=>D.tickets;
 const cvSort=(a,b)=>CVO.indexOf(a.k)-CVO.indexOf(b.k)||(a.t.patientName||'').localeCompare(b.t.patientName||'');
 const cvMap=all=>{const m={};cvBase().forEach(t=>CVO.forEach(k=>{const ds=t[CVK[k].f];if((all||cv.k[k])&&ds)(m[ds]=m[ds]||[]).push({t,k,ds})}));Object.values(m).forEach(a=>a.sort(cvSort));return m};
-const cvTip=t=>[t.patientName,t.kitNumber?'KIT-'+String(t.kitNumber).replace(/^KIT-/i,''):'',t.arrivalDate?ti('Arrival Date')+': '+fd(t.arrivalDate):'',t.appointmentDate?ti('Appointment Date')+': '+fd(t.appointmentDate):'',t.departureDate?ti('Departure Date')+': '+fd(t.departureDate):'',t.hotel||'',t.visitType||''].filter(Boolean).join(' · ');
+const cvTip=t=>[t.patientName,t.arrivalDate?ti('Arrival Date')+': '+fd(t.arrivalDate):'',t.appointmentDate?ti('Appointment Date')+': '+fd(t.appointmentDate):'',t.departureDate?ti('Departure Date')+': '+fd(t.departureDate):'',t.hotel||'',t.visitType||''].filter(Boolean).join(' · ');
 const cvChip=e=>{const c=CVK[e.k].c,t=e.t;return `<div data-cv="chip" title="${esc(CVK[e.k].ic+' '+ti(CVK[e.k].lb)+' · '+cvTip(t))}" style="display:block;width:100%;text-align:start;background:${c[0]};border:1px solid ${c[1]};color:${c[2]};border-radius:4px;padding:1px 4px;font-size:10px;font-weight:700;line-height:1.35;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:2px;${cvDead(t)?'text-decoration:line-through;opacity:.55;':''}">${CVK[e.k].ic} ${esc(t.patientName||'')}</div>`};
 function cvMonthHTML(mp){const y=cv.y,m=cv.m,loc=LANGS[LI][2],first=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate(),td=cvToday();
  const wd=[...Array(7)].map((_,i)=>`<div style="padding:4px;text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0">${esc(new Date(2024,0,1+i).toLocaleString(loc,{weekday:'short'}))}</div>`).join('');

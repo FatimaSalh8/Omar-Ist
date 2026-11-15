@@ -573,3 +573,8 @@ html[lang=ar] #login .lg-eye{right:auto;left:8px}
 .st-rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:8px}
 .st-rates div{display:flex;justify-content:space-between;border:1px solid #e3ddd8;border-radius:8px;padding:9px 11px;background:#fff;font-size:12px}.st-rates span{color:#4f46e5;font-weight:700}
 html.dark .st-fc .st-g1,html.dark .st-fc .st-g2{background:transparent}html.dark .st-tiers div,html.dark .st-rates div,html.dark .st-tin{background:transparent}
+
+/* the Omer Istanbul Dental Center button in the top bar, and the Settings box at the bottom of the menu */
+.oi-kpsb{background:#161a59!important;color:#fff!important;border-color:#161a59!important}
+.oi-kpsb.on{background:#a08a7c!important;border-color:#a08a7c!important}
+html.dark .oi-set{background:transparent}
