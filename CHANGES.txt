@@ -1,4 +1,13 @@
-Ömar Istanbul by Rima — version 1.5 (2026-11-15)
+Ömar Istanbul by Rima — version 1.6 (2026-11-15)
+
+NEW IN 1.6
+- The old tooth chart with the gums is no longer used anywhere in the PDF. Each layout has its own chart, on every page (pre-treatment too):
+  Simple table = outlined teeth, Option cards = dots, Tooth blocks = boxes.
+- Simple table (the normal PDF) = the pre-treatment page + the clinic's simple plan page for each option, nothing else:
+  X-rays, consultations, interpreter, the treatments with their teeth, smile design, warranty, 24h assistance, hotel nights, VIP transfer
+  (each with its quantity, 1 x), card payment +10 %, standard price, group discount of the month, total, promotion bar. Prices written as EUR 3.450.
+
+VERSION 1.5 (2026-11-15)
 
 NEW IN 1.5
 - PDF LAYOUT "Simple table" is now the normal one: the clinic's simple plan page (outlined teeth with green crowns and the numbers of the

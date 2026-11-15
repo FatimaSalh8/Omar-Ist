@@ -1209,6 +1209,14 @@ details.fold.inner>summary{font-size:12.5px}
 .ltban{background:#161a59;color:#fff;text-align:center;font:700 13px Arial,Helvetica,sans-serif;padding:13px}
 .ltchart{background:#fff}.chartcard.ltchart{padding:4px 0;border:0;box-shadow:none}.ltsvg{display:block;width:100%;height:auto}
 .sheet:has(.ltpage) .hd .ey{font:700 17px Arial,Helvetica,sans-serif;letter-spacing:0;color:#5c5c5c;text-transform:uppercase}
+.chdots{border:1.5px solid #d9d4cf;border-radius:16px;padding:18px 22px 14px;background:#fff}
+.chdots .lcr i{width:30px;height:30px;font-size:10px;line-height:28px}.chdots .lcl{width:62px}.chdots .lcm{height:30px;margin:0 6px}.chdots .lcr{gap:5px;justify-content:center}
+.lcr i.ms,.lclg i.ms{background:#fff!important;border:1.3px dashed #c9c4bf!important;color:#c0bab5}
+.chblk .chlg{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;font-size:10.5px;color:#6e6f84;margin-top:10px}
+.chblk .chlg span{display:flex;align-items:center;gap:6px}.chblk .chlg i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.chblk i.ch-new{background:#161a59;border-color:#161a59;color:#fff}.chblk i.ch-ex{background:#a08a7c;border-color:#a08a7c;color:#fff}
+.chblk i.ch-miss{background:#fff;border:1.3px dashed #c9c4bf;color:#c0bab5}.chblk i.ch-nat{background:#f3efec;border:1px solid #e3ddd8;color:#9a9aa8}
+.chblk{border:1.5px solid #e3ddd8;border-radius:14px;overflow:hidden}
 /* the layout chooser in the Print step */
 .lyrow{position:sticky;top:0;z-index:40;box-shadow:0 6px 18px rgba(22,26,89,.08);display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:14px 18px 0;padding:12px 16px;border:1px solid var(--a-line,#ebe6e2);border-radius:16px;background:#fff}
 .lyrow h2{font-size:14px;margin:0}.lyrow .sub{margin:0}
@@ -2488,7 +2496,7 @@ const CH_CACHE=new Map();
 /* the chart is drawn on white (its card is white) and saved as one plain JPEG: a transparent PNG at double size becomes a huge picture with a mask inside the PDF, which phones are slow to open */
 function chartURL(visuals){const colors=chartColors();const sig=JSON.stringify([visuals,colors]);let u=CH_CACHE.get(sig);if(!u){u=KChart.render(visuals,{colors,bg:'#ffffff',scale:1.45}).toDataURL('image/jpeg',.95);CH_CACHE.set(sig,u);if(CH_CACHE.size>40)CH_CACHE.delete(CH_CACHE.keys().next().value);}return u;}
 function legendHtml(items){const C=chartColors();return `<div class="lgd">${items.map(([k,l])=>{if(k.startsWith('g:'))return `<span>${glyph(k.slice(2),14,'#57586c')}${esc(l)}</span>`;const st={nt:'background:#fff',crown:'background:'+C.crown,veneer:'background:'+C.veneer,implant:'background:'+C.implant+';border-color:#52525c',hybrid:'background:'+C.crown,ex:'background:'+C.exImplant,rc:'background:'+C.rc+';border-color:'+C.rc,ext:'background:'+C.ext+';border-color:'+C.ext,white:'background:#fff',excrown:'background:'+C.exCrown,caries:'background:#5b3a29',filling:'background:#94949f'}[k]||'background:#fff';return `<span><i style="${st}"></i>${esc(l)}</span>`;}).join('')}</div>`;}
-function chartCard(visuals,legend){if(pdfLayout()==='table')return `<div class="chartcard ltchart">${ltChartSvg(visuals)}</div>`;return `<div class="chartcard"><span class="rl l">${Tx('chart.right','Right')}</span><span class="rl r">${Tx('chart.left','Left')}</span><img class="ch" src="${chartURL(visuals)}" alt="Tooth chart">${legend&&legend.length?legendHtml(legend):''}</div>`;}
+function chartCard(visuals,legend){const ly=pdfLayout();if(ly==='table')return `<div class="chartcard ltchart">${ltChartSvg(visuals)}</div>`;if(ly==='cards')return chDots(visuals);if(ly==='blocks')return chBlocks(visuals);return `<div class="chartcard"><span class="rl l">${Tx('chart.right','Right')}</span><span class="rl r">${Tx('chart.left','Left')}</span><img class="ch" src="${chartURL(visuals)}" alt="Tooth chart">${legend&&legend.length?legendHtml(legend):''}</div>`;}
 const tcard=(title,col,rows,cls)=>`<div class="tcard"><div class="th">${title}<span${cls?` class="${cls}"`:''}>${col}</span></div><div class="tl">${rows}</div></div>`;
 
 /* ---- sections ---- */
@@ -2935,36 +2943,74 @@ function ltChartSvg(V){
   L.forEach((t,i)=>{const x=x0+step*i;s+=ltTooth(t,V[t],x,loEdge,false)+num(t,x,loEdge-15);});
   return s+'</svg>';
 }
-/* the table of one plan: "1. Phase:", the treatments with their quantity (and the price when individual prices are on), card tax, standard price, discount, total */
-function ltRowsOf(p,o,pc,P){
-  const teethTxt=l=>{if(isHotel(l)||isTransport(l))return '';const sc=scopeOf(l);if(sc==='tooth'||l.cat==='crown'||l.cat==='bridge'){const t=Array.from(new Set((l.teeth||[]).concat(l.brT||[]))).sort((a,b)=>a-b);return t.length?' ('+t.join(', ')+')':'';}const s=lineScopeText(l);return s?' ('+LT(s)+')':'';};
-  return r=>{const l=r.l,k=o.rows.indexOf(r),nm=isHotel(l)?String(l.name).replace(/^Nights\s*-\s*/i,''):lineLabel(l),eu=pc&&pc.u[k]!=null&&P.disc&&P.imode!=='before'?pc.u[k]:r.eu;
-    const am=P.indiv?(r.eu>0||eu>0?`${r.q} × ${oiMoney(eu)}`:esc(ltx('incl'))):`${r.q} ×`;
-    return `<tr><td>${esc(LT(nm))}${esc(teethTxt(l))}</td><td class="n">${am}</td></tr>`;};
-}
+/* the services written in every plan of the clinic (as on its simple plan page) */
+Object.assign(LTX,{
+ xray:{en:'Digital panoramic X-rays',fr:'Radiographies panoramiques numériques',ar:'أشعة بانورامية رقمية',tr:'Dijital panoramik röntgen',ru:'Цифровые панорамные снимки',es:'Radiografías panorámicas digitales',de:'Digitale Panorama-Röntgenaufnahmen',ro:'Radiografii panoramice digitale',it:'Radiografie panoramiche digitali',pt:'Radiografias panorâmicas digitais'},
+ consult:{en:'Free specialist consultations',fr:'Consultations spécialisées offertes',ar:'استشارات متخصصة مجانية',tr:'Ücretsiz uzman konsültasyonları',ru:'Бесплатные консультации специалистов',es:'Consultas especializadas gratuitas',de:'Kostenlose Facharzt-Beratungen',ro:'Consultații de specialitate gratuite',it:'Consulenze specialistiche gratuite',pt:'Consultas especializadas gratuitas'},
+ interp:{en:'Interpreter',fr:'Interprète',ar:'مترجم',tr:'Tercüman',ru:'Переводчик',es:'Intérprete',de:'Dolmetscher',ro:'Interpret',it:'Interprete',pt:'Intérprete'},
+ smile:{en:'3D digital smile design',fr:'Conception numérique du sourire en 3D',ar:'تصميم ابتسامة رقمي ثلاثي الأبعاد',tr:'3D dijital gülüş tasarımı',ru:'Цифровой 3D-дизайн улыбки',es:'Diseño digital de sonrisa en 3D',de:'Digitales 3D-Smile-Design',ro:'Design digital al zâmbetului 3D',it:'Progettazione digitale del sorriso in 3D',pt:'Desenho digital do sorriso em 3D'},
+ warr:{en:'10-year warranty',fr:'Garantie de 10 ans',ar:'ضمان 10 سنوات',tr:'10 yıl garanti',ru:'Гарантия 10 лет',es:'Garantía de 10 años',de:'10 Jahre Garantie',ro:'Garanție 10 ani',it:'Garanzia di 10 anni',pt:'Garantia de 10 anos'},
+ assist:{en:'24h post-treatment assistance',fr:'Assistance post-traitement 24h',ar:'مساعدة بعد العلاج على مدار 24 ساعة',tr:'24 saat tedavi sonrası destek',ru:'Поддержка после лечения 24 ч',es:'Asistencia post-tratamiento 24 h',de:'24-h-Betreuung nach der Behandlung',ro:'Asistență post-tratament 24h',it:'Assistenza post-trattamento 24h',pt:'Assistência pós-tratamento 24h'},
+ hotel:{en:'{N} hotel nights + breakfast + companion',fr:'{N} nuits d’hôtel+petit-déjeuner+accompagnant',ar:'{N} ليالٍ في الفندق + فطور + مرافق',tr:'{N} gece otel + kahvaltı + refakatçi',ru:'{N} ночей в отеле + завтрак + сопровождающий',es:'{N} noches de hotel + desayuno + acompañante',de:'{N} Hotelnächte + Frühstück + Begleitperson',ro:'{N} nopți la hotel + mic dejun + însoțitor',it:'{N} notti in hotel + colazione + accompagnatore',pt:'{N} noites de hotel + pequeno-almoço + acompanhante'},
+ transfer:{en:'VIP transfer (airport–hotel)',fr:'Transfert VIP (aéroport–hôtel)',ar:'نقل VIP (المطار–الفندق)',tr:'VIP transfer (havalimanı–otel)',ru:'VIP-трансфер (аэропорт–отель)',es:'Traslado VIP (aeropuerto–hotel)',de:'VIP-Transfer (Flughafen–Hotel)',ro:'Transfer VIP (aeroport–hotel)',it:'Transfer VIP (aeroporto–hotel)',pt:'Transfer VIP (aeroporto–hotel)'}
+});
+/* money as on the clinic's page: € 3.450 (a point for thousands, except in English) */
+const ltMoney=n=>{const v=Math.round((+n||0)*100)/100,s=v.toLocaleString(pdfLang()==='en'?'en-US':'de-DE',{minimumFractionDigits:0,maximumFractionDigits:2}),y=TPL.cur.sym.trim();return TPL.cur.pos==='before'?y+' '+s:s+' '+y;};
 function ltTable(p,i,N){
   const P=pdfOpts(),head=N>1?`<div class="lto">${esc(ltx('opt'))} ${planNo(p,i)}${/^\s*(option|plan|treatment plan\s*#?)\s*\d*\s*$/i.test(p.name||'')||!(p.name||'').trim()?'':' – '+esc(p.name)}</div>`:'';
-  if(p.mode==='package'){
-    const T=oiTiers(p);
-    return `<div class="ltb">${head}<div class="lth">1. ${esc(ltx('phase'))}:</div><div class="ltk">${pkgTreatRows(p).join('')}</div>${T.map(x=>`<div class="ltt"><span>${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span><b>${oiMoney(x.r.fin.tot)}</b></div>`).join('')}</div>`;
-  }
-  const o=calcPlan(p),pc=o.pc&&o.pc.ok?o.pc:null,G=planGroups(p,o),row=ltRowsOf(p,o,pc,P);
-  /* the hotel and the transfers belong to the first phase, as in the clinic's page */
-  const ph=G.filter(g=>g.key!=='acc'),acc=G.find(g=>g.key==='acc');if(!ph.length&&acc)ph.push({rows:[]});if(acc)ph[0]={rows:ph[0].rows.concat(acc.rows)};
+  const tr=(a,b)=>`<tr><td>${a}</td><td class="n">${b}</td></tr>`;
   const th=`<tr><th>${esc(ltx('treat'))}</th><th class="n">${esc(ltx('amt'))}</th></tr>`;
+  const teethTxt=l=>{const sc=scopeOf(l);if(sc==='tooth'||l.cat==='crown'||l.cat==='bridge'){const t=Array.from(new Set((l.teeth||[]).concat(l.brT||[]))).sort((a,b)=>a-b);return t.length?' ('+t.join(', ')+')':'';}const s=lineScopeText(l);return s?' ('+LT(s)+')':'';};
+  const nights=p.lines.filter(isHotel).reduce((n,l)=>n+lineQty(l),0);
+  const svc=k=>tr(esc(ltx(k)),'1 ×');
+  let rows=svc('xray')+svc('consult')+svc('interp'),o=null,pc=null;
+  if(p.mode==='package')rows+=pkgTreatRows(p).map(r=>`<tr><td colspan="2">${r}</td></tr>`).join('');
+  else{o=calcPlan(p);pc=o.pc&&o.pc.ok?o.pc:null;
+    o.rows.filter(r=>!r.hot&&!isTransport(r.l)&&!['service','other'].includes(r.l.cat)).forEach(r=>{rows+=tr(esc(LT(lineLabel(r.l)))+esc(teethTxt(r.l)),r.q+' ×');});}
+  rows+=svc('smile')+svc('warr')+svc('assist')+(nights>0?tr(esc(ltx('hotel',{N:nights})),'1 ×'):'')+svc('transfer');
   const mon=new Date((DATA.patient.date||new Date().toISOString().slice(0,10))+'T12:00:00').toLocaleString(ltLoc(),{month:'long'});
-  let h=head;
-  ph.forEach((g,gi)=>{h+=`<div class="lth">${gi+1}. ${esc(ltx('phase'))}:</div><table class="ltg"><thead>${th}</thead><tbody>${g.rows.map(row).join('')||'<tr><td colspan="2">—</td></tr>'}</tbody></table>`;});
-  h+=`<table class="ltg"><tbody><tr class="ltc0"><td colspan="2">${esc(ltx('card'))}</td></tr>`;
-  if(pc&&P.disc)h+=`<tr class="ltx"><td>${esc(ltx('std'))}</td><td class="n"><s>${oiMoney(o.ct)}</s></td></tr><tr class="ltd"><td>${esc(ltx('disc',{M:mon}))}</td><td class="n">− ${oiMoney(pc.save)}</td></tr>`;
-  h+=`</tbody></table><div class="ltt"><span>${esc(ltx('total'))}</span><b>${oiMoney(planTotal(p))}</b></div>`;
-  return `<div class="ltb">${h}</div>`;
+  let foot=`<tr class="ltc0"><td colspan="2">${esc(ltx('card'))}</td></tr>`;
+  if(pc&&P.disc)foot+=`<tr class="ltx"><td>${esc(ltx('std'))}</td><td class="n"><s>${ltMoney(o.ct)}</s></td></tr><tr class="ltd"><td>${esc(ltx('disc',{M:mon}))}</td><td class="n">− ${ltMoney(pc.save)}</td></tr>`;
+  const tot=p.mode==='package'?oiTiers(p).map(x=>`<div class="ltt"><span>${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span><b>${ltMoney(x.r.fin.tot)}</b></div>`).join(''):`<div class="ltt"><span>${esc(ltx('total'))}</span><b>${ltMoney(planTotal(p))}</b></div>`;
+  return `<div class="ltb">${head}<div class="lth">1. ${esc(ltx('phase'))}:</div><table class="ltg"><thead>${th}</thead><tbody>${rows}${foot}</tbody></table>${tot}</div>`;
 }
+/* the clinic's simple plan page: the chart of the plan, its table, the promotion bar — one page per option */
 function secTable(){
-  const N=DATA.plans.length,u=lcUntil(),items=[];
-  DATA.plans.forEach((p,i)=>{items.push({html:`<div class="ltchart">${ltChartSvg(KChart.planVisuals(DATA.pre,p.lines,true))}</div>`});items.push({html:ltTable(p,i,N)});});
-  if(u)items.push({html:`<div class="ltban">${esc(ltx('ban',{D:u}))}</div>`});
-  return flowPages({head:c=>'<div class="ltpage"></div>',items},esc(ltx('title')));
+  const N=DATA.plans.length,u=lcUntil(),out=[];
+  DATA.plans.forEach((p,i)=>{
+    const items=[{html:`<div class="ltchart">${ltChartSvg(KChart.planVisuals(DATA.pre,p.lines,true))}</div>`},{html:ltTable(p,i,N)}];
+    if(u)items.push({html:`<div class="ltban">${esc(ltx('ban',{D:u}))}</div>`});
+    out.push(...flowPages({head:c=>'<div class="ltpage"></div>',items},esc(ltx('title'))));
+  });
+  return out;
+}
+/* ===== every tooth chart of the PDF follows the layout chosen (the old gum chart is never used in the PDF any more):
+   Simple table = outlined teeth · Option cards = dots · Tooth blocks = boxes. The pre-treatment page follows too. ===== */
+/* the state of one tooth, from its visual: 'miss' missing, 'new' treated in the plan, 'ex' existing work or a finding, 'nat' natural tooth */
+function chState(v){
+  if(!v)return 'nat';
+  if(v.crown==='treated'||v.crown==='veneer'||v.crown==='temp'||v.implant==='new')return 'new';
+  if(v.crown==='none'&&!v.root&&!v.implant)return 'miss';
+  if(v.implant==='ex'||v.crown==='excrown'||v.ghost||(v.marks||[]).length)return 'ex';
+  return 'nat';
+}
+const CH_LEG={nat:['ch.nat','Your teeth'],miss:['ch.miss','Missing'],ex:['ch.ex','Existing work / finding'],new:['ch.new','Treated in this plan']};
+function chDots(V){
+  const S={};KChart.U.concat(KChart.L).forEach(t=>S[t]=chState(V[t]));
+  const col={new:'#161a59',ex:'#a08a7c'};
+  const dot=t=>{const k=S[t];return `<i class="${k==='new'||k==='ex'?'on':''}${k==='miss'?' ms':''}" style="${col[k]?'background:'+col[k]+';border-color:'+col[k]:''}">${t}</i>`;};
+  const row=(lab,a,b)=>`<div class="lcr"><span class="lcl">${lab}</span>${a.map(dot).join('')}<span class="lcm"></span>${b.map(dot).join('')}</div>`;
+  const used=['nat','miss','ex','new'].filter(k=>Object.values(S).includes(k));
+  return `<div class="chdots lcdots">${row(Tx('lc.upper','Upper'),OI_ROWS.U[0],OI_ROWS.U[1])}${row(Tx('lc.lower','Lower'),OI_ROWS.L[0],OI_ROWS.L[1])}
+<div class="lclg">${used.map(k=>`<span><i class="${k==='miss'?'off ms':k==='nat'?'off':''}" style="${col[k]?'background:'+col[k]:''}"></i>${Tx(CH_LEG[k][0],CH_LEG[k][1])}</span>`).join('')}</div></div>`;
+}
+function chBlocks(V){
+  const S={};KChart.U.concat(KChart.L).forEach(t=>S[t]=chState(V[t]));
+  const jaw=j=>{const box=t=>{const z=OI_SZ[t%10]||OI_SZ[7],k=S[t];return `<div class="sl"><i class="ch-${k}${k==='new'?' on':''}" style="width:${z[0]}px;height:${z[1]}px">${t}</i></div>`;};
+    return `<div class="jaw ${j==='U'?'u':'l'}">${OI_ROWS[j][0].map(box).join('')}<div class="md"></div>${OI_ROWS[j][1].map(box).join('')}</div>`;};
+  const used=['nat','miss','ex','new'].filter(k=>Object.values(S).includes(k));
+  return `<div class="oib a chblk"><div class="oich"><div class="jaws"><div class="jl">${Tx('jaw.u','Upper jaw')}</div>${jaw('U')}<div class="jl l">${Tx('jaw.l','Lower jaw')}</div>${jaw('L')}</div>
+<div class="chlg">${used.map(k=>`<span><i class="ch-${k}"></i>${Tx(CH_LEG[k][0],CH_LEG[k][1])}</span>`).join('')}</div></div></div>`;
 }
 /* the sections that change with the layout: 'options' carries the chosen layout, 'prices' is only used by the tooth blocks */
 const secOptionsL=()=>{const L=pdfLayout();return L==='cards'?secCards():L==='table'?secTable():secOptions();};
@@ -3008,7 +3054,7 @@ async function renderDoc(){
   await bakeMesh();
   applyTheme();
   await bakePhotos(secOrder().filter(id=>!secOff(id)));
-  const pages=[];secOrder().forEach(id=>{if(!secOff(id))pages.push(...SECFN[id]());});
+  const pages=[],only=pdfLayout()==='table'?['pre','options']:null;secOrder().forEach(id=>{if(only&&!only.includes(id))return;if(!secOff(id))pages.push(...SECFN[id]());});
   const N=pages.length;let n=0;
   wrap.innerHTML=pages.map(h=>trHtml(h).replace('{{PG}}',()=>`${++n} / ${N}`)).join('');wrap.classList.toggle('kp-ar',pdfLang()==='ar');wrap.setAttribute('lang',pdfLang());
   // cover (page 1 or any) has no footer; renumber is by footer order, so recount using real page index
