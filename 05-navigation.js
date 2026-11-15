@@ -13,3 +13,8 @@ function buildNav(){const T=Object.fromEntries(NAVS),fold=navFolds();let i=-1;
  navLabel();{const d=$('setdb');if(d){d.classList.toggle('g',tab=='pricedb');d.classList.toggle('text-slate-600',tab!='pricedb')}const k=$('kpsb');if(k)k.classList.toggle('on',tab=='kps'||tab=='kpsc')}}
 function navLabel(){const e=$('mnavT');if(!e)return;const T=Object.fromEntries(NAVS);e.textContent=ti(T[tab]||'')}
 function navPhone(open){const w=$('navwrap'),b=$('mnav');if(!w||!b)return;const on=open===undefined?w.classList.contains('hidden'):!!open;w.classList.toggle('hidden',!on);b.setAttribute('aria-expanded',on?'true':'false');$('mnavC').textContent=on?'▴':'▾'}
+
+/* the Settings gear at the bottom left: a small menu opens next to it */
+function setTog(open){const p=$('setbox'),g=$('setg');if(!p||!g)return;const on=open===undefined?p.classList.contains('hidden'):!!open;p.classList.toggle('hidden',!on);g.setAttribute('aria-expanded',on?'true':'false')}
+document.addEventListener('click',e=>{const w=$('setw');if(w&&!w.contains(e.target))setTog(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setTog(false)});

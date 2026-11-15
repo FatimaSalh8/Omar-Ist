@@ -1,4 +1,13 @@
-Ömar Istanbul by Rima — version 1.8 (2026-11-15)
+Ömar Istanbul by Rima — version 1.9 (2026-11-15)
+
+NEW IN 1.9
+- The portal font is back to its own font (Inter), always; there is still no font menu.
+- Settings is a round gear icon at the bottom left: press it and a small menu opens next to it
+  (Treatment Database, Language, Dark mode, Backup, Sign out). A click anywhere else closes it.
+- The welcome screen shows each time the portal is opened or refreshed, on the team picture of the sign-in page,
+  with one of the motivational sentences (a different one each time).
+
+VERSION 1.8 (2026-11-15)
 
 NEW IN 1.8
 - The portal always uses the Lora font (the font menu is removed). The font files are now in the fonts folder, so they really load.
