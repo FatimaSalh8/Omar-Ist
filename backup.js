@@ -5,9 +5,9 @@ const BK=(()=>{
  const t=(k,...a)=>typeof ti=='function'?ti(k,...a):k.replace(/\{(\d+)\}/g,(m,i)=>a[+i]!=null?a[+i]:m);
  const keys=()=>Object.keys(localStorage).filter(k=>/^kc_/.test(k)&&!/^kc_(lasttab|fold|theme|lang|font|auth|bk_)/.test(k));
  async function make(){
-  await (window.EOP_CLOUD&&EOP_CLOUD.ready?EOP_CLOUD.ready():Promise.resolve());
+  await (window.OMR_CLOUD&&OMR_CLOUD.ready?OMR_CLOUD.ready():Promise.resolve());
   const ls={};keys().forEach(k=>{try{ls[k]=JSON.parse(localStorage.getItem(k))}catch(e){ls[k]=localStorage.getItem(k)}});
-  return{kind:KIND,v:1,at:new Date().toISOString(),ls,db:window.EOP_CLOUD&&EOP_CLOUD.dump?EOP_CLOUD.dump():{}}}
+  return{kind:KIND,v:1,at:new Date().toISOString(),ls,db:window.OMR_CLOUD&&OMR_CLOUD.dump?OMR_CLOUD.dump():{}}}
  async function save(){
   try{const o=await make(),blob=new Blob([JSON.stringify(o)],{type:'application/json'}),nm='Omar Istanbul backup '+stamp()+'.json';
    const dl=typeof kcDl=='function'?await kcDl():null;
@@ -27,7 +27,7 @@ const BK=(()=>{
  async function applyObj(o){
   keys().forEach(k=>localStorage.removeItem(k));
   Object.keys(o.ls).forEach(k=>{try{localStorage.setItem(k,JSON.stringify(o.ls[k]))}catch(e){}});
-  if(window.EOP_CLOUD&&EOP_CLOUD.restore)await EOP_CLOUD.restore(o.db||{},true)}
+  if(window.OMR_CLOUD&&OMR_CLOUD.restore)await OMR_CLOUD.restore(o.db||{},true)}
  function paint(){const e=$('bkl');if(!e)return;const l=L('kc_bk_last',0);e.textContent=l?t('Last backup: {0}',stamp(new Date(l))):t('No backup saved yet.')}
  function open(){
   $('mt').textContent=t('Backup');

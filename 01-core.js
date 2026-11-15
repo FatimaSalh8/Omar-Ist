@@ -2,7 +2,7 @@
 const L=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
 /* ONE user (Rima, the administrator). The data stays on this device — see local-cloud.js */
 const CLOUD=false;
-const S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){try{window.dispatchEvent(new CustomEvent('eop-notsaved',{detail:{k,why:'the storage of this browser is full'}}))}catch(x){}}};
+const S=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){try{window.dispatchEvent(new CustomEvent('omr-notsaved',{detail:{k,why:'the storage of this browser is full'}}))}catch(x){}}};
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fd=s=>s?s.split('-').reverse().join('/'):'';

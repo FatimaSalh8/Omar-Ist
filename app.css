@@ -13,7 +13,7 @@ html[data-font=lora]{--ff:Lora,Inter,'Noto Sans Arabic','Segoe UI',Tahoma,Georgi
 html[data-font=system]{--ff:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans Arabic',Tahoma,Arial,sans-serif}
 body{font-feature-settings:"cv11","ss01";-webkit-font-smoothing:antialiased}
 html[data-font=lora] body,html[data-font=system] body,html[data-font=poppins] body{font-feature-settings:normal}
-/* Executive Operations Portal — page styles */
+/* Ömar Istanbul by Rima — page styles */
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{font-family:var(--ff);background:#fff;color:#161a59}
@@ -199,7 +199,7 @@ tr.bg-red-200 td{color:#881337}tr.bg-blue-100 td{color:#1e40af}tr.bg-slate-300 t
 @media (max-width:640px){.ep-msgs{height:56vh}.ep-m{max-width:94%}}
 
 /* a person who is already logged in: no login form while the portal opens again (refresh) */
-#lsp{display:none;text-align:center;color:#a08a7c}html.eop-boot #lsp{display:block}html.eop-boot #lf{display:none}
+#lsp{display:none;text-align:center;color:#a08a7c}html.omr-boot #lsp{display:block}html.omr-boot #lf{display:none}
 .ep-cfsel{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}.ep-pr[data-epr=pick]{cursor:pointer;border-radius:8px;padding:5px 6px}.ep-pr[data-epr=pick]:hover{background:#efe9e3}.ep-pr.ep-sel{background:#f7f3ef}.ep-pr .ep-tick{margin-left:auto;color:#047857;font-weight:800}#cfp .ep-pop{left:auto;right:0}
 
 .ep-mh .ep-lgw{margin-left:auto;margin-right:10px}.ep-mh .ep-lgw .ep-lgs{max-width:150px;font-size:12px;padding:6px 8px}
@@ -323,20 +323,20 @@ tr.bg-red-200 td{color:#881337}tr.bg-blue-100 td{color:#1e40af}tr.bg-slate-300 t
 .fbx-foot{font-size:11px;color:#6e7099;line-height:1.55}
 
 /* version 3.0: the top bar and the module menu stay in view while the page is scrolled */
-header.eop-hd{position:sticky;top:0;z-index:40;padding-top:7px;padding-bottom:7px}
-header.eop-hd>div{row-gap:6px}
+header.omr-hd{position:sticky;top:0;z-index:40;padding-top:7px;padding-bottom:7px}
+header.omr-hd>div{row-gap:6px}
 @media (min-width:1024px){
- aside.eop-aside{position:sticky;top:calc(var(--hdr-h,64px) + 12px);align-self:start;max-height:calc(100vh - var(--hdr-h,64px) - 24px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:2px}
+ aside.omr-aside{position:sticky;top:calc(var(--hdr-h,64px) + 12px);align-self:start;max-height:calc(100vh - var(--hdr-h,64px) - 24px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:2px}
 }
 @media (max-width:1023px){
- aside.eop-aside{position:sticky;top:var(--hdr-h,0px);z-index:35;background:#fff;margin:-4px -4px 0;padding:4px;max-height:calc(100vh - var(--hdr-h,0px));overflow-y:auto}
+ aside.omr-aside{position:sticky;top:var(--hdr-h,0px);z-index:35;background:#fff;margin:-4px -4px 0;padding:4px;max-height:calc(100vh - var(--hdr-h,0px));overflow-y:auto}
 }
 /* a small phone screen: the top bar is too tall to keep pinned, so the Modules button stays pinned at the top instead */
 @media (max-width:639px){
- header.eop-hd{position:static}
- aside.eop-aside{top:0;max-height:100vh}
+ header.omr-hd{position:static}
+ aside.omr-aside{top:0;max-height:100vh}
 }
-@media print{header.eop-hd,aside.eop-aside{position:static!important;max-height:none!important}}
+@media print{header.omr-hd,aside.omr-aside{position:static!important;max-height:none!important}}
 /* version 3.4: Follow up Messages - "Move to..." bar and the up / down arrows of a message (⇅ Reorder) */
 .ep-mvbar{margin:6px 0;padding:8px;border:1px dashed #a08a7c;border-radius:10px;background:#fffbeb}
 .ep-mvbar select{flex:1 1 200px;min-width:0;max-width:100%}
@@ -344,14 +344,14 @@ header.eop-hd>div{row-gap:6px}
 .ep-mvud .ep-btn{padding:4px 8px}
 .ep-mvud .ep-btn[disabled]{opacity:.3;cursor:default}
 /* version 3.4: the welcome screen after logging in (same look as "Opening your portal...") */
-#eophi{position:fixed;top:0;right:0;bottom:0;left:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#0422d2 0%,#161a59 78%);color:#cdbcb0;text-align:center;cursor:pointer;transition:opacity .5s ease}
-#eophi.eop-out{opacity:0;pointer-events:none}
-#eophi .hi-in{max-width:560px;display:flex;flex-direction:column;align-items:center}
-#eophi .hi-name{margin:0;font-size:30px;line-height:1.2;color:#fff}
-#eophi .hi-q{margin:14px 0 0;font-size:15px;line-height:1.6;color:#e6dcd4;font-style:italic}
-#eophi .hi-go{margin-top:26px;background:#a08a7c;color:#161a59;border:0;border-radius:10px;padding:10px 26px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-#eophi .hi-go:focus-visible{outline:2px solid #fff;outline-offset:3px}
-@media (prefers-reduced-motion:no-preference){#eophi .hi-in{animation:eophi .7s ease both}@keyframes eophi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
+#omrhi{position:fixed;top:0;right:0;bottom:0;left:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#0422d2 0%,#161a59 78%);color:#cdbcb0;text-align:center;cursor:pointer;transition:opacity .5s ease}
+#omrhi.omr-out{opacity:0;pointer-events:none}
+#omrhi .hi-in{max-width:560px;display:flex;flex-direction:column;align-items:center}
+#omrhi .hi-name{margin:0;font-size:30px;line-height:1.2;color:#fff}
+#omrhi .hi-q{margin:14px 0 0;font-size:15px;line-height:1.6;color:#e6dcd4;font-style:italic}
+#omrhi .hi-go{margin-top:26px;background:#a08a7c;color:#161a59;border:0;border-radius:10px;padding:10px 26px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+#omrhi .hi-go:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){#omrhi .hi-in{animation:omrhi .7s ease both}@keyframes omrhi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
 /* version 3.6: the ready message of the supervisor price */
 .ep-supmsg{white-space:pre-wrap;word-break:break-word;font:13px/1.6 var(--ff);color:#161a59;background:#f7f3ef;border:1px solid #e3ddd8;border-radius:10px;padding:12px 14px;margin:10px 0 6px}
 /* version 3.7: Deposit Calendar - the box with the details of the ticked rows */
@@ -367,7 +367,7 @@ header.eop-hd>div{row-gap:6px}
 #dinfo .dpi-c.dpi-ok{background:#d1fae5;color:#065f46}
 @media print{#dinfo{display:none!important}}
 
-/* version 4.3: Kristal Plan Studio opens as a full page inside the portal (a thin bar on top brings you back) */
+/* version 4.3: Omer Istanbul studio opens as a full page inside the portal (a thin bar on top brings you back) */
 #kpsfb{display:none}
 body.kps-full{overflow:hidden}
 body.kps-full #vkps{position:fixed;top:0;right:0;bottom:0;left:0;z-index:45;margin:0;background:#eef2f6;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -452,11 +452,11 @@ body{background:#fff;color:#161a59}
 .oi-logo{height:78px;width:auto;display:block}
 @media (max-width:640px){.oi-logo{height:60px}}
 .oi-by{align-self:flex-end;font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:#a08a7c;border-left:1px solid #d8cfc8;padding:0 0 3px 12px}
-.eop-hd{border-bottom:1px solid #a08a7c!important;box-shadow:none!important}
-#eophi .hi-logo{background:#fff;border-radius:20px;padding:18px 30px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
-#eophi .hi-logo img{height:120px;display:block}
-#eophi .hi-by{margin:14px 0 0;font-size:11px;font-weight:900;letter-spacing:.34em;text-transform:uppercase;color:#cdbcb0}
-#eophi .hi-name{font-weight:700;letter-spacing:.02em}
+.omr-hd{border-bottom:1px solid #a08a7c!important;box-shadow:none!important}
+#omrhi .hi-logo{background:#fff;border-radius:20px;padding:18px 30px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+#omrhi .hi-logo img{height:120px;display:block}
+#omrhi .hi-by{margin:14px 0 0;font-size:11px;font-weight:900;letter-spacing:.34em;text-transform:uppercase;color:#cdbcb0}
+#omrhi .hi-name{font-weight:700;letter-spacing:.02em}
 .cx-h{border-bottom:1px solid #a08a7c;padding-bottom:12px}
 .cx-h h2,.st-card h3{color:#161a59;letter-spacing:.14em}
 .cx-sum{background:linear-gradient(160deg,#1c2377,#161a59 70%)}
@@ -514,10 +514,10 @@ html[lang=ar] #login .lg-eye{right:auto;left:8px}
 .oi-kpsb.on{background:#a08a7c!important;border-color:#a08a7c!important}
 
 /* the welcome screen: the same team picture as the sign-in page */
-#eophi{background:#0a0e45 url(login-bg.jpg) center top/cover no-repeat}
-#eophi::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,69,.35) 0%,rgba(10,14,69,.72) 100%)}
-#eophi .hi-in{position:relative;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:30px 34px}
-#eophi .hi-q{font-size:17px;color:#fff}
+#omrhi{background:#0a0e45 url(login-bg.jpg) center top/cover no-repeat}
+#omrhi::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,69,.35) 0%,rgba(10,14,69,.72) 100%)}
+#omrhi .hi-in{position:relative;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:30px 34px}
+#omrhi .hi-q{font-size:17px;color:#fff}
 /* the language button in the top bar */
 .oi-lang{position:relative;cursor:pointer}.oi-lang select{border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;padding:0 2px;outline:none}
 /* the Settings gear (bottom left) and its small menu */
@@ -535,11 +535,11 @@ html[lang=ar] #login .lg-eye{right:auto;left:8px}
 html[data-theme=dark]{--d-bg:#0e1220;--d-card:#161b2c;--d-soft:#1c2236;--d-head:#232a41;--d-line:#2c3450;--d-tx:#e7e9f1;--d-tx2:#b9bfd0;--d-mut:#8c93aa;--d-gold:#c9ad98;color-scheme:dark;background:var(--d-bg)}
 html[data-theme=dark] body{background:var(--d-bg);color:var(--d-tx)}
 /* surfaces */
-html[data-theme=dark] :is(.bg-white,.ep-panel,.ep-blk,.ep-mv,.ep-tr,.ep-libg,.ep-md,.ep-lr,.ep-box,.ep-sbtn,.ep-pop,.ep-m,.ep-fb,.ep-lt,.fbx-card,.fbx-box,.fbx-kpi,aside.eop-aside,.st-card,.st-tiers div,.st-rates div,.oi-setp,main,.eop-hd){background-color:var(--d-card)!important}
+html[data-theme=dark] :is(.bg-white,.ep-panel,.ep-blk,.ep-mv,.ep-tr,.ep-libg,.ep-md,.ep-lr,.ep-box,.ep-sbtn,.ep-pop,.ep-m,.ep-fb,.ep-lt,.fbx-card,.fbx-box,.fbx-kpi,aside.omr-aside,.st-card,.st-tiers div,.st-rates div,.oi-setp,main,.omr-hd){background-color:var(--d-card)!important}
 html[data-theme=dark] #dinfo{background-color:var(--d-card)!important}
 html[data-theme=dark] :is(.bg-slate-50,.bg-slate-100,.ep-btn,.ep-mbar,.ep-note,.ep-pt,.ep-pe,.ep-tile,.ep-side,.ep-hbtn,.ep-msgs,.ep-cardm,.ep-flt,.ep-noimg,.cx-tr,.cx-rt,.cx-struct,.cx-empty,.ep-supmsg,.ep-pr.ep-sel,.ep-srch .ep-in,.ep-ib){background-color:var(--d-soft)!important}
 html[data-theme=dark] :is(.bg-slate-200,.bg-slate-300,th,.cm th,.cx-t th,.st-t th,.ep-t td.ep-cath,.ep-t tr.ep-tot td,.ep-tab,.ep-who button,.ep-pk,.ep-chip,.cx-t tfoot td,.st-t tfoot td,.st-meter,.ep-pbar,.fbx-bar,.fbx-sh){background-color:var(--d-head)!important}
-html[data-theme=dark] header.eop-hd{border-color:var(--d-line)!important;box-shadow:0 1px 0 var(--d-line)}
+html[data-theme=dark] header.omr-hd{border-color:var(--d-line)!important;box-shadow:0 1px 0 var(--d-line)}
 /* text */
 html[data-theme=dark] :is(.text-slate-900,.text-slate-800,.text-slate-700,.text-black,h1,h2,h3,h4,.lux,b,strong){color:var(--d-tx)}
 html[data-theme=dark] :is(.text-slate-600,.text-slate-500){color:var(--d-tx2)!important}
@@ -613,3 +613,15 @@ body.kps-full .oi-setw{display:none}
 
 /* dark mode: the space around the Studio and its Messages panel */
 html[data-theme=dark] body.kps-full #vkps{background:#0e1220!important}
+/* dark mode: Follow up Messages, Favorites and the other pop-up windows */
+html[data-theme=dark] :is(.ep-pop,.ep-md,.ep-panel){box-shadow:0 20px 50px rgba(0,0,0,.55)!important}
+html[data-theme=dark] .ep-tab{background:transparent!important;border-color:transparent!important;color:#b9bfd0!important;border-bottom:2px solid transparent!important}
+html[data-theme=dark] .ep-tab.ep-on{background:transparent!important;color:#c9ad98!important;border-bottom-color:#c9ad98!important}
+html[data-theme=dark] :is(.ep-chip,.ep-pk){background:#232a41!important;color:#d3d7e3!important}
+html[data-theme=dark] :is(.ep-btn.ep-on,.ep-fb.ep-on,.ep-tabs .ep-on .ep-chip){background:#a08a7c!important;color:#141833!important}
+html[data-theme=dark] :is(.ep-lr,.ep-blk,.ep-box,.ep-m,.ep-tr,.ep-mv){border-color:#2c3450!important;border-width:1px!important}
+html[data-theme=dark] :is(.ep-noimg,[class*=ep-ph]):not(.ep-ph){border-color:#3a4363!important}
+html[data-theme=dark] #exm *:not(.ep-on){border-color:#2c3450!important}
+html[data-theme=dark] #exm :is(.ep-tabs>*,.ep-tabs button):not(.ep-on){background:transparent!important}
+html[data-theme=dark] #exm .ep-tabs .ep-on{border-bottom:2px solid #c9ad98!important;background:transparent!important}
+html[data-theme=dark] #exm textarea,html[data-theme=dark] #exm .ep-txt{background:#11162a!important}

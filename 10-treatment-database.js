@@ -109,8 +109,8 @@ const trdHotelItems=()=>PDB.cats.filter(c=>c.kind=='h').flatMap(c=>(c.items||[])
 function hSync(){H=[...trdHotelItems().map(t=>({id:t.id,name:trdHotelName(t.n),price:Math.max(0,Math.round(+t.b||0))})).filter(h=>h.name),{id:'h0',name:'Else Where',price:0}]}
 const trdSave=()=>{S('kc_pricedb',PDB);hSync()};
 /* the line under the table tells the truth: it says "shared" only after the shared database has confirmed it */
-window.addEventListener('eop-saved',e=>{if(e.detail&&e.detail.k=='kc_pricedb')trdFlash(ti('Saved to the shared database ✓'))});
-window.addEventListener('eop-notsaved',e=>{if(e.detail&&e.detail.k=='kc_pricedb')trdFlash(ti('NOT saved to the shared database ({0}) - it is kept on this device',(e.detail.why||'no connection')),1)});
+window.addEventListener('omr-saved',e=>{if(e.detail&&e.detail.k=='kc_pricedb')trdFlash(ti('Saved to the shared database ✓'))});
+window.addEventListener('omr-notsaved',e=>{if(e.detail&&e.detail.k=='kc_pricedb')trdFlash(ti('NOT saved to the shared database ({0}) - it is kept on this device',(e.detail.why||'no connection')),1)});
 /* hotels typed once in the old Manage Hotel Rates window that are not in the Treatment Database yet are added there (once) */
 (()=>{try{const o=L('kc_hotels',null),cat=PDB.cats.find(c=>c.kind=='h');if(Array.isArray(o)&&cat){const have=new Set(trdHotelItems().map(t=>trdHotelName(t.n).toLowerCase()));let ch=0;
  o.forEach(h=>{const nm=String(h&&h.name||'').trim();if(!nm||/^else ?where$/i.test(nm)||have.has(nm.toLowerCase()))return;const p=Math.max(0,Math.round(+h.price||0));cat.items.push({id:trdUid(),n:'Nights - '+nm,b:p,l:p,x:p,e:[],tn:{}});have.add(nm.toLowerCase());ch++});
@@ -278,7 +278,7 @@ function trdSheets(){
 async function trdExp(){
  const dl=await kcDl();if(!dl)return trdFlash(ti('Saving files is not available in this view.'),1);
  try{const s=trdSheets(),wb=XLSX.utils.book_new();[['Data Base',s.dbR],['Settings',s.st],['Templates',s.tp]].forEach(([n,r])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(r),n));
-  await dl.save({filename:'EOP-Treatment-Database-'+new Date().toISOString().slice(0,10)+'.xlsx',data:new Blob([XLSX.write(wb,{type:'array',bookType:'xlsx'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})})}
+  await dl.save({filename:'Omer-Treatment-Database-'+new Date().toISOString().slice(0,10)+'.xlsx',data:new Blob([XLSX.write(wb,{type:'array',bookType:'xlsx'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})})}
  catch(e){if(!e||e.code!='declined')trdFlash(ti('Could not create the Excel file.'),1)}}
 function trdParse(rows,merges,st,tp){
  const cell=v=>v==null?'':String(v).replace(/\s+/g,' ').trim(),

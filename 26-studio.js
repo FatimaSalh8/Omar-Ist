@@ -1,5 +1,5 @@
 /* Ömar Istanbul by Rima — Omer Istanbul Dental Center (module 1) and Saved Cases (module 2), in their own box at the top of the menu.
-   The studio is the clinic's own app (kristal-plan-studio.html). It is shown in its own frame so its design stays exactly as it was made.
+   The studio is the clinic's own app (omer-studio.html). It is shown in its own frame so its design stays exactly as it was made.
    It has no database of its own:
    - prices, hotels, exchange rates, deposit, payment split: the Treatment Database of the portal
    - messages and explanation photos: the same as the Treatment Plan Calculator (message templates, Follow up Messages, Appointment Planning dates)
@@ -15,7 +15,7 @@
   var lg = function () { return typeof trdLg === 'function' ? trdLg() : 'en'; };
   var frame = function () { return document.getElementById('kpsf'); };
   var studio = function () { var f = frame(); try { return f && f.contentWindow && f.contentWindow.KPS_OPEN ? f.contentWindow : null; } catch (e) { return null; } };
-  function cx() { if (X) return X; if (window.EOP_CLOUD && EOP_CLOUD.x) X = EOP_CLOUD.x(); return X; }
+  function cx() { if (X) return X; if (window.OMR_CLOUD && OMR_CLOUD.x) X = OMR_CLOUD.x(); return X; }
   var kitFmt = function (k) { k = String(k || '').trim(); return !k ? '' : /^kit-/i.test(k) ? k.toUpperCase() : 'KIT-' + k; };
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
   function when(ms) {
@@ -276,7 +276,7 @@
     var f = frame(); if (!f) return;
     if (!f.src || stale) {
       if (stale && f.src) { var w = studio(); if (w && w.KPS_FLUSH) { try { w.KPS_FLUSH(); } catch (e) {} } }
-      stale = false; f.src = 'kristal-plan-studio.html?v=' + (window.EOP_VERSION || '');
+      stale = false; f.src = 'omer-studio.html?v=' + (window.OMR_VERSION || '');
     }
     if (OUT) out(OUT);
   }

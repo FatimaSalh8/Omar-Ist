@@ -96,7 +96,7 @@ const CL=(()=>{
  async function tick(now){
   if(!ON||busy||!user)return;
   try{
-   await (window.EOP_CLOUD&&EOP_CLOUD.ready?EOP_CLOUD.ready():Promise.resolve());
+   await (window.OMR_CLOUD&&OMR_CLOUD.ready?OMR_CLOUD.ready():Promise.resolve());
    const f=finger(await BK.make());
    if(f===L('kc_bk_cloudfp','')){seen=f;return}
    if(now||f===seen)await send(true);else seen=f;

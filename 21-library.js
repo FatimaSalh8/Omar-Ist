@@ -38,13 +38,13 @@
   var TTL = {};                                      /* the title of each hotel block */
   var MS = { on: false, ids: {} };                   /* "combine the same patient": which patients are ticked to be merged into one */
 
-  var cx = function () { var c = window.EOP_CLOUD; return c && c.x ? c.x() : null; };
+  var cx = function () { var c = window.OMR_CLOUD; return c && c.x ? c.x() : null; };
   var ov = function () { return EX.ov(); };
   var dataOk = function (u) { return typeof u === 'string' && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(u); };
   var repaint = function () { EX.repaint(); };
 
   /* ---------- reading the database without keeping anything ---------- */
-  function cfg() { return window.EOP_FIREBASE || null; }
+  function cfg() { return window.OMR_FIREBASE || null; }
   function token(x) {
     try { var u = x.fb.auth().currentUser; return u && u.getIdToken ? Promise.resolve(u.getIdToken()) : Promise.reject(new Error('no user')); } catch (e) { return Promise.reject(e); }
   }
@@ -57,7 +57,7 @@
     return undefined;
   }
   /* version 2.9: reads that do not go through the Firebase code are counted for the Database Firebase page */
-  function cnt(n) { try { if (window.EOP_USAGE) window.EOP_USAGE.add('r', n); } catch (e) {} }
+  function cnt(n) { try { if (window.OMR_USAGE) window.OMR_USAGE.add('r', n); } catch (e) {} }
   function fdoc(d) { var o = { id: String((d && d.name) || '').split('/').pop() }, f = (d && d.fields) || {}; Object.keys(f).forEach(function (k) { o[k] = fval(f[k]); }); return o; }
   function restList(x, filters, limit, after) {
     var c = cfg(); if (!c || !c.projectId || typeof fetch !== 'function') return Promise.reject(new Error('no rest'));
@@ -583,7 +583,7 @@
     list.reduce(function (p, f) {
       return p.then(function () { return f.text(); }).then(function (txt) {
         var o; try { o = JSON.parse(txt); } catch (e) { IM.bad++; return; }
-        if (!o || o.kind !== 'eop-photo-library' || !Array.isArray(o.items)) { IM.bad++; return; }
+        if (!o || !/photo-library$/.test(String(o.kind)) || !Array.isArray(o.items)) { IM.bad++; return; }
         IM.total += o.items.length; paintProgress();
         return o.items.reduce(function (q, it) {
           return q.then(function () { return putItem(x, it, newCats); }).catch(function (e) { IM.fail++; if (e && e.code === 'permission-denied') IM.denied = true; }).then(function () { IM.done++; paintProgress(); });
@@ -606,7 +606,7 @@
   function bkSave() {
     var x = cx(); if (!x || !isAdm() || BK) return;
     var day = new Date().toISOString().slice(0, 10), part = 0, size = 0, buf = [], total = 0, after = null;
-    var flush = function () { if (!buf.length) return; part++; bkDownload('EOP-photo-library-' + day + '-part-' + part + '.json', { kind: 'eop-photo-library', v: 2, saved: new Date().toISOString(), part: part, items: buf }); buf = []; size = 0; };
+    var flush = function () { if (!buf.length) return; part++; bkDownload('Omer-photo-library-' + day + '-part-' + part + '.json', { kind: 'omer-photo-library', v: 2, saved: new Date().toISOString(), part: part, items: buf }); buf = []; size = 0; };
     var say = function (t) { BK = t; repaint(); };
     var page = function () {
       return restList(x, [], 8, after).catch(function () { return x.db.collection('lib').limit(8).get().then(function (s) { var a = []; s.forEach(function (d) { a.push(Object.assign({ id: d.id }, d.data())); }); return a; }); }).then(function (a) {

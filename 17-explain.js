@@ -15,21 +15,21 @@
   var PE = null;                             /* the editor: { kind:'tx'|'fu', key|id, title, parts[], isNew, sec, grp, delArm } */
 
   var hk = function (n) { return typeof trdHK === 'function' ? trdHK(n) : String(n || '').trim().toLowerCase(); };
-  var phUrl = function (id) { return (window.EOP_PH && window.EOP_PH[id]) || (window.EOP_PH2 && window.EOP_PH2[id]) || (window.EOP_PH2B && window.EOP_PH2B[id]) || (window.EOP_PH2C && window.EOP_PH2C[id]) || MED[id] || (window.EOP_PH4 && window.EOP_PH4[id]) || ''; };
+  var phUrl = function (id) { return (window.OMR_PH && window.OMR_PH[id]) || (window.OMR_PH2 && window.OMR_PH2[id]) || (window.OMR_PH2B && window.OMR_PH2B[id]) || (window.OMR_PH2C && window.OMR_PH2C[id]) || MED[id] || (window.OMR_PH4 && window.OMR_PH4[id]) || ''; };
   /* a photo can have a version for every language (the writing inside the picture). The picture of the chosen language is used when there is one, otherwise the English photo:
      1) the picture the administrator uploaded for that language himself (OV.pv, the globe button in the editor) always comes first,
-     2) then the Arabic, French and Russian pictures that came with the portal (photos4ar.js, photos4fr.js, photos4ru.js, listed in EOP_PHL),
+     2) then the Arabic, French and Russian pictures that came with the portal (photos4ar.js, photos4fr.js, photos4ru.js, listed in OMR_PHL),
      3) every other language shows the English photo. A photo never changes: only its own version in the language is shown. */
   var PLF = {};                              /* language -> 1 while its pictures are loading, 2 when they are here */
   var PLP = {};
-  var plMap = function (id, l) { var m = window.EOP_PHL && id && window.EOP_PHL[id]; return (m && m[l]) || ''; };
+  var plMap = function (id, l) { var m = window.OMR_PHL && id && window.OMR_PHL[id]; return (m && m[l]) || ''; };
   var plLoad = function (l) {
-    if (!l || !window.EOP_PHL_FILES || !window.EOP_PHL_FILES[l]) return Promise.resolve();
+    if (!l || !window.OMR_PHL_FILES || !window.OMR_PHL_FILES[l]) return Promise.resolve();
     if (PLP[l]) return PLP[l];
     PLF[l] = 1;
     PLP[l] = new Promise(function (res) {
       /* the pictures of one language come in several small files (the GitHub upload refuses big ones); the language is ready when all of them are here */
-      var fl = [].concat(window.EOP_PHL_FILES[l]), left = fl.length, bad = false;
+      var fl = [].concat(window.OMR_PHL_FILES[l]), left = fl.length, bad = false;
       var fin = function (ok) { PLF[l] = ok ? 2 : 0; if (!ok) delete PLP[l]; res(); if (ok) setTimeout(function () { ver++; refreshPanels(); if ($('exm') && !$('exm').classList.contains('hidden') && !FUS.edit) fuPaint(); phSwap(); }, 0); };
       var one = function () { if (--left === 0) fin(!bad); };
       fl.forEach(function (f) {
@@ -53,7 +53,7 @@
     for (i = 0; i < q.length; i++) { im = q[i]; u = phL(im.getAttribute('data-ph'), im.getAttribute('data-l') || undefined); if (u && im.getAttribute('src') !== u) im.setAttribute('src', u); }
   };
   /* true while the picture of the chosen language is still being loaded (copying waits for it) */
-  var phBusy = function (id, l) { l = l || lg(); return !!(plMap(id, l) && !(OV.pv && OV.pv[id] && OV.pv[id][l]) && PLF[l] !== 2 && window.EOP_PHL_FILES && window.EOP_PHL_FILES[l]); };
+  var phBusy = function (id, l) { l = l || lg(); return !!(plMap(id, l) && !(OV.pv && OV.pv[id] && OV.pv[id][l]) && PLF[l] !== 2 && window.OMR_PHL_FILES && window.OMR_PHL_FILES[l]); };
   var phEnsure = function (id, l) { return plLoad(l || lg()); };
   var kbPh = function (id) { return Math.round(((phUrl(id) || '').length - 23) * 0.75 / 1024); };
   var isA4 = function (p) { return !!(p.ph && /^a4/.test(p.ph)); }, isA6 = function (p) { return !!(p.ph && /^a6/.test(p.ph)); }, isA = function (p) { return isA4(p) || isA6(p); };
@@ -712,7 +712,7 @@
   }
   function libIds() {
     var seen = {}, out = [], add = function (o) { Object.keys(o || {}).forEach(function (k) { if (!seen[k]) { seen[k] = 1; out.push(k); } }); };
-    add(window.EOP_PH); add(window.EOP_PH2); add(window.EOP_PH2B); add(window.EOP_PH2C); add(MED); return out;
+    add(window.OMR_PH); add(window.OMR_PH2); add(window.OMR_PH2B); add(window.OMR_PH2C); add(MED); return out;
   }
   function trBox(label, inner) { return '<details class="ep-tr"><summary>' + esc(label) + '</summary>' + inner + '</details>'; }
   function peHTML() {
@@ -767,7 +767,7 @@
     });
   }
   function putMedia(id, url, kb) {
-    var x = window.EOP_CLOUD && EOP_CLOUD.x && EOP_CLOUD.x();
+    var x = window.OMR_CLOUD && OMR_CLOUD.x && OMR_CLOUD.x();
     if (x && x.db) x.db.collection('media').doc(id).set({ d: url, kb: kb, by: x.email, at: x.fb.firestore.FieldValue.serverTimestamp() }).catch(function () { toast(tt('Not saved: you have no permission for this change.')); });
   }
   var newId = function () { return 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); };
@@ -855,7 +855,7 @@
   }
   /* the messages as a file (to translate them) and the translations back: only empty places are filled, the original texts are never changed */
   function exportFu() {
-    var out = { kind: 'eop-follow-up', version: 1, languages: LL(true).map(function (l) { return l[0]; }), categories: fuList().map(function (s) { return { id: s.id, name: s.n, groups: s.groups.map(function (g) { return { id: g.id, name: g.n, messages: g.msgs.map(function (m) { return { id: m.id, title: m.title, parts: m.parts.map(function (p) { return { text: p.t || '', photo: !!p.ph }; }) }; }) }; }) }; }) };
+    var out = { kind: 'omer-follow-up', version: 1, languages: LL(true).map(function (l) { return l[0]; }), categories: fuList().map(function (s) { return { id: s.id, name: s.n, groups: s.groups.map(function (g) { return { id: g.id, name: g.n, messages: g.msgs.map(function (m) { return { id: m.id, title: m.title, parts: m.parts.map(function (p) { return { text: p.t || '', photo: !!p.ph }; }) }; }) }; }) }; }) };
     var blob = new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' }), a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = 'follow-up-messages.json'; document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 600);
@@ -866,7 +866,7 @@
     fr.onerror = function () { toast(tt('This file cannot be read.')); };
     fr.onload = function () {
       var j; try { j = JSON.parse(fr.result); } catch (e) { toast(tt('This file cannot be read.')); return; }
-      if (!j || j.kind !== 'eop-follow-up-translations') { toast(tt('This is not a translation file.')); return; }
+      if (!j || j.kind !== 'omer-follow-up-translations') { toast(tt('This is not a translation file.')); return; }
       if (!OV.fu) OV.fu = clone(D0.fu);
       var n = 0, M = j.messages || {}, C = j.categories || {}, put = function (o, f, src) { if (!src || typeof src !== 'object') return; o[f] = o[f] || {}; Object.keys(src).forEach(function (l) { if (typeof src[l] === 'string' && src[l].trim() && !(o[f][l] || '').trim()) { o[f][l] = src[l]; n++; } }); };
       OV.fu.forEach(function (s) {
@@ -1000,7 +1000,7 @@
   var mediaOn = false;
   function enter() {
     if (mediaOn) return;
-    var x = window.EOP_CLOUD && EOP_CLOUD.x && EOP_CLOUD.x(); if (!x) return;
+    var x = window.OMR_CLOUD && OMR_CLOUD.x && OMR_CLOUD.x(); if (!x) return;
     mediaOn = true;
     x.db.collection('media').onSnapshot(function (s) {
       s.docChanges().forEach(function (ch) { if (ch.type !== 'removed') { var d = ch.doc.data() || {}; setMedia(ch.doc.id, d.d); } });

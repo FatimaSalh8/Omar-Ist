@@ -490,8 +490,8 @@
   }
   function enter() {
     if (started) return;
-    if (!(window.EOP_CLOUD && EOP_CLOUD.x)) return;
-    X = EOP_CLOUD.x(); if (!X) return;
+    if (!(window.OMR_CLOUD && OMR_CLOUD.x)) return;
+    X = OMR_CLOUD.x(); if (!X) return;
     started = true;
     var adm = X.role === 'admin', db = X.db;
     var qp = adm ? db.collection('plans') : db.collection('plans').where('owner', '==', X.email);

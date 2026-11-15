@@ -5,7 +5,7 @@
       (the same as refreshing the page). "Later" closes it and it comes back after 10 minutes. */
 (function () {
   var k = document.getElementById('kver');
-  if (k && window.EOP_VERSION) k.textContent = 'Version ' + window.EOP_VERSION;
+  if (k && window.OMR_VERSION) k.textContent = 'Version ' + window.OMR_VERSION;
   if (window.claude || !/^https?:$/.test(location.protocol)) return;
 
   var TXT = {
@@ -24,7 +24,7 @@
   var reg = null, reloading = false, newVer = '', hiddenAt = 0, LATER = 10 * 60 * 1000, POLL = 3 * 60 * 1000;
 
   function paint() {
-    var b = document.getElementById('eopUpd'); if (!b) return;
+    var b = document.getElementById('omrUpd'); if (!b) return;
     var t = TXT[lang()];
     b.setAttribute('dir', lang() === 'ar' ? 'rtl' : 'ltr');
     b.querySelector('[data-u=t]').textContent = t[0];
@@ -46,7 +46,7 @@
   }
   function hard() {
     var done = function () { location.reload(); };
-    try { caches.keys().then(function (ks) { return Promise.all(ks.filter(function (x) { return /^eop-\d/.test(x); }).map(function (x) { return caches.delete(x); })); }).then(done, done); } catch (e) { done(); }
+    try { caches.keys().then(function (ks) { return Promise.all(ks.filter(function (x) { return /^oi-\d/.test(x); }).map(function (x) { return caches.delete(x); })); }).then(done, done); } catch (e) { done(); }
   }
   function apply(go) {
     go.disabled = true; go.style.opacity = '.6';
@@ -58,21 +58,22 @@
     });
   }
   function popup() {
-    var old = document.getElementById('eopUpd');
+    var old = document.getElementById('omrUpd');
     if (old) { old.style.display = 'flex'; paint(); return; }
     if (!document.body) return;
     var b = document.createElement('div');
-    b.id = 'eopUpd'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-modal', 'true'); b.setAttribute('data-notr', '');
-    /* the same look as the "Opening your portal" screen */
-    b.style.cssText = 'position:fixed;inset:0;z-index:300;background:#1b2335;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;font-family:Montserrat,system-ui,sans-serif';
-    b.innerHTML = '<div style="text-align:center;color:#a08a7c;max-width:360px;width:100%">'
-      + '<div class="lux" style="display:inline-block;background:#161a59;color:#a08a7c;font-size:30px;font-weight:700;padding:16px;border-radius:12px;border:1px solid rgba(160,138,124,.45)">EOP</div>'
-      + '<p class="lux" style="margin:14px 0 0;font-size:16px;letter-spacing:.1em">EXECUTIVE OPERATIONS PORTAL</p>'
-      + '<p data-u="t" style="margin:26px 0 0;font-size:16px;font-weight:700;color:#ffffff"></p>'
-      + '<p data-u="b" style="margin:8px 0 0;font-size:12px;line-height:1.55;color:#d8cfc8"></p>'
-      + '<p data-u="v" style="margin:10px 0 0;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#a08a7c"></p>'
-      + '<button type="button" data-u="go" style="display:block;width:100%;margin:22px 0 0;background:#a08a7c;color:#161a59;border:0;border-radius:10px;padding:14px;font:800 13px Montserrat,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;cursor:pointer"></button>'
-      + '<button type="button" data-u="later" aria-label="Later" style="margin-top:10px;background:transparent;color:#9b9cbb;border:0;font:700 11px Montserrat,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;padding:6px"></button></div>';
+    b.id = 'omrUpd'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-modal', 'true'); b.setAttribute('data-notr', '');
+    /* the same look as the sign-in page: the team picture, a glass card and the small Omer Istanbul logo */
+    b.style.cssText = 'position:fixed;inset:0;z-index:10001;background:#0a0e45 url(login-bg.jpg) center top/cover no-repeat;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;font-family:Inter,system-ui,sans-serif';
+    b.innerHTML = '<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,69,.35) 0%,rgba(10,14,69,.78) 100%)"></div>'
+      + '<div style="position:relative;text-align:center;color:#e6dcd4;max-width:380px;width:100%;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.25);border-radius:22px;padding:26px 26px 18px">'
+      + '<img src="logo-white.png" alt="Omer Istanbul Dental Clinic" style="height:54px;width:auto;display:block;margin:0 auto">'
+      + '<p style="margin:8px 0 0;font-size:10px;font-weight:800;letter-spacing:.32em;text-transform:uppercase;color:#cdbcb0">by Rima</p>'
+      + '<p data-u="t" style="margin:22px 0 0;font-size:18px;font-weight:700;color:#ffffff"></p>'
+      + '<p data-u="b" style="margin:8px 0 0;font-size:12.5px;line-height:1.55;color:#e6dcd4"></p>'
+      + '<p data-u="v" style="margin:10px 0 0;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#cdbcb0"></p>'
+      + '<button type="button" data-u="go" style="display:block;width:100%;margin:20px 0 0;background:#a08a7c;color:#161a59;border:0;border-radius:12px;padding:14px;font:800 13px Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;cursor:pointer"></button>'
+      + '<button type="button" data-u="later" aria-label="Later" style="margin-top:10px;background:transparent;color:#d8cfc8;border:0;font:700 11px Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;padding:6px"></button></div>';
     document.body.appendChild(b);
     b.querySelector('[data-u=go]').onclick = function () { apply(this); };
     b.querySelector('[data-u=later]').onclick = function () {
@@ -90,12 +91,12 @@
   /* a second way to notice a new version: the small version file on the website is compared with this page's version */
   function same(a, b) { return String(a) === String(b); }
   function poll() {
-    if (!window.EOP_VERSION || typeof fetch !== 'function') return Promise.resolve();
+    if (!window.OMR_VERSION || typeof fetch !== 'function') return Promise.resolve();
     return fetch('version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (j && j.version && !same(j.version, window.EOP_VERSION)) { newVer = String(j.version); popup(); }
+      if (j && j.version && !same(j.version, window.OMR_VERSION)) { newVer = String(j.version); popup(); }
     }).catch(function () {});
   }
-  window.EOP_UPD = { check: poll, show: popup };
+  window.OMR_UPD = { check: poll, show: popup };
   document.addEventListener('visibilitychange', function () { if (!document.hidden) { poll(); if (reg) { try { reg.update(); } catch (e) {} } } });
   setInterval(function () { if (!document.hidden) poll(); }, POLL);
   setTimeout(poll, 20000);

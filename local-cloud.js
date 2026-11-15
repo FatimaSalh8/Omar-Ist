@@ -182,6 +182,6 @@
     });
   }
 
-  window.EOP_CLOUD = { x: function () { return me; }, out: function () {}, ready: ready, dump: dump, restore: restore, local: true, logout: function () { location.reload(); } };
+  window.OMR_CLOUD = { x: function () { return me; }, out: function () {}, ready: ready, dump: dump, restore: restore, local: true, logout: function () { location.reload(); } };
   loadAll();
 })();

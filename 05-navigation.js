@@ -18,3 +18,18 @@ function navPhone(open){const w=$('navwrap'),b=$('mnav');if(!w||!b)return;const 
 function setTog(open){const p=$('setbox'),g=$('setg');if(!p||!g)return;const on=open===undefined?p.classList.contains('hidden'):!!open;p.classList.toggle('hidden',!on);g.setAttribute('aria-expanded',on?'true':'false')}
 document.addEventListener('click',e=>{const w=$('setw');if(w&&!w.contains(e.target))setTog(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')setTog(false)});
+/* dark mode: text that is still dark on a dark background (colours written in many places, e.g. Follow up Messages) is brightened automatically */
+(function(){const lum=c=>{const m=String(c).match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/);if(!m)return null;if(m[4]!==undefined&&+m[4]<.15)return -1;return(0.2126*m[1]+0.7152*m[2]+0.0722*m[3])/255};
+ const bgOf=el=>{while(el&&el.nodeType===1){const l=lum(getComputedStyle(el).backgroundColor);if(l!==null&&l>=0)return l;el=el.parentElement}return 1};
+ const run=()=>{const on=document.documentElement.getAttribute('data-theme')==='dark';
+  if(!on){document.querySelectorAll('[data-dk]').forEach(e=>{e.style.removeProperty('color');e.removeAttribute('data-dk')});return}
+  const all=document.body.getElementsByTagName('*');
+  for(let i=0;i<all.length;i++){const e=all[i];if(e.closest('svg,canvas,style,script,iframe,#plp,#plpv,#login,#omrhi,#omrUpd'))continue;
+   let txt=false;for(const n of e.childNodes){if(n.nodeType===3&&n.nodeValue.trim()){txt=true;break}}if(!txt&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.tagName))continue;
+   if(e.hasAttribute('data-dk'))e.style.removeProperty('color');const l=lum(getComputedStyle(e).color);if(l===null)continue;const bg=bgOf(e);
+   if(l<=.42&&bg<.3){e.style.setProperty('color','#e7e9f1','important');e.setAttribute('data-dk','1')}
+   else if(l>=.7&&bg>.78){e.style.setProperty('color','#161a59','important');e.setAttribute('data-dk','1')}
+   else e.removeAttribute('data-dk')}};
+ let t=0;const sch=()=>{clearTimeout(t);t=setTimeout(run,120)};
+ new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','data-theme','style']});
+ addEventListener('load',sch)})();
