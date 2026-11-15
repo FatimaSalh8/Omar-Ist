@@ -1194,18 +1194,23 @@ details.fold.inner>summary{font-size:12.5px}
 .lcp.pk{gap:12px}.lct{display:flex;flex-direction:column;align-items:center}.lct b{font-size:26px}.lct em{font-size:11px;padding:4px 12px;margin-top:6px}
 .lcv{font-size:10px;color:#8d8ea2;margin-top:14px;line-height:1.5}
 .lcnote{background:#f5f2ef;border-radius:10px;padding:12px 18px;font-size:12px;color:#2c2d45}
-.ltb{border-radius:6px;overflow:hidden}
-.lth{background:#eeeeee;padding:10px 12px;font-size:15px;font-weight:700;color:#222}
+.ltb{font-family:Arial,Helvetica,sans-serif;color:#222}
+.lto{font-size:15px;font-weight:700;color:#161a59;margin:0 0 6px}
+.lth{background:#ededed;padding:11px 12px;font-size:15px;font-weight:700;color:#222;margin-top:6px}
 .ltg{width:100%;border-collapse:collapse;font-size:12px}
-.ltg th{font-size:10px;color:#777;font-weight:500;text-align:left;padding:4px 12px;border-bottom:1px solid #e3e3e3}
-.ltg td{padding:6px 12px;border-bottom:1px solid #e3e3e3;color:#222}.ltg td span{color:#555}
+.ltg th{font-size:9.5px;color:#8a8a8a;font-weight:400;text-align:left;padding:4px 12px 3px;border-bottom:1px solid #e3e3e3}
+.ltg td{padding:5px 12px;border-bottom:1px solid #e3e3e3;color:#222;line-height:1.35}
 .ltg .n{text-align:right;white-space:nowrap}
-.ltg .ltx td{color:#777}.ltg .ltd td{color:#161a59;font-weight:700}
-.ltt{display:flex;justify-content:space-between;background:#eeeeee;padding:10px 12px;font-size:15px;font-weight:700;margin-top:4px}
+.ltg .ltc0 td{border-bottom:0;padding-top:8px}
+.ltg .ltx td{color:#7a7a7a;border-bottom:0}.ltg .ltx s{color:#7a7a7a}
+.ltg .ltd td{color:#161a59;font-weight:700;border-bottom:0}
+.ltt{display:flex;justify-content:space-between;background:#ededed;padding:11px 12px;font-size:15px;font-weight:700;margin-top:4px}
 .ltk{padding:8px 12px;font-size:12px}
-.ltban{background:#161a59;color:#fff;text-align:center;font-weight:700;padding:12px;font-size:13px}
+.ltban{background:#161a59;color:#fff;text-align:center;font:700 13px Arial,Helvetica,sans-serif;padding:13px}
+.ltchart{background:#fff}.chartcard.ltchart{padding:4px 0;border:0;box-shadow:none}.ltsvg{display:block;width:100%;height:auto}
+.sheet:has(.ltpage) .hd .ey{font:700 17px Arial,Helvetica,sans-serif;letter-spacing:0;color:#5c5c5c;text-transform:uppercase}
 /* the layout chooser in the Print step */
-.lyrow{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:14px 18px 0;padding:12px 16px;border:1px solid var(--a-line,#ebe6e2);border-radius:16px;background:#fff}
+.lyrow{position:sticky;top:0;z-index:40;box-shadow:0 6px 18px rgba(22,26,89,.08);display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:14px 18px 0;padding:12px 16px;border:1px solid var(--a-line,#ebe6e2);border-radius:16px;background:#fff}
 .lyrow h2{font-size:14px;margin:0}.lyrow .sub{margin:0}
 .lyopts{display:flex;gap:10px;flex-wrap:wrap}
 .lyopts button{display:flex;align-items:center;gap:10px;padding:7px 12px 7px 7px;border:1.5px solid var(--a-line,#e6e1dd);border-radius:12px;background:#fff;cursor:pointer;font:600 12.5px/1.2 inherit;font-family:inherit;color:#2c2d45;text-align:left}
@@ -2483,7 +2488,7 @@ const CH_CACHE=new Map();
 /* the chart is drawn on white (its card is white) and saved as one plain JPEG: a transparent PNG at double size becomes a huge picture with a mask inside the PDF, which phones are slow to open */
 function chartURL(visuals){const colors=chartColors();const sig=JSON.stringify([visuals,colors]);let u=CH_CACHE.get(sig);if(!u){u=KChart.render(visuals,{colors,bg:'#ffffff',scale:1.45}).toDataURL('image/jpeg',.95);CH_CACHE.set(sig,u);if(CH_CACHE.size>40)CH_CACHE.delete(CH_CACHE.keys().next().value);}return u;}
 function legendHtml(items){const C=chartColors();return `<div class="lgd">${items.map(([k,l])=>{if(k.startsWith('g:'))return `<span>${glyph(k.slice(2),14,'#57586c')}${esc(l)}</span>`;const st={nt:'background:#fff',crown:'background:'+C.crown,veneer:'background:'+C.veneer,implant:'background:'+C.implant+';border-color:#52525c',hybrid:'background:'+C.crown,ex:'background:'+C.exImplant,rc:'background:'+C.rc+';border-color:'+C.rc,ext:'background:'+C.ext+';border-color:'+C.ext,white:'background:#fff',excrown:'background:'+C.exCrown,caries:'background:#5b3a29',filling:'background:#94949f'}[k]||'background:#fff';return `<span><i style="${st}"></i>${esc(l)}</span>`;}).join('')}</div>`;}
-function chartCard(visuals,legend){return `<div class="chartcard"><span class="rl l">${Tx('chart.right','Right')}</span><span class="rl r">${Tx('chart.left','Left')}</span><img class="ch" src="${chartURL(visuals)}" alt="Tooth chart">${legend&&legend.length?legendHtml(legend):''}</div>`;}
+function chartCard(visuals,legend){if(pdfLayout()==='table')return `<div class="chartcard ltchart">${ltChartSvg(visuals)}</div>`;return `<div class="chartcard"><span class="rl l">${Tx('chart.right','Right')}</span><span class="rl r">${Tx('chart.left','Left')}</span><img class="ch" src="${chartURL(visuals)}" alt="Tooth chart">${legend&&legend.length?legendHtml(legend):''}</div>`;}
 const tcard=(title,col,rows,cls)=>`<div class="tcard"><div class="th">${title}<span${cls?` class="${cls}"`:''}>${col}</span></div><div class="tl">${rows}</div></div>`;
 
 /* ---- sections ---- */
@@ -2814,8 +2819,8 @@ function secPrices(){
    'cards'  = the default: a promotion banner, then one card per option (bullets, dot chart of the teeth, price panel)
    'blocks' = the boxed tooth chart of every option, then the packages and prices (the earlier Omer Istanbul pages)
    'table'  = one simple page: the tooth chart, then a table of the treatments of each option and its price ===== */
-const PDF_LAYOUTS=[['cards','Option cards','Promotion banner, one card per option with its price'],['blocks','Tooth blocks','Boxed tooth chart of each option, then the packages'],['table','Simple table','Tooth chart, then a table of the treatments']];
-const pdfLayout=()=>{const v=pdfOpts().layout;return PDF_LAYOUTS.some(x=>x[0]===v)?v:'cards';};
+const PDF_LAYOUTS=[['table','Simple table','Outlined teeth, phase table, standard price, discount and total'],['cards','Option cards','Promotion banner, one card per option with its price'],['blocks','Tooth blocks','Boxed tooth chart of each option, then the packages']];
+const pdfLayout=()=>{const v=pdfOpts().layout;return PDF_LAYOUTS.some(x=>x[0]===v)?v:'table';};
 const LC_COL=['#161a59','#a08a7c','#5f8fa8','#7a9e7e','#b5838d'];
 const lcSkip=l=>l.auto||isHotel(l)||isTransport(l)||['service','other'].includes(l.cat);
 /* the treatments of a plan that are shown as bullets and coloured on the dot chart, grouped by kind */
@@ -2865,27 +2870,101 @@ function secCards(){
   const N=DATA.plans.length,title=N===1?['opt.t1','Your treatment plan']:N===2?['opt.t2','Your two treatment options']:N===3?['opt.t3','Your three treatment options']:['opt.tn','Your treatment options'];
   return flowPages({head:c=>c?'<div class="oic0"></div>':'<div class="oic0"></div>',items},Tx(title[0],title[1]));
 }
-/* the simple table: the tooth chart, then one table per option (treatment, quantity, amount), the price and the promotion */
-function ltTable(p,i,N){
-  const P=pdfOpts();
-  if(p.mode==='package'){
-    const T=oiTiers(p),rows=pkgTreatRows(p);
-    return `<div class="ltb"><div class="lth">${N>1?planNo(p,i)+'. ':''}${oiName(p,i)}</div><div class="ltk">${rows.join('')}</div>${T.map(x=>`<div class="ltt"><span>${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span><b>${oiMoney(x.r.fin.tot)}</b></div>`).join('')}</div>`;
+/* ===== "Simple table" layout: the clinic's simple plan page (outlined teeth, green crowns, a phase table, standard price, discount, total, promotion bar).
+   When this layout is chosen, every tooth chart of the PDF (the pre-treatment page too) is drawn in this style. ===== */
+const LTX={
+ title:{en:'Your treatment plan',fr:'Votre plan de traitement',ar:'خطتك العلاجية',tr:'Tedavi planınız',ru:'Ваш план лечения',es:'Su plan de tratamiento',de:'Ihr Behandlungsplan',ro:'Planul dumneavoastră de tratament',it:'Il vostro piano di trattamento',pt:'O seu plano de tratamento'},
+ phase:{en:'Phase',fr:'Phase',ar:'المرحلة',tr:'Aşama',ru:'Этап',es:'Fase',de:'Phase',ro:'Etapa',it:'Fase',pt:'Fase'},
+ treat:{en:'Treatment',fr:'Traitement',ar:'العلاج',tr:'Tedavi',ru:'Лечение',es:'Tratamiento',de:'Behandlung',ro:'Tratament',it:'Trattamento',pt:'Tratamento'},
+ amt:{en:'Amount',fr:'Montant',ar:'المبلغ',tr:'Tutar',ru:'Сумма',es:'Importe',de:'Betrag',ro:'Sumă',it:'Importo',pt:'Montante'},
+ card:{en:'Card payment +10% tax',fr:'Paiement par carte +10 % de taxe',ar:'الدفع بالبطاقة +10% ضريبة',tr:'Kartla ödeme +%10 vergi',ru:'Оплата картой +10% налог',es:'Pago con tarjeta +10 % de impuesto',de:'Kartenzahlung +10 % Steuer',ro:'Plata cu cardul +10% taxă',it:'Pagamento con carta +10% di tasse',pt:'Pagamento com cartão +10% de taxa'},
+ std:{en:'Standard price',fr:'Prix standard',ar:'السعر العادي',tr:'Standart fiyat',ru:'Стандартная цена',es:'Precio estándar',de:'Standardpreis',ro:'Preț standard',it:'Prezzo standard',pt:'Preço padrão'},
+ disc:{en:'Group discount – {M} offer',fr:'Remise de groupe – offre de {M}',ar:'خصم المجموعة – عرض {M}',tr:'Grup indirimi – {M} kampanyası',ru:'Групповая скидка – предложение {M}',es:'Descuento de grupo – oferta de {M}',de:'Gruppenrabatt – Angebot im {M}',ro:'Reducere de grup – oferta lunii {M}',it:'Sconto di gruppo – offerta di {M}',pt:'Desconto de grupo – oferta de {M}'},
+ total:{en:'Total',fr:'Total',ar:'المجموع',tr:'Toplam',ru:'Итого',es:'Total',de:'Gesamt',ro:'Total',it:'Totale',pt:'Total'},
+ ban:{en:'Promotional offer: prices valid until {D}',fr:'Offre promotionnelle : tarifs valables jusqu’au {D}',ar:'عرض ترويجي: الأسعار سارية حتى {D}',tr:'Promosyon teklifi: fiyatlar {D} tarihine kadar geçerlidir',ru:'Акционное предложение: цены действительны до {D}',es:'Oferta promocional: precios válidos hasta el {D}',de:'Aktionsangebot: Preise gültig bis {D}',ro:'Ofertă promoțională: prețuri valabile până la {D}',it:'Offerta promozionale: prezzi validi fino al {D}',pt:'Oferta promocional: preços válidos até {D}'},
+ opt:{en:'Option',fr:'Option',ar:'الخيار',tr:'Seçenek',ru:'Вариант',es:'Opción',de:'Option',ro:'Opțiunea',it:'Opzione',pt:'Opção'},
+ incl:{en:'Included',fr:'Inclus',ar:'مشمول',tr:'Dahil',ru:'Включено',es:'Incluido',de:'Inklusive',ro:'Inclus',it:'Incluso',pt:'Incluído'}
+};
+const ltx=(k,rep)=>{const l=pdfLang(),d=LTX[k]||{};let v=TPL.texts['lt.'+k+(l==='en'?'':'@'+l)];if(v==null)v=d[l]||d.en||k;if(rep)Object.keys(rep).forEach(x=>{v=v.split('{'+x+'}').join(rep[x]);});return v;};
+const ltLoc=()=>{const l=pdfLang();return l==='en'?'en-GB':l;};
+
+/* one tooth in the clinic's simple style. Upper teeth: crown at the bottom; the lower ones are drawn mirrored. */
+const LT_SZ={1:[20,56,38],2:[17,52,35],3:[19,66,38],4:[19,50,33],5:[19,48,33],6:[30,40,31],7:[28,38,30],8:[26,34,29]};
+const LT_SZL={1:[14,52,34],2:[15,52,34],3:[18,62,37],4:[18,52,33],5:[18,52,33],6:[30,40,30],7:[28,38,29],8:[26,34,28]};
+function ltTooth(t,v,x,yEdge,up){
+  const n=t%10,S=(up?LT_SZ:LT_SZL)[n]||LT_SZ[7],cw=S[0],rl=S[1],ch=S[2],d=up?-1:1;
+  /* y of a point at "h" above (upper) or below (lower) the biting edge */
+  const Y=h=>yEdge+d*h;
+  const nw=cw*(n>=6?0.82:0.66),neck=ch;
+  const st=v||{crown:'natural',root:true,marks:[]},miss=st.crown==='none'&&!st.root&&!st.implant;
+  const C={natural:'#ffffff',treated:'#8fd18b',veneer:'#bfe8bc',excrown:'#e3e3e3',temp:'#efe4da'}[st.crown]||'#ffffff';
+  const line=miss||st.ghost?'#c9cdd3':'#8b9099',dash=miss||st.ghost?' stroke-dasharray="3 3"':'';
+  let g='';
+  /* root(s) */
+  const showRoot=st.root!==false&&!st.implant;
+  if(showRoot||miss||st.ghost){
+    const fill=miss||st.ghost?'none':'#e4eef7';
+    if(n>=6){const r1=x-nw/2,r2=x+nw/2,m=x;
+      g+=`<path d="M${r1} ${Y(neck)} C${r1-2} ${Y(neck+rl*.55)} ${r1+3} ${Y(neck+rl)} ${r1+6} ${Y(neck+rl)} C${r1+10} ${Y(neck+rl)} ${m-2} ${Y(neck+rl*.45)} ${m} ${Y(neck+rl*.35)} C${m+2} ${Y(neck+rl*.45)} ${r2-10} ${Y(neck+rl)} ${r2-6} ${Y(neck+rl)} C${r2-3} ${Y(neck+rl)} ${r2+2} ${Y(neck+rl*.55)} ${r2} ${Y(neck)} Z" fill="${fill}" stroke="${line}" stroke-width="1.1"${dash}/>`;
+      if(!miss&&!st.ghost)g+=`<path d="M${x-nw*.28} ${Y(neck-4)} C${x-nw*.3} ${Y(neck+rl*.5)} ${x-2} ${Y(neck+rl*.3)} ${x} ${Y(neck+3)} C${x+2} ${Y(neck+rl*.3)} ${x+nw*.3} ${Y(neck+rl*.5)} ${x+nw*.28} ${Y(neck-4)} Z" fill="#9fc3e6" stroke="none" opacity=".85"/>`;
+    }else{
+      g+=`<path d="M${x-nw/2} ${Y(neck)} C${x-nw/2} ${Y(neck+rl*.6)} ${x-2} ${Y(neck+rl)} ${x} ${Y(neck+rl)} C${x+2} ${Y(neck+rl)} ${x+nw/2} ${Y(neck+rl*.6)} ${x+nw/2} ${Y(neck)} Z" fill="${fill}" stroke="${line}" stroke-width="1.1"${dash}/>`;
+    }
+    if((st.marks||[]).some(m=>m==='rc'||m==='p_rc'))g+=`<path d="M${x} ${Y(neck)} L${x} ${Y(neck+rl*.85)}" stroke="#8a5a3c" stroke-width="2.2" stroke-linecap="round"/>`;
   }
-  const o=calcPlan(p),pc=o.pc&&o.pc.ok?o.pc:null,show=P.indiv;
-  const rows=o.rows.map((r,k)=>{const l=r.l,sc=lineScopeText(l),nm=isHotel(l)?String(l.name).replace(/^Nights\s*-\s*/i,''):lineLabel(l),eu=pc&&pc.u[k]!=null&&P.disc&&P.imode!=='before'?pc.u[k]:r.eu;
-    return `<tr><td>${esc(nm)}${sc?` <span>(${esc(LT(sc))})</span>`:''}</td><td class="n">${r.q}</td>${show?`<td class="n">${r.eu>0||eu>0?oiMoney(r.q*eu):Tx('plan.included','Included')}</td>`:''}</tr>`;}).join('');
-  const sum=pc&&P.disc?`<tr class="ltx"><td colspan="${show?2:1}">${Tx('lt.std','Standard price')}</td><td class="n"><s>${oiMoney(o.ct)}</s></td></tr><tr class="ltd"><td colspan="${show?2:1}">${Tx('lt.disc','Discount')} (${pc.p}%)</td><td class="n">− ${oiMoney(pc.save)}</td></tr>`:'';
-  return `<div class="ltb"><div class="lth">${N>1?planNo(p,i)+'. ':''}${oiName(p,i)}</div><table class="ltg"><thead><tr><th>${Tx('lt.treat','Treatment')}</th><th class="n">${Tx('lt.qty','Quantity')}</th>${show?`<th class="n">${Tx('lt.amt','Amount')}</th>`:''}</tr></thead><tbody>${rows||`<tr><td colspan="3">—</td></tr>`}${sum}</tbody></table><div class="ltt"><span>${Tx('plan.total','Total')}</span><b>${oiMoney(planTotal(p))}</b></div></div>`;
+  /* implant: a grey screw in place of the root */
+  if(st.implant){const w=nw*.62,top=neck,len=Math.min(rl,46);
+    g+=`<rect x="${x-w/2}" y="${Math.min(Y(top),Y(top+len))}" width="${w}" height="${len}" rx="2" fill="#d5d8dc" stroke="#7d828a" stroke-width="1"/>`;
+    for(let k=6;k<len;k+=6)g+=`<path d="M${x-w/2} ${Y(top+k)} L${x+w/2} ${Y(top+k)}" stroke="#7d828a" stroke-width=".8"/>`;}
+  /* crown */
+  if(st.crown!=='none'||miss){
+    const fill=miss||st.ghost?'none':C,e=cw/2,k=nw/2;
+    if(n>=6)g+=`<path d="M${x-k} ${Y(neck)} C${x-e-2} ${Y(neck*.75)} ${x-e} ${Y(neck*.25)} ${x-e+2} ${Y(2)} Q${x-e+4} ${Y(0)} ${x-e/2} ${Y(1)} Q${x} ${Y(-1)} ${x+e/2} ${Y(1)} Q${x+e-4} ${Y(0)} ${x+e-2} ${Y(2)} C${x+e} ${Y(neck*.25)} ${x+e+2} ${Y(neck*.75)} ${x+k} ${Y(neck)} Z" fill="${fill}" stroke="${line}" stroke-width="1.1"${dash}/>`;
+    else g+=`<path d="M${x-k} ${Y(neck)} C${x-e} ${Y(neck*.7)} ${x-e} ${Y(neck*.3)} ${x-e+1} ${Y(4)} Q${x-e+2} ${Y(0)} ${x-e+5} ${Y(0)} L${x+e-5} ${Y(0)} Q${x+e-2} ${Y(0)} ${x+e-1} ${Y(4)} C${x+e} ${Y(neck*.3)} ${x+e} ${Y(neck*.7)} ${x+k} ${Y(neck)} Z" fill="${fill}" stroke="${line}" stroke-width="1.1"${dash}/>`;
+  }
+  if(st.ghost&&!miss)g+=`<path d="M${x-7} ${Y(neck-14)} L${x+7} ${Y(neck+0)} M${x+7} ${Y(neck-14)} L${x-7} ${Y(neck+0)}" stroke="#e53935" stroke-width="2.2" stroke-linecap="round"/>`;
+  return g;
+}
+const ltTreated=v=>!!v&&(v.crown==='treated'||v.crown==='veneer'||v.crown==='temp'||v.implant==='new');
+function ltChartSvg(V){
+  const W=680,step=37,x0=W/2-step*7.5,upEdge=126,loEdge=214,U=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28],L=[48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+  const num=(t,x,y)=>ltTreated(V[t])?`<circle cx="${x}" cy="${y}" r="8.6" fill="#fff" stroke="#6fbf6f" stroke-width="1.1"/><text x="${x}" y="${y+3.4}" text-anchor="middle" font-size="9.5" fill="#3f8f3f">${t}</text>`:`<text x="${x}" y="${y+3.4}" text-anchor="middle" font-size="9.5" fill="#8d8d8d">${t}</text>`;
+  let s=`<svg class="ltsvg" viewBox="0 0 ${W} 320" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">`;
+  s+=`<path d="M${W/2} 6 V${upEdge+30} M${W/2} ${loEdge-30} V314" stroke="#e1e1e1" stroke-width="1"/><path d="M40 ${(upEdge+loEdge)/2} H${W-40}" stroke="#e1e1e1" stroke-width="1"/>`;
+  U.forEach((t,i)=>{const x=x0+step*i;s+=ltTooth(t,V[t],x,upEdge,true)+num(t,x,upEdge+15);});
+  L.forEach((t,i)=>{const x=x0+step*i;s+=ltTooth(t,V[t],x,loEdge,false)+num(t,x,loEdge-15);});
+  return s+'</svg>';
+}
+/* the table of one plan: "1. Phase:", the treatments with their quantity (and the price when individual prices are on), card tax, standard price, discount, total */
+function ltRowsOf(p,o,pc,P){
+  const teethTxt=l=>{if(isHotel(l)||isTransport(l))return '';const sc=scopeOf(l);if(sc==='tooth'||l.cat==='crown'||l.cat==='bridge'){const t=Array.from(new Set((l.teeth||[]).concat(l.brT||[]))).sort((a,b)=>a-b);return t.length?' ('+t.join(', ')+')':'';}const s=lineScopeText(l);return s?' ('+LT(s)+')':'';};
+  return r=>{const l=r.l,k=o.rows.indexOf(r),nm=isHotel(l)?String(l.name).replace(/^Nights\s*-\s*/i,''):lineLabel(l),eu=pc&&pc.u[k]!=null&&P.disc&&P.imode!=='before'?pc.u[k]:r.eu;
+    const am=P.indiv?(r.eu>0||eu>0?`${r.q} × ${oiMoney(eu)}`:esc(ltx('incl'))):`${r.q} ×`;
+    return `<tr><td>${esc(LT(nm))}${esc(teethTxt(l))}</td><td class="n">${am}</td></tr>`;};
+}
+function ltTable(p,i,N){
+  const P=pdfOpts(),head=N>1?`<div class="lto">${esc(ltx('opt'))} ${planNo(p,i)}${/^\s*(option|plan|treatment plan\s*#?)\s*\d*\s*$/i.test(p.name||'')||!(p.name||'').trim()?'':' – '+esc(p.name)}</div>`:'';
+  if(p.mode==='package'){
+    const T=oiTiers(p);
+    return `<div class="ltb">${head}<div class="lth">1. ${esc(ltx('phase'))}:</div><div class="ltk">${pkgTreatRows(p).join('')}</div>${T.map(x=>`<div class="ltt"><span>${Tx('tier.'+x.t.k,x.t.n.replace(' Package',''))}</span><b>${oiMoney(x.r.fin.tot)}</b></div>`).join('')}</div>`;
+  }
+  const o=calcPlan(p),pc=o.pc&&o.pc.ok?o.pc:null,G=planGroups(p,o),row=ltRowsOf(p,o,pc,P);
+  /* the hotel and the transfers belong to the first phase, as in the clinic's page */
+  const ph=G.filter(g=>g.key!=='acc'),acc=G.find(g=>g.key==='acc');if(!ph.length&&acc)ph.push({rows:[]});if(acc)ph[0]={rows:ph[0].rows.concat(acc.rows)};
+  const th=`<tr><th>${esc(ltx('treat'))}</th><th class="n">${esc(ltx('amt'))}</th></tr>`;
+  const mon=new Date((DATA.patient.date||new Date().toISOString().slice(0,10))+'T12:00:00').toLocaleString(ltLoc(),{month:'long'});
+  let h=head;
+  ph.forEach((g,gi)=>{h+=`<div class="lth">${gi+1}. ${esc(ltx('phase'))}:</div><table class="ltg"><thead>${th}</thead><tbody>${g.rows.map(row).join('')||'<tr><td colspan="2">—</td></tr>'}</tbody></table>`;});
+  h+=`<table class="ltg"><tbody><tr class="ltc0"><td colspan="2">${esc(ltx('card'))}</td></tr>`;
+  if(pc&&P.disc)h+=`<tr class="ltx"><td>${esc(ltx('std'))}</td><td class="n"><s>${oiMoney(o.ct)}</s></td></tr><tr class="ltd"><td>${esc(ltx('disc',{M:mon}))}</td><td class="n">− ${oiMoney(pc.save)}</td></tr>`;
+  h+=`</tbody></table><div class="ltt"><span>${esc(ltx('total'))}</span><b>${oiMoney(planTotal(p))}</b></div>`;
+  return `<div class="ltb">${h}</div>`;
 }
 function secTable(){
   const N=DATA.plans.length,u=lcUntil(),items=[];
-  const first=DATA.plans[0],V=first?KChart.planVisuals(DATA.pre,first.lines,true):{};
-  if(N===1)items.push({html:`<div>${chartCard(V,[])}</div>`});
-  DATA.plans.forEach((p,i)=>{if(N>1)items.push({html:`<div class="ltc">${chartCard(KChart.planVisuals(DATA.pre,p.lines,true),[])}</div>`});items.push({html:ltTable(p,i,N)});});
-  items.push({html:`<div class="lcnote">${Tx('imp.3','Card payment: +10% tax.')}</div>`});
-  if(u)items.push({html:`<div class="ltban">${Tx('lt.ban','Promotional offer: prices valid until')} ${esc(u)}</div>`});
-  return flowPages({head:c=>'<div class="oic0"></div>',items},Tx('opt.t1','Your treatment plan'));
+  DATA.plans.forEach((p,i)=>{items.push({html:`<div class="ltchart">${ltChartSvg(KChart.planVisuals(DATA.pre,p.lines,true))}</div>`});items.push({html:ltTable(p,i,N)});});
+  if(u)items.push({html:`<div class="ltban">${esc(ltx('ban',{D:u}))}</div>`});
+  return flowPages({head:c=>'<div class="ltpage"></div>',items},esc(ltx('title')));
 }
 /* the sections that change with the layout: 'options' carries the chosen layout, 'prices' is only used by the tooth blocks */
 const secOptionsL=()=>{const L=pdfLayout();return L==='cards'?secCards():L==='table'?secTable():secOptions();};
@@ -3934,11 +4013,18 @@ const LY_ICON={cards:'<svg width="46" height="58" viewBox="0 0 46 58"><rect x="4
 function lyPanel(){
   const box=$('#lyrow');if(!box)return;const P=pdfOpts(),cur=pdfLayout(),N=CASE.plans.filter(planShown).length;
   box.innerHTML=`<div><h2>PDF layout</h2><div class="sub">${N>1?'How the options look in the PDF.':'How the plan looks in the PDF.'}</div></div>
-<div class="lyopts">${PDF_LAYOUTS.map(x=>`<button type="button" class="${cur===x[0]?'on':''}" data-ly="${x[0]}">${LY_ICON[x[0]]}<span>${x[1]}${x[0]==='cards'?' <em style="font-style:normal;color:#a08a7c">(normal)</em>':''}<small>${x[2]}</small></span></button>`).join('')}</div>
+<div class="lyopts">${PDF_LAYOUTS.map(x=>`<button type="button" class="${cur===x[0]?'on':''}" data-ly="${x[0]}">${LY_ICON[x[0]]}<span>${x[1]}${x[0]==='table'?' <em style="font-style:normal;color:#a08a7c">(normal)</em>':''}<small>${x[2]}</small></span></button>`).join('')}</div>
 ${cur!=='blocks'?`<label class="f">Promotion valid until <input type="date" id="lyUntil" value="${esc(P.promoUntil||'')}"></label>`:''}`;
   $$('[data-ly]',box).forEach(b=>b.onclick=()=>{P.layout=b.dataset.ly;saveCase();lyPanel();scheduleRender();});
   const u=$('#lyUntil');if(u)u.onchange=()=>{P.promoUntil=u.value;saveCase();scheduleRender();};
+  lyPin();
 }
+/* the layout bar stays pinned right under the studio's own top bars */
+function lyPin(){const box=$('#lyrow');if(!box)return;let b=0;
+  document.querySelectorAll('body *').forEach(e=>{if(e===box||box.contains(e)||e.id==='measure')return;const c=getComputedStyle(e);if(c.position!=='sticky'&&c.position!=='fixed')return;const r=e.getBoundingClientRect();if(r.height>10&&r.height<220&&r.top<=b+2)b=Math.max(b,r.bottom);});
+  box.style.top=Math.round(b)+'px';}
+addEventListener('resize',()=>lyPin());
+
 
 /* Print / Save as PDF. The browser blocks window.print() when the studio is shown inside a preview pane or an embedded page, and then nothing happens at all. So: build the pages, try to print, and when the print window never opened say so and offer the PDF pages as a file that prints from any normal browser tab */
 async function printPdf(){

@@ -1,4 +1,12 @@
-Ömar Istanbul by Rima — version 1.4 (2026-11-15)
+Ömar Istanbul by Rima — version 1.5 (2026-11-15)
+
+NEW IN 1.5
+- PDF LAYOUT "Simple table" is now the normal one: the clinic's simple plan page (outlined teeth with green crowns and the numbers of the
+  treated teeth in green circles, "1. Phase:" tables, card payment +10 %, standard price, group discount of the month, total, promotion bar).
+- With "Simple table" chosen, EVERY tooth chart of the PDF uses this style, the pre-treatment page ("Your teeth today") included.
+- The PDF layout bar stays pinned at the top while you scroll.
+
+VERSION 1.4 (2026-11-15)
 
 NEW IN 1.4
 - TREATMENT DATABASE (changed once on every device): implants only Medigma, Straumann, Nobel and Ziacom; crowns only Vita and Ivoclar;
