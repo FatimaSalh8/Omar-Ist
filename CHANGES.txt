@@ -1,4 +1,12 @@
-Ömar Istanbul by Rima — version 2.2 (2026-11-15)
+Ömar Istanbul by Rima — version 2.3 (2026-11-15)
+
+FIXED IN 2.3
+- Tickets, deposits and potential patients could not be saved since the kit number was removed (the save stopped on the missing kit).
+  Saving, editing, deleting, the calendar view and the statistics are tested again and work.
+- Dark mode: the light band around the Messages panel under the Studio is dark now.
+- Deposit receipt and patient PDF file names no longer end with an empty kit number.
+
+VERSION 2.2 (2026-11-15)
 
 NEW IN 2.2
 - Dark mode now also covers Omer Istanbul Dental Center (the Studio): Photos, Plan, Price and PDF screens, menus, fields and buttons.

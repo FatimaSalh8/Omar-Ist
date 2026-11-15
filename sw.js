@@ -2,7 +2,7 @@
    It keeps the app files on the phone/computer so the portal opens fast and also without internet,
    and it tells the page when a newer version has been uploaded ("Update available — tap to refresh").
    The version below changes with every new upload. */
-const VERSION = '2.2';
+const VERSION = '2.3';
 const CACHE = 'oi-' + VERSION;          // the app files of this version
 const EXT = 'oi-libs';                  // PDF / Excel libraries and fonts (kept between versions)
 const CORE = [

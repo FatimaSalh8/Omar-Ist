@@ -109,7 +109,7 @@ function unsoldFx(f){if(!f||!f.elements||!f.elements.visitType)return;const u=f.
 function save(ev){ev.preventDefault();snap();
  const o=Object.fromEntries(new FormData(ev.target)),old=o.id?D[tab].find(x=>x.id==o.id):null;
  E[tab].f.forEach(f=>{if(f[2]=='number'){const v=o[f[0]];o[f[0]]=(v===''&&old&&typeof old[f[0]]=='string'&&old[f[0]])?old[f[0]]:(parseFloat(v)||0)}});
- o.kitNumber=o.kitNumber.replace(/^KIT-/i,'');
+ if(typeof o.kitNumber=='string')o.kitNumber=o.kitNumber.replace(/^KIT-/i,'');
  if(tab=='tickets'&&o.visitType=='Unsold'){o.pay1=0;o.pay2=0;o.totalPayment=0}
  if(tab=='tickets'){const h=H.find(x=>x.name==o.hotel);o.pricePerNight=h?h.price:(old&&old.hotel==o.hotel&&typeof old.pricePerNight=='number'?old.pricePerNight:0);o.isUnbookedSecondVisit=false;
   o.nights=o.arrivalDate&&o.departureDate?Math.max(0,Math.round((new Date(o.departureDate)-new Date(o.arrivalDate))/864e5)):0}
@@ -168,11 +168,11 @@ async function pdfSel(){const s=sel();if(!s.length)return msg('Select at least o
    body=head('Deposit Confirmation Receipt')+who('Deposit Made On',r.depositMadeOn)
     +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+'</div>'
     +pay('Deposit Amount Received',amt(r.amount,r.currency))+note('Deposit Payment Link',v(r.depositLink))+bar(amt(r.totalPlanAmount,r.currency));
-   fn=[r.patientName||'Deposit',kt(r.kitNumber),amt(r.amount,r.currency)].join(' - ');
+   fn=[r.patientName||'Deposit',amt(r.amount,r.currency)].join(' - ');
   }else{
    body=head('Potential Patient Summary')+who('Date',r.date)
     +`<div style="${card};${grid}">`+fld('Patient Name',v(r.patientName))+fld('Status',v(r.status))+'</div>'+note('Notes / Remarks',v(r.notes));
-   fn=(r.patientName||'Patient')+' - '+kt(r.kitNumber);
+   fn=(r.patientName||'Patient');
   }
   fn=fn.replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()+'.pdf';
   const wrap=document.createElement('div');wrap.style.cssText='position:fixed;left:-10000px;top:0;width:794px';

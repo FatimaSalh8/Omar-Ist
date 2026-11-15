@@ -610,3 +610,6 @@ body.kps-full #vkps{padding-top:env(safe-area-inset-top,0px)}
 
 /* the Settings gear is hidden while the Studio fills the screen */
 body.kps-full .oi-setw{display:none}
+
+/* dark mode: the space around the Studio and its Messages panel */
+html[data-theme=dark] body.kps-full #vkps{background:#0e1220!important}
